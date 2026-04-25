@@ -17,6 +17,10 @@
             --accent-purple: #af52de;
             --border-radius: 18px;
             --submitted-bg: #e1f5fe;
+            /* 提出タイミング用の背景色 */
+            --bg-early: #f2fbf5;
+            --bg-mid: #fffdf0;
+            --bg-late: #fff5f5;
         }
         * {
             box-sizing: border-box;
@@ -126,7 +130,7 @@
         .calendar-container {
             display: flex;
             justify-content: center;
-            margin: 10px auto 26px; 
+            margin: 10px auto 20px; 
             max-width: 440px; 
             width: 100%;
         }
@@ -256,6 +260,43 @@
             border-radius: 3px;
             display: inline-block;
         }
+
+        /* 提出タイミング凡例（カード形式） */
+        .timing-legend-box {
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 8px 12px;
+            margin: 50px auto 16px; 
+            max-width: fit-content;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+            display: flex;
+            justify-content: center;
+        }
+        .timing-legend {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            font-size: 0.75rem;
+            color: var(--text-sub);
+            flex-wrap: wrap;
+        }
+        .timing-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+        }
+        .timing-box {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+            display: inline-block;
+        }
+        .timing-box.early { background-color: var(--accent-green); }
+        .timing-box.mid { background-color: #facc15; }
+        .timing-box.late { background-color: var(--accent-red); }
+
         /* 管理一覧用アイコン */
         .legend-color.shift { background-color: #e8f5e9; border: 1px solid #81c784; }
         .legend-color.record { background-color: #fff3e0; border: 1px solid #ffb74d; }
@@ -286,128 +327,155 @@
             gap: 8px;
         }
 
-        /* カウントダウン表示エリア */
+        /* カウントダウン表示エリア（カード形式） */
         .countdown-card {
             border: 2px solid transparent;
             border-radius: 12px;
-            padding: 8px 12px; 
-            display: flex;
-            flex-direction: column;
-            gap: 0px;
-            transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        /* 通常時（グリーン）：上部にやさしい光のハイライトを追加 */
-        .countdown-card.bg-normal { 
-            background: #f8fcf9; 
-            border-color: #7fc7a0; 
-            box-shadow: 
-                0 -4px 10px rgba(127, 199, 160, 0.35),
-                0 2px 6px rgba(0,0,0,0.04);
-        }
-        
-        .countdown-card.bg-warning { 
-            background-color: #fefce8; 
-            border-color: #facc15; 
-            box-shadow: 0 3px 8px rgba(0,0,0,0.05);
-        }
-        .countdown-card.bg-danger { 
-            background-color: #fff5f5; 
-            border-color: #fb923c; 
-            box-shadow: 0 3px 8px rgba(0,0,0,0.05);
-        }
-        .countdown-card.bg-urgent { 
-            background-color: #ffe4e6; 
-            border-color: var(--accent-red); 
-            box-shadow: 0 3px 8px rgba(0,0,0,0.05);
-        }
-        
-        .countdown-card.bg-urgent .countdown-val { color: var(--accent-red); }
-        .countdown-card.bg-urgent .timer-values { color: var(--accent-red); }
-        
-        .countdown-title {
-            font-size: 0.7rem;
-            font-weight: bold;
-            color: var(--text-sub);
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            margin-bottom: 0px;
-        }
-        .countdown-content {
-            font-size: 0.9rem;
-            line-height: 1.3;
-            min-height: 2.2em;
+            padding: 10px 12px; 
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            gap: 0px;
+            transition: all 0.3s ease;
+            min-height: 90px;
+            position: relative;
+            z-index: 10;
         }
-        .timer-prefix { font-size: 0.7rem; color: var(--text-sub); }
+        
+        /* 通常時（未提出なし・次を待機） */
+        .countdown-card.bg-normal { 
+            background: #f8fcf9; 
+            border-color: #7fc7a0; 
+            box-shadow: 
+                0 -4px 10px rgba(127, 199, 160, 0.1),
+                0 2px 6px rgba(0,0,0,0.04);
+        }
+        
+        /* 未提出あり（期限内・注意） */
+        .countdown-card.bg-pending { 
+            background-color: #fffdf0; 
+            border-color: #facc15; 
+            box-shadow: 0 4px 10px rgba(250, 204, 21, 0.1);
+        }
+
+        /* 未提出あり（期限超過・警告） */
+        .countdown-card.bg-overdue { 
+            background-color: #fff5f5; 
+            border-color: var(--accent-red); 
+            box-shadow: 0 4px 10px rgba(255, 59, 48, 0.1);
+        }
+        
+        .countdown-title {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--text-sub);
+            margin-bottom: 2px;
+            width: 100%;
+        }
+
+        .timer-prefix {
+            font-size: 0.7rem;
+            color: var(--text-sub);
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        /* 状態に応じたプレフィックスの強調 */
+        .countdown-card.bg-pending .timer-prefix,
+        .countdown-card.bg-overdue .timer-prefix {
+            color: var(--accent-red);
+            font-size: 0.85rem;
+            font-weight: 800;
+        }
+
+        .countdown-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            min-height: 1.8rem;
+        }
+
         .timer-values {
-            color: var(--text-main);
             display: flex;
             align-items: baseline;
             justify-content: center;
-            flex-wrap: wrap;
-            gap: 2px;
-            transition: color 0.3s ease;
+            gap: 1px;
         }
+
         .countdown-val {
             font-weight: 800;
             font-variant-numeric: tabular-nums; 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-            transition: color 0.3s ease, font-size 0.3s ease;
         }
-        .countdown-val.large { font-size: 1.5rem; }
-        .countdown-val.medium { font-size: 1rem; }
-        .countdown-unit { font-size: 0.75rem; font-weight: normal; margin-right: 4px; }
-        
-        .urgent-text {
-            color: var(--accent-red);
-            font-weight: bold;
-            font-size: 0.8rem;
-            background: rgba(255, 255, 255, 0.7);
-            padding: 2px 8px;
-            border-radius: 6px;
-            margin-bottom: 2px;
-            display: inline-block;
-        }
+        .countdown-val.large { font-size: 1.6rem; color: var(--text-main); }
+        .countdown-val.medium { font-size: 1.1rem; color: var(--text-main); }
+        .countdown-unit { font-size: 0.75rem; color: var(--text-sub); margin-right: 3px; }
 
-        /* 通知バーエリア（中央寄せ用） */
-        .notification-bar {
-            text-align: center; 
-            margin-top: 14px; 
-            margin-bottom: 14px; 
-        }
-
-        /* 共通通知ボックス */
-        .notice-box {
-            padding: 8px 16px;
-            border-radius: 10px;
-            display: inline-block;
-            font-size: 0.95rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-        }
-
-        /* 状態別デザイン */
-        .notif-none { 
-            background: #f5f5f7; /* 薄いグレー */
-            color: #666; 
-            font-weight: 500; 
-        } 
-        .notif-pending { 
-            background: #fffde7; /* 薄い黄色 */
-            color: #e65100; /* 視認性の高いオレンジ・茶色系 */
-            font-weight: 600; 
-        }
-        .notif-overdue { 
-            background: #fff3f3; /* 薄い赤 */
-            color: #c62828; /* 濃い赤 */
+        .sub-countdown-text {
+            font-size: 0.75rem;
+            color: var(--text-main);
             font-weight: 800;
+            margin-top: 2px;
         }
+
+        .overdue-alert-text {
+            font-size: 0.95rem;
+            color: var(--accent-red);
+            font-weight: 900;
+            margin-top: 2px;
+        }
+
+        /* ボタンエリア */
+        .button-group {
+            padding: 10px; 
+            background: rgba(255,255,255,0.5);
+            border-radius: 12px;
+            border: 1px dashed #ccc;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            z-index: 100; /* クリックを確実にするため最前面に */
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            pointer-events: auto;
+        }
+        .btn:active:not(:disabled) { transform: scale(0.97); }
+        .btn:disabled { cursor: default; opacity: 0.5; }
+        
+        .btn-primary { background: var(--accent-blue); color: white; }
+        .btn-success { background: var(--accent-green); color: white; }
+        .btn-shift { background: #5856d6; color: white; }
+        .btn-danger { background: var(--accent-red); color: white; }
+        
+        .btn-outline {
+            background: #e5e5ea;
+            border: 1px solid #d1d1d6;
+            color: var(--text-main);
+            font-size: 0.85rem;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .btn-outline:active { background: #d1d1d6; }
+
+        .btn-reset {
+            background: #ffe4e6;
+            border: 1px solid #fecdd3;
+            color: #e11d48;
+            margin-top: 16px;
+        }
+        .btn-reset:active { background: #fecdd3; }
 
         /* ステータス表示 */
         .status-item {
@@ -460,57 +528,7 @@
             border: 1px solid #b3e5fc;
             box-shadow: 0 4px 10px rgba(0, 122, 255, 0.1);
         }
-        .status-item.is-submitted .target-month-label { border-bottom-color: #b3e5fc; }
-
-        /* ボタンエリア */
-        .button-group {
-            padding: 10px; 
-            background: rgba(255,255,255,0.5);
-            border-radius: 12px;
-            border: 1px dashed #ccc;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            border: none;
-            border-radius: 12px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: center;
-        }
-        .btn:active:not(:disabled) { transform: scale(0.97); }
-        .btn:disabled { cursor: default; opacity: 0.5; }
         
-        .btn-primary { background: var(--accent-blue); color: white; }
-        .btn-success { background: var(--accent-green); color: white; }
-        .btn-shift { background: #5856d6; color: white; }
-        .btn-danger { background: var(--accent-red); color: white; }
-        
-        .btn-outline {
-            background: #e5e5ea;
-            border: 1px solid #d1d1d6;
-            color: var(--text-main);
-            font-size: 0.85rem;
-            padding: 10px;
-            border-radius: 10px;
-            margin-top: 0;
-        }
-        .btn-outline:active { background: #d1d1d6; }
-
-        .btn-reset {
-            background: #ffe4e6;
-            border: 1px solid #fecdd3;
-            color: #e11d48;
-            margin-top: 16px;
-        }
-        .btn-reset:active { background: #fecdd3; }
-
         /* 管理一覧 - 最新の提出済み表示 */
         .latest-column {
             display: flex;
@@ -528,192 +546,124 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             position: relative;
         }
-        .latest-card-shift {
-            background: #e6f2ff;
-            border-left: 5px solid var(--accent-blue);
-            color: #0056b3;
-        }
-        .latest-card-record {
-            background: #e8f5e9;
-            border-left: 5px solid var(--accent-green);
-            color: #2e7d32;
-        }
-        .latest-card-header {
-            display: flex;
-            align-items: center;
-            width: 100%;
-            justify-content: space-between;
-            margin-bottom: 2px;
-        }
-        .latest-label-group {
-            display: flex;
-            align-items: center;
-        }
-        .latest-card-time {
-            font-size: 0.75rem;
-            color: var(--text-sub);
-            margin-left: 28px; 
-            font-weight: normal;
-        }
+        .latest-card-shift { background: #e6f2ff; border-left: 5px solid var(--accent-blue); color: #0056b3; }
+        .latest-card-record { background: #e8f5e9; border-left: 5px solid var(--accent-green); color: #2e7d32; }
+        .latest-card-header { display: flex; align-items: center; width: 100%; justify-content: space-between; margin-bottom: 2px; }
+        .latest-label-group { display: flex; align-items: center; }
+        .latest-card-time { font-size: 0.75rem; color: var(--text-sub); margin-left: 28px; font-weight: normal; }
         .latest-card .icon { margin-right: 8px; font-size: 0.9rem; }
         
         .hidden { display: none !important; }
 
         /* 設定項目 */
-        .setting-item { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-size: 0.9rem; font-weight: 600; }
-        input[type="time"], select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 1rem; background: #f9f9f9; }
-        .section-title { font-size: 0.8rem; color: var(--text-sub); margin-bottom: 10px; font-weight: bold; }
+        .setting-item { margin-bottom: 20px; text-align: left; }
+        .setting-item label { display: block; margin-bottom: 8px; font-size: 0.9rem; font-weight: 600; color: var(--text-main); }
+        .setting-item input[type="time"] { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 1rem; background: #f9f9f9; box-sizing: border-box; }
+        .section-title { font-size: 0.8rem; color: var(--text-sub); margin-bottom: 12px; font-weight: bold; text-align: left; }
 
-        /* --- 提出済一覧テーブル用スタイル --- */
-        .history-table-container {
-            width: 100%;
-            overflow-x: auto;
-            background: var(--card-bg);
-            border-radius: 12px;
-            border: 1px solid #e0e0e0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-            overflow: hidden;
-            padding-bottom: 4px; 
-        }
-        .history-table-title-area {
-            text-align: center;
-            padding: 16px 12px;
-        }
-        .shift-header {
-            background-color: #5856d6;
-        }
-        .record-header {
-            background-color: var(--accent-green);
-        }
-        .history-title {
-            font-size: 1.05rem;
-            font-weight: bold;
-            color: #ffffff;
-            margin-bottom: 4px;
-        }
-        .history-period {
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.9);
-            font-weight: bold;
-        }
-        .history-table {
-            width: 100%;
-            table-layout: fixed; 
-            border-collapse: separate;
-            border-spacing: 0;
-            white-space: nowrap;
-        }
-        .history-table th, .history-table td {
-            padding: 12px 8px;
-            font-size: 0.85rem;
-            color: var(--text-main);
-            border-bottom: 1px solid #e0e0e0;
-            border-right: 1px solid #e0e0e0;
-            text-align: center;
-            width: 33.33%;
-        }
-        .history-table th:last-child, .history-table td:last-child {
-            border-right: none;
-        }
-        .history-table th {
-            background: #f5f5f7;
-            color: var(--text-main);
-            font-weight: 600;
-        }
-        .history-table tr:last-child td {
-            border-bottom: none;
-        }
-        
-        /* 履歴テーブル行ハイライト */
+        /* 通知バー */
+        .notification-bar { text-align: center; margin-top: 14px; margin-bottom: 14px; }
+        .notice-box { padding: 8px 16px; border-radius: 10px; display: inline-block; font-size: 0.95rem; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .notif-none { background: #f5f5f7; color: #666; font-weight: 500; } 
+        .notif-pending { background: #fffde7; color: #e65100; font-weight: 600; }
+        .notif-overdue { background: #fff3f3; color: #c62828; font-weight: 800; }
+
+        /* 提出済一覧テーブル */
+        .history-table-container { width: 100%; overflow-x: auto; background: var(--card-bg); border-radius: 12px; border: 1px solid #e0e0e0; box-shadow: 0 2px 8px rgba(0,0,0,0.02); overflow: hidden; padding-bottom: 4px; }
+        .history-table-title-area { text-align: center; padding: 16px 12px; }
+        .shift-header { background-color: #5856d6; }
+        .record-header { background-color: var(--accent-green); }
+        .history-title { font-size: 1.05rem; font-weight: bold; color: #ffffff; margin-bottom: 4px; }
+        .history-period { font-size: 0.8rem; color: rgba(255, 255, 255, 0.9); font-weight: bold; }
+        .history-table { width: 100%; table-layout: fixed; border-collapse: separate; border-spacing: 0; white-space: normal; } /* 文字の折り返しを許可 */
+        .history-table th, .history-table td { padding: 10px 4px; font-size: 0.75rem; line-height: 1.3; color: var(--text-main); border-bottom: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; text-align: center; word-break: break-word; } /* 余白と文字サイズを調整 */
+        .history-table th:last-child, .history-table td:last-child { border-right: none; }
+        .history-table th { background: #f5f5f7; color: var(--text-main); font-weight: 600; }
         .history-table tr { cursor: pointer; transition: background-color 0.2s; }
         .history-table tr:hover td { background-color: #f9f9fa; }
-        
         .history-table tr.row-selected td {
             background-color: #fff5f5; 
             border-bottom-color: transparent;
             border-right-color: transparent;
             box-shadow: inset 0 2px 0 var(--accent-red), inset 0 -2px 0 var(--accent-red);
         }
-        
-        .history-table tr.row-selected td:first-child {
-            border-top-left-radius: 8px;
-            border-bottom-left-radius: 8px;
-            box-shadow: inset 2px 0 0 var(--accent-red), inset 0 2px 0 var(--accent-red), inset 0 -2px 0 var(--accent-red);
-        }
+        .history-table tr.row-selected td:first-child { border-top-left-radius: 8px; border-bottom-left-radius: 8px; box-shadow: inset 2px 0 0 var(--accent-red), inset 0 2px 0 var(--accent-red), inset 0 -2px 0 var(--accent-red); }
+        .history-table tr.row-selected td:last-child { border-top-right-radius: 8px; border-bottom-right-radius: 8px; box-shadow: inset -2px 0 0 var(--accent-red), inset 0 2px 0 var(--accent-red), inset 0 -2px 0 var(--accent-red); }
+        .row-early { background-color: var(--bg-early); }
+        .row-mid { background-color: var(--bg-mid); }
+        .row-late, .row-overdue { background-color: var(--bg-late); }
 
-        .history-table tr.row-selected td:last-child {
-            border-top-right-radius: 8px;
-            border-bottom-right-radius: 8px;
-            box-shadow: inset -2px 0 0 var(--accent-red), inset 0 2px 0 var(--accent-red), inset 0 -2px 0 var(--accent-red);
-        }
-
-        .row-early { background-color: #f2fbf5; }
-        .row-mid { background-color: #fffdf0; }
-        .row-late { background-color: #fff5f5; }
-
-        /* モーダル用スタイル */
-        .feedback-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.65);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s;
-        }
+        /* モーダル */
+        .feedback-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.65); display: flex; justify-content: center; align-items: center; z-index: 2000; opacity: 0; visibility: hidden; transition: all 0.3s; }
         .feedback-overlay.show { opacity: 1; visibility: visible; }
-        .feedback-modal {
-            background: white;
-            width: 90%;
-            max-width: 440px;
-            border-radius: 20px;
-            padding: 32px 24px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            transform: scale(0.9);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
-        }
+        .feedback-modal { background: white; width: 90%; max-width: 440px; border-radius: 20px; padding: 32px 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); transform: scale(0.9); transition: all 0.3s; position: relative; overflow: hidden; }
         .feedback-overlay.show .feedback-modal { transform: scale(1); }
-        .feedback-header { text-align: center; margin-bottom: 20px; }
         .feedback-emoji { font-size: 4rem; margin-bottom: 16px; display: block; text-align: center; } 
         .feedback-title { font-size: 1.2rem; font-weight: 800; color: var(--text-main); margin-bottom: 8px; text-align: center; }
         .feedback-subtitle { font-size: 1.1rem; font-weight: 800; color: var(--text-main); text-align: center; }
-        .feedback-msg {
-            font-size: 0.95rem;
-            line-height: 1.7;
-            color: var(--text-main);
-            margin-bottom: 28px;
-            text-align: left; 
-        }
-        .feedback-msg p { margin-top: 0; margin-bottom: 1.2em; }
-        .feedback-msg p:last-child { margin-bottom: 0; }
-
-        .confetti {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background: var(--accent-blue);
-            top: -10px;
-            animation: fall 3s linear infinite;
-        }
+        .feedback-msg { font-size: 0.95rem; line-height: 1.7; color: var(--text-main); margin-bottom: 28px; white-space: pre-line; }
+        
+        .confetti { position: absolute; width: 10px; height: 10px; top: -10px; animation: fall 3s linear infinite; }
         @keyframes fall { to { transform: translateY(400px) rotate(720deg); opacity: 0; } }
-        .heart-float {
-            position: absolute;
-            font-size: 1.5rem;
-            bottom: -30px;
-            animation: floatUp 2s ease-out forwards;
+        
+        /* 提出確定時のスタンプリアクション用 */
+        .stamp-reaction {
+            position: fixed;
+            pointer-events: none;
+            z-index: 3000; 
+            opacity: 0;
+            animation: floatUpStamp 1.2s ease-out forwards;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+            transform: translate(-50%, 0);
         }
-        @keyframes floatUp { to { transform: translateY(-300px) translateX(20px); opacity: 0; } }
-        .clap-animate { animation: clapPulse 0.5s ease-in-out infinite alternate; }
-        @keyframes clapPulse { from { transform: scale(1); } to { transform: scale(1.2); } }
+
+        /* モーダル内のスタンプリアクション用 */
+        .modal-stamp-reaction {
+            position: absolute;
+            pointer-events: none;
+            z-index: 3000; 
+            opacity: 0;
+            animation: modalStampAnim 1.2s ease-out forwards;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+            transform: translate(-50%, 0);
+        }
+
+        @keyframes floatUpStamp {
+            0% { 
+                transform: translate(-50%, 0) scale(0.5) rotate(calc(var(--rot) * 1deg)); 
+                opacity: 0; 
+            }
+            20% { 
+                transform: translate(-50%, -30px) scale(1.1) rotate(calc(var(--rot) * 1deg)); 
+                opacity: 1; 
+            }
+            70% {
+                opacity: 0.9;
+            }
+            100% { 
+                transform: translate(-50%, -120px) scale(1.3) rotate(calc(var(--rot) * 1deg)); 
+                opacity: 0; 
+            }
+        }
+
+        @keyframes modalStampAnim {
+            0% { 
+                transform: translate(-50%, 0) scale(0.5) rotate(calc(var(--rot) * 1deg)); 
+                opacity: 0; 
+            }
+            30% { 
+                transform: translate(-50%, -15px) scale(1.1) rotate(calc(var(--rot) * 1deg)); 
+                opacity: 1; 
+            }
+            70% {
+                opacity: 0.9;
+                transform: translate(-50%, -25px) scale(1.1) rotate(calc(var(--rot) * 1deg)); 
+            }
+            100% { 
+                transform: translate(-50%, -40px) scale(1.2) rotate(calc(var(--rot) * 1deg)); 
+                opacity: 0; 
+            }
+        }
     </style>
 </head>
 <body>
@@ -737,9 +687,10 @@
         <div id="notification-area"></div>
         <div class="main-grid">
             <div class="column">
-                <div id="countdown-shift-box" class="countdown-card bg-normal">
+                <div id="countdown-shift-box" class="countdown-card">
                     <div class="countdown-title">🕒 シフト表カウントダウン</div>
-                    <div id="countdown-shift-text" class="countdown-content">読み込み中...</div>
+                    <div id="countdown-shift-prefix" class="timer-prefix">読み込み中...</div>
+                    <div id="countdown-shift-value-area" class="countdown-content"></div>
                 </div>
                 <div id="item-box-shift" class="status-item">
                     <div id="target-month-shift" class="target-month-label">-月分シフト表</div>
@@ -756,9 +707,10 @@
                 <div id="latest-shift-col" class="latest-column"></div>
             </div>
             <div class="column">
-                <div id="countdown-record-box" class="countdown-card bg-normal">
+                <div id="countdown-record-box" class="countdown-card">
                     <div class="countdown-title">🕒 勤務実績表カウントダウン</div>
-                    <div id="countdown-record-text" class="countdown-content">読み込み中...</div>
+                    <div id="countdown-record-prefix" class="timer-prefix">読み込み中...</div>
+                    <div id="countdown-record-value-area" class="countdown-content"></div>
                 </div>
                 <div id="item-box-record" class="status-item">
                     <div id="target-month-record" class="target-month-label">-月分勤務実績表</div>
@@ -779,6 +731,16 @@
 
     <div id="view-history" class="hidden">
         <div id="history-calendar-container" class="calendar-container"></div>
+        
+        <!-- 提出タイミング凡例 -->
+        <div class="timing-legend-box">
+            <div class="timing-legend">
+                <div class="timing-item"><div class="timing-box early"></div>初日提出・早めの提出</div>
+                <div class="timing-item"><div class="timing-box mid"></div>中間の提出</div>
+                <div class="timing-item"><div class="timing-box late"></div>遅めの提出・期限超過</div>
+            </div>
+        </div>
+
         <div class="main-grid">
             <div class="column">
                 <div class="history-table-container">
@@ -787,13 +749,7 @@
                         <div class="history-period">提出期日：毎月15～20日</div>
                     </div>
                     <table class="history-table">
-                        <thead>
-                            <tr>
-                                <th>提出日</th>
-                                <th>提出時間</th>
-                                <th>提出タイミング</th>
-                            </tr>
-                        </thead>
+                        <thead><tr><th>提出日</th><th>提出時間</th><th>提出タイミング</th></tr></thead>
                         <tbody id="history-table-shift-body"></tbody>
                     </table>
                 </div>
@@ -805,13 +761,7 @@
                         <div class="history-period">提出期日：毎月1～5日</div>
                     </div>
                     <table class="history-table">
-                        <thead>
-                            <tr>
-                                <th>提出日</th>
-                                <th>提出時間</th>
-                                <th>提出タイミング</th>
-                            </tr>
-                        </thead>
+                        <thead><tr><th>提出日</th><th>提出時間</th><th>提出タイミング</th></tr></thead>
                         <tbody id="history-table-record-body"></tbody>
                     </table>
                 </div>
@@ -822,96 +772,34 @@
     <div id="view-settings" class="hidden">
         <div class="card" style="background:#fff; padding:20px; border-radius:18px; box-shadow:0 4px 12px rgba(0,0,0,0.05);">
             <div class="section-title">基本通知設定</div>
-            <div class="setting-item">
-                <label>通常時の通知時間</label>
-                <input type="time" id="setting-time-normal" value="09:00">
-            </div>
-            <div class="setting-item">
-                <label>締切前日：午前通知時間</label>
-                <input type="time" id="setting-time-pre-am" value="09:00">
-            </div>
-            <div class="setting-item">
-                <label>締切前日：午後通知時間</label>
-                <input type="time" id="setting-time-pre-pm" value="17:00">
-            </div>
+            <div class="setting-item"><label>通常時の通知時間</label><input type="time" id="setting-time-normal" value="09:00"></div>
+            <div class="setting-item"><label>締切前日：午前通知時間</label><input type="time" id="setting-time-pre-am" value="09:00"></div>
+            <div class="setting-item"><label>締切前日：午後通知時間</label><input type="time" id="setting-time-pre-pm" value="17:00"></div>
             <button class="btn btn-primary" onclick="saveSettings()">設定内容を保存する</button>
             <button class="btn btn-reset" onclick="showConfirmModal()">今日から始める</button>
         </div>
     </div>
 </div>
 
+<!-- ポップアップ類 -->
 <div id="welcome-overlay" class="feedback-overlay">
-    <div class="feedback-modal" style="padding: 32px 24px;">
-        <div class="feedback-title" style="margin-bottom: 16px; text-align: center;">ご案内</div>
-        <div class="feedback-msg" style="text-align: center; margin-bottom: 24px; font-weight: bold; color: var(--accent-blue); line-height: 1.6;">
-            ※ 初めての方は上の設定から<br>初期設定を行ってください
-        </div>
-        <button class="btn btn-primary" style="width: 100%;" onclick="closeWelcomeModal()">OK</button>
-    </div>
-</div>
-
-<div id="confirm-overlay" class="feedback-overlay">
     <div class="feedback-modal">
-        <div class="feedback-title" style="margin-bottom: 16px; text-align: center;">確認</div>
-        <div class="feedback-msg" style="text-align: center; margin-bottom: 24px;">本日から管理を開始しますか？<br>現在の提出状態はリセットされます。</div>
-        <div style="display: flex; gap: 12px;">
-            <button class="btn btn-outline" onclick="closeConfirmModal()">キャンセル</button>
-            <button class="btn btn-danger" onclick="executeReset()">開始する</button>
+        <div class="feedback-title">ご案内</div>
+        <div class="feedback-msg" style="text-align:center;">ご利用前に初期設定を行ってください<br>設定を行うことで、スムーズにご利用いただけます</div>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+            <button class="btn btn-primary" style="width:100%;" onclick="closeWelcomeModal(); showView('settings');">設定へ進む</button>
+            <button class="btn btn-outline" style="width:100%;" onclick="closeWelcomeModal()">スキップ</button>
         </div>
     </div>
 </div>
-
-<div id="setup-overlay" class="feedback-overlay">
-    <div class="feedback-modal">
-        <div class="feedback-title" style="margin-bottom: 16px; text-align: center;">提出状況の確認</div>
-        <div id="setup-msg" class="feedback-msg" style="text-align: center; margin-bottom: 24px; font-weight: bold; font-size: 1.05rem;"></div>
-        <div style="display: flex; gap: 8px;" id="setup-btn-area"></div>
-    </div>
-</div>
-
-<div id="alert-overlay" class="feedback-overlay">
-    <div class="feedback-modal" style="padding: 32px 24px;">
-        <div class="feedback-header" style="margin-bottom: 16px;">
-            <span class="feedback-emoji" style="font-size: 3rem; margin-bottom: 8px;">⚠️</span>
-            <div class="feedback-title" style="font-size: 1.15rem; color: var(--accent-red);">提出期間外</div>
-        </div>
-        <div id="alert-msg" class="feedback-msg" style="text-align: center; margin-bottom: 24px; font-weight: 600;"></div>
-        <button class="btn btn-outline" style="width: 100%; border-color: var(--text-sub);" onclick="closeAlert()">閉じる</button>
-    </div>
-</div>
-
-<div id="feedback-overlay" class="feedback-overlay">
-    <div class="feedback-modal">
-        <div class="feedback-header">
-            <span id="feedback-emoji" class="feedback-emoji">🎉</span>
-            <div id="feedback-title" class="feedback-title">提出完了！</div>
-            <div id="feedback-subtitle" class="feedback-subtitle">提出お疲れ様でした。</div>
-        </div>
-        <div id="feedback-msg" class="feedback-msg"></div>
-        <button class="btn btn-secondary btn-outline" style="width: 100%; border-color: var(--text-sub);" onclick="closeFeedback()">閉じる</button>
-        <div id="animation-layer"></div>
-    </div>
-</div>
+<div id="confirm-overlay" class="feedback-overlay"><div class="feedback-modal"><div class="feedback-title">確認</div><div class="feedback-msg" style="text-align:center;">本日から管理を開始しますか？<br>現在の提出状態はリセットされます。</div><div style="display:flex; gap:12px;"><button class="btn btn-outline" style="flex:1;" onclick="closeConfirmModal()">キャンセル</button><button class="btn btn-danger" style="flex:1;" onclick="executeReset()">開始する</button></div></div></div>
+<div id="setup-overlay" class="feedback-overlay"><div class="feedback-modal"><div class="feedback-title">提出状況の確認</div><div id="setup-msg" class="feedback-msg" style="text-align:center; font-weight:bold;"></div><div style="display:flex; gap:8px;" id="setup-btn-area"></div></div></div>
+<div id="alert-overlay" class="feedback-overlay"><div class="feedback-modal"><div class="feedback-header"><span class="feedback-emoji">⚠️</span><div class="feedback-title" style="color:var(--accent-red);">提出期間外</div></div><div id="alert-msg" class="feedback-msg" style="text-align:center; font-weight:600;"></div><button class="btn btn-outline" style="width:100%;" onclick="closeAlert()">閉じる</button></div></div>
+<div id="feedback-overlay" class="feedback-overlay"><div class="feedback-modal"><div class="feedback-header"><span id="feedback-emoji" class="feedback-emoji">🎉</span><div id="feedback-title" class="feedback-title">提出完了！</div><div id="feedback-subtitle" class="feedback-subtitle">提出お疲れ様でした。</div></div><div id="feedback-msg" class="feedback-msg"></div>
+<button id="feedback-close-btn" class="btn btn-outline" style="width:100%; border-color: var(--text-sub);" onclick="closeFeedback()">閉じる</button>
+</div></div>
 
 <script>
-    const MESSAGES = {
-        shift: {
-            15: "本日よりシフト表提出期間が開始されました。早めに提出しておくと安心です。",
-            16: "シフト表がまだ提出されていません。一度内容の確認を行いましょう。",
-            17: "シフト表が提出されていません。今のうちに対応しておきましょう。",
-            18: "シフト表の締切まであと2日です。スキマ時間を活用して対応しましょう。",
-            19: { am: "明日が提出締切です。本日中に提出しておきましょう。", pm: "まだ提出が確認できていません。業務に影響が出る前に提出しましょう。" },
-            20: "本日が締切日です！提出を最優先で対応してください。"
-        },
-        record: {
-            1: "本日より勤務実績表の提出期間開始です。相違がないか確認して早めに提出しましょう。",
-            2: "勤務実績表がまだ提出されていません。短時間でも良いので確認を行いましょう。",
-            3: "勤務実績表が未提出です。忘れる前に対応しましょう。",
-            4: { am: "明日が勤務実績表の締切です。午前中のうちに確認だけでも済ませましょう。", pm: "まだ勤務実績表の提出がありません。まずは確認だけでも行いましょう。" },
-            5: "本日が勤務実績表の締切日です！時間を確保して提出を完了させましょう。"
-        }
-    };
-    
     let appState = {
         settings: { enabled: true, timeNormal: "09:00", timePreAm: "09:00", timePrePm: "17:00" },
         submissions: {
@@ -921,201 +809,136 @@
         activeView: 'main'
     };
 
-    let mainCalendarDate = new Date();
-    let historyCalendarDate = new Date();
-    let lastRenderedToday = new Date().getDate();
-    let selectedHistory = { date: null, type: null }; 
-    let currentSetupStep = 0; 
-    let setupAnswers = { shift: false, record: false };
+    let mainCalendarDate = new Date(), historyCalendarDate = new Date(), lastRenderedToday = new Date().getDate();
+    let selectedHistory = { date: null, type: null }, currentSetupStep = 0, setupAnswers = { shift: false, record: false };
 
-    window.onload = function() {
-        loadData();
-        renderMainCalendar();
-        updateDisplay();
-        setInterval(updateDisplay, 1000); 
-        showView(appState.activeView || 'main');
-        checkWelcomeModal();
-    };
-    
-    function loadData() {
-        const saved = localStorage.getItem('edu_app_v27');
-        if (saved) {
-            appState = JSON.parse(saved);
-            document.getElementById('setting-time-normal').value = appState.settings.timeNormal;
-            document.getElementById('setting-time-pre-am').value = appState.settings.timePreAm;
-            document.getElementById('setting-time-pre-pm').value = appState.settings.timePrePm;
-        }
-    }
-    
+    window.onload = function() { loadData(); renderMainCalendar(); updateDisplay(); setInterval(updateDisplay, 1000); showView(appState.activeView || 'main'); checkWelcomeModal(); };
+    function loadData() { const saved = localStorage.getItem('edu_app_v27'); if (saved) { appState = JSON.parse(saved); document.getElementById('setting-time-normal').value = appState.settings.timeNormal; document.getElementById('setting-time-pre-am').value = appState.settings.timePreAm; document.getElementById('setting-time-pre-pm').value = appState.settings.timePrePm; } }
     function saveData() { localStorage.setItem('edu_app_v27', JSON.stringify(appState)); }
-
-    function checkWelcomeModal() {
-        const welcomed = localStorage.getItem('edu_app_v27_welcomed');
-        if (!welcomed) {
-            document.getElementById('welcome-overlay').classList.add('show');
-        }
-    }
-
-    function closeWelcomeModal() {
-        document.getElementById('welcome-overlay').classList.remove('show');
-        localStorage.setItem('edu_app_v27_welcomed', 'true');
-    }
-    
-    function showView(viewName) {
-        appState.activeView = viewName;
-        document.getElementById('view-main').classList.toggle('hidden', viewName !== 'main');
-        document.getElementById('view-history').classList.toggle('hidden', viewName !== 'history');
-        document.getElementById('view-settings').classList.toggle('hidden', viewName !== 'settings');
-        document.getElementById('tab-main').classList.toggle('active', viewName === 'main');
-        document.getElementById('tab-history').classList.toggle('active', viewName === 'history');
-        document.getElementById('tab-settings').classList.toggle('active', viewName === 'settings');
-        if (viewName === 'main') { updateDisplay(); renderMainCalendar(); }
-        if (viewName === 'history') { renderHistoryCalendar(); renderHistoryTable(); }
-        saveData();
-    }
-    
-    function saveSettings() {
-        appState.settings.timeNormal = document.getElementById('setting-time-normal').value;
-        appState.settings.timePreAm = document.getElementById('setting-time-pre-am').value;
-        appState.settings.timePrePm = document.getElementById('setting-time-pre-pm').value;
-        saveData();
-        showView('main');
-    }
-
-    function changeMonth(delta, view) {
-        if (view === 'main') { mainCalendarDate.setMonth(mainCalendarDate.getMonth() + delta); renderMainCalendar(); }
-        else if (view === 'history') { historyCalendarDate.setMonth(historyCalendarDate.getMonth() + delta); renderHistoryCalendar(); }
-    }
+    function checkWelcomeModal() { if (!localStorage.getItem('edu_app_v27_welcomed')) document.getElementById('welcome-overlay').classList.add('show'); }
+    function closeWelcomeModal() { document.getElementById('welcome-overlay').classList.remove('show'); localStorage.setItem('edu_app_v27_welcomed', 'true'); }
+    function showView(v) { appState.activeView = v; document.getElementById('view-main').classList.toggle('hidden', v !== 'main'); document.getElementById('view-history').classList.toggle('hidden', v !== 'history'); document.getElementById('view-settings').classList.toggle('hidden', v !== 'settings'); document.getElementById('tab-main').classList.toggle('active', v === 'main'); document.getElementById('tab-history').classList.toggle('active', v === 'history'); document.getElementById('tab-settings').classList.toggle('active', v === 'settings'); if (v === 'main') { updateDisplay(); renderMainCalendar(); } if (v === 'history') { renderHistoryCalendar(); renderHistoryTable(); } saveData(); }
+    function saveSettings() { appState.settings.timeNormal = document.getElementById('setting-time-normal').value; appState.settings.timePreAm = document.getElementById('setting-time-pre-am').value; appState.settings.timePrePm = document.getElementById('setting-time-pre-pm').value; saveData(); showView('main'); }
+    function changeMonth(delta, view) { if (view === 'main') { mainCalendarDate.setMonth(mainCalendarDate.getMonth() + delta); renderMainCalendar(); } else { historyCalendarDate.setMonth(historyCalendarDate.getMonth() + delta); renderHistoryCalendar(); } }
 
     function renderMainCalendar() {
-        const container = document.getElementById('main-calendar-container');
-        if (!container) return;
-        const year = mainCalendarDate.getFullYear();
-        const month = mainCalendarDate.getMonth();
-        const firstDayOfMonth = new Date(year, month, 1).getDay();
-        const daysInMonth = new Date(year, month + 1, 0).getDate();
-        const today = new Date();
-        const isCurrentMonth = today.getFullYear() === year && today.getMonth() === month;
-
+        const container = document.getElementById('main-calendar-container'); if (!container) return;
+        const year = mainCalendarDate.getFullYear(), month = mainCalendarDate.getMonth(), today = new Date();
+        const firstDay = new Date(year, month, 1).getDay(), days = new Date(year, month + 1, 0).getDate();
         let html = `<div class="calendar"><div class="calendar-header"><button class="calendar-nav-btn" onclick="changeMonth(-1,'main')">◀</button><div>${year}年 ${month + 1}月</div><button class="calendar-nav-btn" onclick="changeMonth(1,'main')">▶</button></div><div class="calendar-grid"><div class="calendar-day-header">日</div><div class="calendar-day-header">月</div><div class="calendar-day-header">火</div><div class="calendar-day-header">水</div><div class="calendar-day-header">木</div><div class="calendar-day-header">金</div><div class="calendar-day-header">土</div>`;
-        for (let i = 0; i < firstDayOfMonth; i++) html += `<div class="calendar-day empty"></div>`;
-        for (let i = 1; i <= daysInMonth; i++) {
-            const currentDayOfWeek = (firstDayOfMonth + i - 1) % 7;
-            let classes = ['calendar-day'];
-            if (isCurrentMonth && i === today.getDate()) classes.push('today');
-            if (i >= 15 && i <= 20) classes.push('shift-period');
-            if (i >= 1 && i <= 5) classes.push('record-period');
-            if (currentDayOfWeek === 0) classes.push('sunday');
-            else if (currentDayOfWeek === 6) classes.push('saturday');
-            html += `<div class="${classes.join(' ')}">${i}</div>`;
+        for (let i = 0; i < firstDay; i++) html += `<div class="calendar-day empty"></div>`;
+        for (let i = 1; i <= days; i++) {
+            const dw = (firstDay + i - 1) % 7; let cls = ['calendar-day'];
+            if (today.getFullYear() === year && today.getMonth() === month && i === today.getDate()) cls.push('today');
+            if (i >= 15 && i <= 20) cls.push('shift-period'); if (i >= 1 && i <= 5) cls.push('record-period');
+            if (dw === 0) cls.push('sunday'); else if (dw === 6) cls.push('saturday');
+            html += `<div class="${cls.join(' ')}">${i}</div>`;
         }
         html += `</div><div class="calendar-legend-box"><div class="calendar-legend"><div class="legend-row"><div class="legend-item"><div class="legend-color shift"></div>シフト表（15〜20日）</div><div class="legend-item"><div class="legend-color record"></div>勤務実績表（1〜5日）</div><div class="legend-item"><div class="legend-color today"></div>本日</div></div></div></div></div>`;
         container.innerHTML = html;
     }
 
     function renderHistoryCalendar() {
-        const container = document.getElementById('history-calendar-container');
-        if (!container) return;
-        const year = historyCalendarDate.getFullYear();
-        const month = historyCalendarDate.getMonth();
-        const firstDayOfMonth = new Date(year, month, 1).getDay();
-        const daysInMonth = new Date(year, month + 1, 0).getDate();
-        const shiftDates = new Set();
-        (appState.submissions.shift.history || []).forEach(h => { if (h.submitDate) shiftDates.add(h.submitDate); });
-        const recordDates = new Set();
-        (appState.submissions.record.history || []).forEach(h => { if (h.submitDate) recordDates.add(h.submitDate); });
-
+        const container = document.getElementById('history-calendar-container'); if (!container) return;
+        const year = historyCalendarDate.getFullYear(), month = historyCalendarDate.getMonth();
+        const firstDay = new Date(year, month, 1).getDay(), days = new Date(year, month + 1, 0).getDate();
+        const sd = new Set(); (appState.submissions.shift.history || []).forEach(h => { if(h.submitDate) sd.add(h.submitDate); });
+        const rd = new Set(); (appState.submissions.record.history || []).forEach(h => { if(h.submitDate) rd.add(h.submitDate); });
         let html = `<div class="calendar"><div class="calendar-header"><button class="calendar-nav-btn" onclick="changeMonth(-1,'history')">◀</button><div>${year}年 ${month + 1}月</div><button class="calendar-nav-btn" onclick="changeMonth(1,'history')">▶</button></div><div class="calendar-grid"><div class="calendar-day-header">日</div><div class="calendar-day-header">月</div><div class="calendar-day-header">火</div><div class="calendar-day-header">水</div><div class="calendar-day-header">木</div><div class="calendar-day-header">金</div><div class="calendar-day-header">土</div>`;
-        for (let i = 0; i < firstDayOfMonth; i++) html += `<div class="calendar-day empty"></div>`;
-        for (let i = 1; i <= daysInMonth; i++) {
+        for (let i = 0; i < firstDay; i++) html += `<div class="calendar-day empty"></div>`;
+        for (let i = 1; i <= days; i++) {
             const dateStr = `${year}/${(month+1).toString().padStart(2, '0')}/${i.toString().padStart(2, '0')}`;
-            let classes = ['calendar-day', 'history-clickable'];
-            if (i >= 15 && i <= 20) classes.push('shift-period');
-            if (i >= 1 && i <= 5) classes.push('record-period');
-            if (shiftDates.has(dateStr) && recordDates.has(dateStr)) classes.push('history-day-both');
-            else if (shiftDates.has(dateStr)) classes.push('history-day-shift');
-            else if (recordDates.has(dateStr)) classes.push('history-day-record');
-            if (selectedHistory.date === dateStr) classes.push('history-day-selected');
-            const dw = (firstDayOfMonth + i - 1) % 7;
-            if (dw === 0) classes.push('sunday'); else if (dw === 6) classes.push('saturday');
-            html += `<div class="${classes.join(' ')}" onclick="selectHistoryDate('${dateStr}', 'all')">${i}</div>`;
+            let cls = ['calendar-day', 'history-clickable'];
+            if (i >= 15 && i <= 20) cls.push('shift-period'); if (i >= 1 && i <= 5) cls.push('record-period');
+            if (sd.has(dateStr) && rd.has(dateStr)) cls.push('history-day-both'); else if (sd.has(dateStr)) cls.push('history-day-shift'); else if (rd.has(dateStr)) cls.push('history-day-record');
+            if (selectedHistory.date === dateStr) cls.push('history-day-selected');
+            const dw = (firstDay + i - 1) % 7; if (dw === 0) cls.push('sunday'); else if (dw === 6) cls.push('saturday');
+            html += `<div class="${cls.join(' ')}" onclick="selectHistoryDate('${dateStr}', 'all')">${i}</div>`;
         }
         html += `</div><div class="calendar-legend-box"><div class="calendar-legend"><div class="legend-row"><div class="legend-item"><div class="legend-color shift"></div>シフト表期間</div><div class="legend-item"><div class="legend-color record"></div>勤務実績期間</div></div><div class="legend-row"><div class="legend-item"><div class="legend-color history-shift"></div>シフト表提出日</div><div class="legend-item"><div class="legend-color history-record"></div>勤務実績表提出日</div><div class="legend-item"><div class="legend-color history-selected"></div>選択中</div></div></div></div></div>`;
         container.innerHTML = html;
     }
 
-    function selectHistoryDate(dateStr, type = 'all') {
-        if (!dateStr || dateStr === '-') return;
-        if (selectedHistory.date === dateStr && selectedHistory.type === type) selectedHistory = { date: null, type: null };
-        else {
-            selectedHistory = { date: dateStr, type: type };
-            const p = dateStr.split('/');
-            if (p.length === 3) { historyCalendarDate.setFullYear(parseInt(p[0], 10)); historyCalendarDate.setMonth(parseInt(p[1], 10) - 1); }
-        }
-        renderHistoryCalendar(); renderHistoryTable();
+    function selectHistoryDate(d, t = 'all') { if (!d || d === '-') return; if (selectedHistory.date === d && selectedHistory.type === t) selectedHistory = { date: null, type: null }; else { selectedHistory = { date: d, type: t }; const p = d.split('/'); if (p.length === 3) { historyCalendarDate.setFullYear(parseInt(p[0])); historyCalendarDate.setMonth(parseInt(p[1]) - 1); } } renderHistoryCalendar(); renderHistoryTable(); }
+
+    function getTargetYearMonth(now, type) {
+        let curY = now.getFullYear();
+        let curM = now.getMonth() + 1;
+        let targetY = curY;
+        let targetM = type === 'shift' ? curM + 1 : curM - 1;
+        if (targetM > 12) { targetM = 1; targetY++; }
+        if (targetM < 1) { targetM = 12; targetY--; }
+        return { year: targetY, month: targetM };
     }
 
-    function adjustTargetMonths(now) {
-        const currentYear = now.getFullYear();
-        const currentMonth = now.getMonth() + 1;
-        if (!appState.submissions.shift.targetMonth) { appState.submissions.shift.targetYear = currentYear; appState.submissions.shift.targetMonth = currentMonth; }
-        if (!appState.submissions.record.targetMonth) { appState.submissions.record.targetYear = currentYear; appState.submissions.record.targetMonth = currentMonth; }
-    }
+    function getCountdownFormat(target) { const diff = target - new Date(); if (diff <= 0) return `<span class="countdown-val medium">0</span><span class="countdown-unit">秒</span>`; const d = Math.floor(diff / 86400000), h = Math.floor((diff / 3600000) % 24), m = Math.floor((diff / 60000) % 60), s = Math.floor((diff / 1000) % 60); return `<span class="countdown-val medium">${d}</span><span class="countdown-unit">日</span><span class="countdown-val medium">${h}</span><span class="countdown-unit">時間</span><span class="countdown-val medium">${m.toString().padStart(2,'0')}</span><span class="countdown-unit">分</span><span class="countdown-val medium">${s.toString().padStart(2,'0')}</span><span class="countdown-unit">秒</span>`; }
+    function getCountdownFormatDaysOnly(target) { const diff = target - new Date(); if (diff <= 0) return `<span class="countdown-val large">0</span><span class="countdown-unit">日</span>`; return `<div style="margin-top:2px;"><span class="countdown-val large" style="color:var(--text-main);">${Math.ceil(diff / 86400000)}</span><span class="countdown-unit">日</span></div>`; }
 
-    function getCountdownFormat(targetDate) {
-        const diff = targetDate - new Date();
-        if (diff <= 0) return `<span class="countdown-val medium">0</span><span class="countdown-unit">秒</span>`;
-        const d = Math.floor(diff / 86400000), h = Math.floor((diff / 3600000) % 24), m = Math.floor((diff / 60000) % 60), s = Math.floor((diff / 1000) % 60);
-        return `<span class="countdown-val medium">${d}</span><span class="countdown-unit">日</span><span class="countdown-val medium">${h}</span><span class="countdown-unit">時間</span><span class="countdown-val medium">${m.toString().padStart(2, '0')}</span><span class="countdown-unit">分</span><span class="countdown-val medium">${s.toString().padStart(2, '0')}</span><span class="countdown-unit">秒</span>`;
-    }
-
-    function getCountdownFormatDaysOnly(targetDate) {
-        const diff = targetDate - new Date();
-        if (diff <= 0) return `<span class="countdown-val large">0</span><span class="countdown-unit">日</span>`;
-        const d = Math.ceil(diff / 86400000);
-        return `<div style="margin-top: 4px;"><span class="countdown-val large" style="color: var(--text-main);">${d}</span><span class="countdown-unit">日</span></div>`;
-    }
-
-    function getShiftStatus(ty, tm, now) {
-        const s = new Date(ty, tm - 1, 15), sm1 = new Date(ty, tm - 1, 14), sm2 = new Date(ty, tm - 1, 13), dl = new Date(ty, tm - 1, 20, 23, 59, 59);
-        if (now > dl) return { text: '未提出（期限超過）<br><span class="overdue-sub">速やかに確認し、対応してください</span>', class: 'status-value status-overdue' };
-        if (now >= s) return { text: '未提出', class: 'status-value status-pending' };
-        if (now >= sm1) return { text: '提出開始前日', class: 'status-value status-before' };
-        if (now >= sm2) return { text: '提出開始2日前', class: 'status-value status-before' };
-        return { text: '提出受付前', class: 'status-value status-before' };
-    }
-
-    function getRecordStatus(ty, tm, now) {
-        const s = new Date(ty, tm - 1, 1), dl = new Date(ty, tm - 1, 5, 23, 59, 59), prev = new Date(ty, tm - 1, 0), sm1 = new Date(prev.getFullYear(), prev.getMonth(), prev.getDate()), sm2 = new Date(sm1); sm2.setDate(sm2.getDate() - 1);
-        if (now > dl) return { text: '未提出（期限超過）<br><span class="overdue-sub">速やかに確認し、対応してください</span>', class: 'status-value status-overdue' };
-        if (now >= s) return { text: '未提出', class: 'status-value status-pending' };
-        if (now >= sm1) return { text: '提出開始前日', class: 'status-value status-before' };
-        if (now >= sm2) return { text: '提出開始2日前', class: 'status-value status-before' };
+    function getStatus(ty, tm, type, now) {
+        const s = type === 'shift' ? new Date(ty, tm-1, 15) : new Date(ty, tm-1, 1);
+        const dl = type === 'shift' ? new Date(ty, tm-1, 20, 23, 59, 59) : new Date(ty, tm-1, 5, 23, 59, 59);
+        if (now > dl) return { text: '未提出（期限超過）<br><span class="overdue-sub">速やかに確認し、対応してください</span>', class: 'status-value status-overdue', overdue: true };
+        if (now >= s) return { text: '未提出', class: 'status-value status-pending', pending: true };
         return { text: '提出受付前', class: 'status-value status-before' };
     }
 
     function updateDisplay() {
-        const now = new Date(), y = now.getFullYear(), m = now.getMonth(), d = now.getDate(), pad = n => n.toString().padStart(2, '0'), dj = ['日','月','火','水','木','金','土'];
-        document.getElementById('current-date-display').innerText = `📆 ${y}年 ${m+1}月 ${d}日（${dj[now.getDay()]}）　⏰ ${pad(now.getHours())}：${pad(now.getMinutes())}：${pad(now.getSeconds())}`;
+        const now = new Date(), y = now.getFullYear(), m = now.getMonth(), d = now.getDate(), dj = ['日','月','火','水','木','金','土'];
+        document.getElementById('current-date-display').innerText = `📆 ${y}年 ${m+1}月 ${d}日（${dj[now.getDay()]}）　⏰ ${now.getHours().toString().padStart(2,'0')}：${now.getMinutes().toString().padStart(2,'0')}：${now.getSeconds().toString().padStart(2,'0')}`;
         if (appState.activeView !== 'main') return;
         if (d !== lastRenderedToday) { lastRenderedToday = d; renderMainCalendar(); }
-        adjustTargetMonths(now);
-        const shiftBox = document.getElementById('countdown-shift-box'), shiftText = document.getElementById('countdown-shift-text');
-        let st, sp, su = false, isc = false, sc = "bg-normal";
-        if (d >= 15 && d <= 20) { st = new Date(y, m, 20, 23, 59, 59); sp = "提出締切まであと"; isc = true; if (d > 16) sc = d <= 18 ? "bg-warning" : (d === 19 ? "bg-danger" : "bg-urgent"); if (d === 20) su = true; }
-        else { st = new Date(y, d > 20 ? m + 1 : m, 15, 0, 0, 0); sp = "次の提出開始日まであと"; }
-        shiftBox.className = "countdown-card " + sc; shiftText.innerHTML = (su ? `<div class="urgent-text">本日は提出締切日です！</div>` : "") + `<div class="timer-prefix">${sp}</div><div class="timer-values">${isc ? getCountdownFormat(st) : getCountdownFormatDaysOnly(st)}</div>`;
-        const recordBox = document.getElementById('countdown-record-box'), recordText = document.getElementById('countdown-record-text');
-        let rt, rp, ru = false, irc = false, rc = "bg-normal";
-        if (d >= 1 && d <= 5) { rt = new Date(y, m, 5, 23, 59, 59); rp = "提出締切まであと"; irc = true; if (d > 2) rc = d === 3 ? "bg-warning" : (d === 4 ? "bg-danger" : "bg-urgent"); if (d === 5) ru = true; }
-        else { rt = new Date(y, m + 1, 1, 0, 0, 0); rp = "次の提出開始日まであと"; }
-        recordBox.className = "countdown-card " + rc; recordText.innerHTML = (ru ? `<div class="urgent-text">本日は提出締切日です！</div>` : "") + `<div class="timer-prefix">${rp}</div><div class="timer-values">${irc ? getCountdownFormat(rt) : getCountdownFormatDaysOnly(rt)}</div>`;
+        if (!appState.submissions.shift.targetMonth) { appState.submissions.shift.targetYear = y; appState.submissions.shift.targetMonth = m + 1; }
+        if (!appState.submissions.record.targetMonth) { appState.submissions.record.targetYear = y; appState.submissions.record.targetMonth = m + 1; }
+
         let ho = false, hp = false;
+
         ['shift', 'record'].forEach(type => {
-            const sub = appState.submissions[type], elStatus = document.getElementById(`status-${type}`), elBox = document.getElementById(`item-box-${type}`), areaBtn = document.getElementById(`btn-${type}-area`), btnSub = document.getElementById(`btn-${type}-submit`), areaUnconf = document.getElementById(`btn-${type}-area-unconfirmed`);
-            document.getElementById(`target-month-${type}`).innerText = `${sub.targetMonth}月分${type==='shift'?'シフト表':'勤務実績表'}`;
-            if (sub.latestSubmission && !sub.latestSubmission.isConfirmed) { elBox.classList.add('is-submitted'); elStatus.innerHTML = '提出済み'; elStatus.className = 'status-value status-submitted'; btnSub.classList.add('hidden'); areaUnconf.classList.remove('hidden'); }
-            else { elBox.classList.remove('is-submitted'); btnSub.classList.remove('hidden'); areaUnconf.classList.add('hidden'); const si = type === 'shift' ? getShiftStatus(sub.targetYear, sub.targetMonth, now) : getRecordStatus(sub.targetYear, sub.targetMonth, now); elStatus.innerHTML = si.text; elStatus.className = si.class; if (!sub.latestSubmission) { if (si.class.includes('status-overdue')) ho = true; else if (si.class.includes('status-pending')) hp = true; } }
+            const sub = appState.submissions[type], box = document.getElementById(`countdown-${type}-box`), prefix = document.getElementById(`countdown-${type}-prefix`), valArea = document.getElementById(`countdown-${type}-value-area`), statusEl = document.getElementById(`status-${type}`), itemBox = document.getElementById(`item-box-${type}`), btnSub = document.getElementById(`btn-${type}-submit`), areaUnconf = document.getElementById(`btn-${type}-area-unconfirmed`);
+            
+            // 対象月の表示文言だけを現在月基準で強制的に修正
+            let displayM = m + 1;
+            let targetDisplayM = type === 'shift' ? displayM + 1 : displayM - 1;
+            if (targetDisplayM > 12) targetDisplayM = 1;
+            if (targetDisplayM < 1) targetDisplayM = 12;
+            document.getElementById(`target-month-${type}`).innerText = `${targetDisplayM}月分${type==='shift'?'シフト表':'勤務実績表'}`;
+            
+            const si = getStatus(sub.targetYear, sub.targetMonth, type, now);
+            const isTemp = sub.latestSubmission && !sub.latestSubmission.isConfirmed;
+            
+            if (isTemp) {
+                box.className = "countdown-card bg-pending";
+                prefix.innerText = "提出を確定してください";
+                valArea.innerHTML = `<div class="sub-countdown-text" style="color: var(--accent-red);">未確定の提出があります</div>`;
+                itemBox.classList.add('is-submitted');
+                statusEl.innerHTML = '提出済み';
+                statusEl.className = 'status-value status-submitted';
+                btnSub.classList.add('hidden');
+                areaUnconf.classList.remove('hidden');
+            } else {
+                areaUnconf.classList.add('hidden');
+                btnSub.classList.remove('hidden');
+                
+                if (si.overdue) {
+                    box.className = "countdown-card bg-overdue";
+                    prefix.innerText = "未提出（期限超過）";
+                    valArea.innerHTML = `<div class="overdue-alert-text">速やかに確認してください</div>`;
+                    ho = true;
+                } else if (si.pending) {
+                    box.className = "countdown-card bg-pending";
+                    const target = type === 'shift' ? new Date(sub.targetYear, sub.targetMonth-1, 20, 23, 59, 59) : new Date(sub.targetYear, sub.targetMonth-1, 5, 23, 59, 59);
+                    prefix.innerText = "提出締切まであと";
+                    valArea.innerHTML = `<div class="timer-values">${getCountdownFormat(target)}</div><div class="sub-countdown-text" style="color: var(--text-main);">（次回提出まであと ${getCountdownFormat(target)}）</div>`;
+                    hp = true;
+                } else {
+                    box.className = "countdown-card bg-normal";
+                    const target = type === 'shift' ? new Date(sub.targetYear, sub.targetMonth-1, 15) : new Date(sub.targetYear, sub.targetMonth-1, 1);
+                    prefix.innerText = "次の提出開始日まであと";
+                    valArea.innerHTML = `<div class="timer-values">${getCountdownFormatDaysOnly(target)}</div>`;
+                }
+                itemBox.classList.remove('is-submitted');
+                statusEl.innerHTML = si.text;
+                statusEl.className = si.class;
+            }
         });
         renderLatestSubmission(); renderNotificationBar(ho, hp);
     }
@@ -1123,11 +946,8 @@
     function renderLatestSubmission() {
         ['shift', 'record'].forEach(type => {
             const col = document.getElementById(`latest-${type}-col`), ls = appState.submissions[type].latestSubmission;
-            col.innerHTML = '';
-            if (!ls) { col.style.display = 'none'; return; }
-            col.style.display = 'flex';
-            const card = document.createElement('div');
-            card.className = `latest-card latest-card-${type}`;
+            col.innerHTML = ''; if (!ls) { col.style.display = 'none'; return; } col.style.display = 'flex';
+            const card = document.createElement('div'); card.className = `latest-card latest-card-${type}`;
             card.innerHTML = `<div class="latest-card-header"><div class="latest-label-group"><span class="icon">✅</span><span>${ls.label} ${ls.isConfirmed ? '提出済み（確定）' : '提出済み'}</span></div></div><div class="latest-card-time">${ls.timeLabel}</div>`;
             col.appendChild(card);
         });
@@ -1135,17 +955,21 @@
 
     function renderHistoryTable() {
         ['shift', 'record'].forEach(type => {
-            const body = document.getElementById(`history-table-${type}-body`);
-            body.innerHTML = '';
+            const body = document.getElementById(`history-table-${type}-body`); body.innerHTML = '';
             const history = [...(appState.submissions[type].history || [])].sort((a, b) => b.id - a.id);
-            if (history.length === 0) body.innerHTML = `<tr><td colspan="3" style="color: var(--text-sub);">履歴がありません</td></tr>`;
+            if (history.length === 0) body.innerHTML = `<tr><td colspan="3" style="color:var(--text-sub);">履歴がありません</td></tr>`;
             else history.forEach(h => {
-                const tr = document.createElement('tr');
-                tr.className = h.timingClass || '';
+                const tr = document.createElement('tr'); tr.className = h.timingClass || '';
                 if (h.submitDate === selectedHistory.date && (selectedHistory.type === type || selectedHistory.type === 'all')) tr.classList.add('row-selected');
-                tr.innerHTML = `<td>${h.submitDate}</td><td>${h.submitTime}</td><td>${h.timingLabel}</td>`;
-                tr.onclick = () => selectHistoryDate(h.submitDate, type);
-                body.appendChild(tr);
+                
+                // 「（期限超過）」が含まれている場合は改行して文字を少し小さくする
+                let displayTiming = h.timingLabel;
+                if (displayTiming.includes('（期限超過）') && !displayTiming.includes('<br>')) {
+                    displayTiming = displayTiming.replace('（期限超過）', '<br><span style="font-size: 0.7rem;">（期限超過）</span>');
+                }
+                
+                tr.innerHTML = `<td>${h.submitDate}</td><td>${h.submitTime}</td><td>${displayTiming}</td>`;
+                tr.onclick = () => selectHistoryDate(h.submitDate, type); body.appendChild(tr);
             });
         });
     }
@@ -1156,55 +980,253 @@
         else if (hp) area.innerHTML = '<div class="notification-bar"><span class="notice-box notif-pending">未提出の項目があります</span></div>';
         else area.innerHTML = '<div class="notification-bar"><span class="notice-box notif-none">現在、未提出の通知はありません</span></div>';
     }
-    
-    function getTimingInfo(type, now, ty, tm) {
-        const sd = type === 'shift' ? new Date(ty, tm - 1, 15) : new Date(ty, tm - 1, 1);
-        let diff = Math.floor((new Date(now.getFullYear(), now.getMonth(), now.getDate()) - sd) / 86400000);
-        if (diff < 0) diff = 0;
-        let cls = diff <= 1 ? 'row-early' : (diff <= 3 ? 'row-mid' : 'row-late');
-        return { label: diff === 0 ? '初日提出' : `開始${diff}日後`, class: cls };
-    }
-    
+
     function markSubmitted(type) { 
-        const now = new Date(), sub = appState.submissions[type], sd = type === 'shift' ? new Date(sub.targetYear, sub.targetMonth - 1, 15) : new Date(sub.targetYear, sub.targetMonth - 1, 1);
-        if (now < sd) { showCustomAlert(`提出期間前です。${type==='shift'?'シフト表は毎月15日':'勤務実績表は毎月1日'}から提出できます。`); return; }
-        const timing = getTimingInfo(type, now, sub.targetYear, sub.targetMonth);
-        sub.latestSubmission = { year: sub.targetYear, month: sub.targetMonth, label: `${sub.targetMonth}月分${type==='shift'?'シフト表':'勤務実績表'}`, timeLabel: `提出日時：${now.getMonth() + 1}月${now.getDate()}日 ${pad(now.getHours())}時${pad(now.getMinutes())}分`, submitDate: `${now.getFullYear()}/${pad(now.getMonth()+1)}/${pad(now.getDate())}`, submitTime: `${pad(now.getHours())}時${pad(now.getMinutes())}分`, timingLabel: timing.label, timingClass: timing.class, isConfirmed: false, id: Date.now() };
-        saveData(); updateDisplay(); showSubmissionFeedback(type, timing.class);
+        const now = new Date(), sub = appState.submissions[type];
+        const sd = type === 'shift' ? new Date(sub.targetYear, sub.targetMonth-1, 15) : new Date(sub.targetYear, sub.targetMonth-1, 1);
+        const dl = type === 'shift' ? new Date(sub.targetYear, sub.targetMonth-1, 20, 23, 59, 59) : new Date(sub.targetYear, sub.targetMonth-1, 5, 23, 59, 59);
+        
+        if (now < sd) { showCustomAlert(`提出期間前です。${type==='shift'?'15日':'1日'}から提出できます。`); return; }
+        
+        const diff = Math.floor((new Date(now.getFullYear(), now.getMonth(), now.getDate()) - sd) / 86400000);
+        
+        let cls = 'row-late';
+        let timingLabel = diff === 0 ? '初日提出' : `開始${diff}日後`;
+        
+        if (now > dl) {
+            cls = 'row-overdue';
+            timingLabel += '（期限超過）';
+        } else if (diff <= 1) {
+            cls = 'row-early';
+        } else if (diff <= 3) {
+            cls = 'row-mid';
+        }
+
+        let displayM = now.getMonth() + 1;
+        let targetDisplayM = type === 'shift' ? displayM + 1 : displayM - 1;
+        if (targetDisplayM > 12) targetDisplayM = 1;
+        if (targetDisplayM < 1) targetDisplayM = 12;
+
+        sub.latestSubmission = { 
+            year: sub.targetYear, month: sub.targetMonth, label: `${targetDisplayM}月分${type==='shift'?'シフト表':'勤務実績表'}`, 
+            timeLabel: `提出日時：${now.getMonth()+1}月${now.getDate()}日 ${now.getHours().toString().padStart(2,'0')}時${now.getMinutes().toString().padStart(2,'0')}分`, 
+            submitDate: `${now.getFullYear()}/${(now.getMonth()+1).toString().padStart(2,'0')}/${now.getDate().toString().padStart(2,'0')}`, 
+            submitTime: `${now.getHours().toString().padStart(2,'0')}時${now.getMinutes().toString().padStart(2,'0')}分`, 
+            timingLabel: timingLabel, timingClass: cls, isConfirmed: false, id: Date.now() 
+        };
+        saveData(); updateDisplay(); 
+        
+        // 提出するボタンを押した直後に提出完了モーダルを表示
+        showSubmissionFeedback(type, cls);
     }
-    function pad(n) { return n.toString().padStart(2, '0'); }
-    function undoSubmission(type) { const sub = appState.submissions[type]; if (sub.latestSubmission && !sub.latestSubmission.isConfirmed) { sub.latestSubmission = null; saveData(); updateDisplay(); } }
-    function confirmSubmission(type) { const sub = appState.submissions[type]; if (sub.latestSubmission && !sub.latestSubmission.isConfirmed) { sub.latestSubmission.isConfirmed = true; sub.history.push({ ...sub.latestSubmission }); sub.targetMonth++; if (sub.targetMonth > 12) { sub.targetMonth = 1; sub.targetYear++; } saveData(); updateDisplay(); } }
-    function showConfirmModal() { document.getElementById('confirm-overlay').classList.add('show'); }
-    function closeConfirmModal() { document.getElementById('confirm-overlay').classList.remove('show'); }
-    function executeReset() { appState.submissions = { shift: { targetYear: null, targetMonth: null, latestSubmission: null, history: [] }, record: { targetYear: null, targetMonth: null, latestSubmission: null, history: [] } }; adjustTargetMonths(new Date()); saveData(); closeConfirmModal(); showView('main'); setTimeout(startSetup, 300); }
+    function undoSubmission(type) { appState.submissions[type].latestSubmission = null; saveData(); updateDisplay(); }
+    
+    function createModalStampsReaction(tc) {
+ 
+        setTimeout(() => {
+            const modal = document.querySelector('#feedback-overlay .feedback-modal'); 
+            const emojiEl = document.getElementById('feedback-emoji'); 
+            
+            if (!modal || !emojiEl) return;
+
+            const modalRect = modal.getBoundingClientRect();
+            const emojiRect = emojiEl.getBoundingClientRect();
+
+            // モーダル内の相対位置に変換
+            // Y座標: 絵文字(チェックマークなど)の下あたり
+            const baseY = emojiRect.bottom - modalRect.top + 10;
+            
+            // X座標: モーダルの左右の空白（端から55pxの位置にして少し中央寄りに）
+            const leftBaseX = 55;
+            const rightBaseX = modalRect.width - 55;
+
+            let baseEmojis = [];
+            if (tc === 'row-early') baseEmojis = ['✨','👏','✨','👏','✨'] ;
+            else if (tc === 'row-mid') baseEmojis = ['👍', '👍'];
+            else if (tc === 'row-late') baseEmojis = ['🌱', '🌱'];
+            else if (tc === 'row-overdue') baseEmojis = ['💪', '💪'];
+
+            // 固定に近い配置用のオフセット (x: 基準からのズレ, y: baseYからのズレ)
+            const leftPositions = [
+                { x: 0, y: 0 },
+                { x: 15, y: 35 },
+                { x: -5, y: 55 }
+            ];
+            const rightPositions = [
+                { x: 0, y: 0 },
+                { x: -15, y: 20 },
+                { x: 5, y: 40 }
+            ];
+
+            // 3回繰り返す
+            for (let loop = 0; loop < 3; loop++) {
+                // 各ループの開始時間をずらす (例: 0秒, 1.6秒, 3.2秒後)
+                setTimeout(() => {
+                    let emojis = [...baseEmojis];
+                    // 順番を少しバラバラにする
+                    emojis.sort(() => Math.random() - 0.5);
+
+                    let leftCount = 0;
+                    let rightCount = 0;
+
+                    emojis.forEach((emoji, i) => {
+                        setTimeout(() => {
+                            const el = document.createElement('div');
+                            el.className = 'modal-stamp-reaction';
+                            el.innerText = emoji;
+
+                            // 左右交互に配置
+                            const isLeft = i % 2 === 0;
+                            let pos;
+                            let baseX;
+                            
+                            if (isLeft) {
+                                pos = leftPositions[leftCount % leftPositions.length];
+                                baseX = leftBaseX;
+                                leftCount++;
+                            } else {
+                                pos = rightPositions[rightCount % rightPositions.length];
+                                baseX = rightBaseX;
+                                rightCount++;
+                            }
+
+                            // ほんの少しだけランダム性を入れる（固定に近い）
+                            const randomOffsetX = (Math.random() - 0.5) * 10;
+                            const randomOffsetY = (Math.random() - 0.5) * 10;
+
+                            el.style.left = (baseX + pos.x + randomOffsetX) + 'px';
+                            el.style.top = (baseY + pos.y + randomOffsetY) + 'px';
+                            
+                            // 回転とサイズ
+                            const rot = (Math.random() - 0.5) * 30; // -15度〜+15度
+                            const size = 26 + Math.random() * 4; // 26px ~ 30px
+                            el.style.fontSize = `${size}px`;
+                            el.style.setProperty('--rot', rot);
+                            
+                            // モーダル要素内に追加
+                            modal.appendChild(el); 
+
+                            // アニメーションが終わる頃に削除
+                            setTimeout(() => el.remove(), 1200);
+
+                        }, i * 180); // 少し長めにずらしてふわっと順番に表示
+                    });
+                }, loop * 1600); // 1.6秒間隔で3回ループさせる
+            }
+        }, 300);
+    }
+
+    function createThumbsUpReaction(type) {
+        // 確定後に表示されるカードを基準にする
+        const targetEl = document.getElementById(`latest-${type}-col`);
+        if (!targetEl) return;
+        
+        const rect = targetEl.getBoundingClientRect();
+        
+        const stamp = document.createElement('div');
+        stamp.className = 'stamp-reaction';
+        stamp.innerText = '👍';
+        
+        // 少しだけランダムな揺らぎを入れる
+        const offsetX = (Math.random() - 0.5) * 20; 
+        const rot = (Math.random() - 0.5) * 30; 
+        
+        stamp.style.left = `${rect.left + rect.width / 2 + offsetX}px`;
+        stamp.style.top = `${rect.top - 20}px`;
+        stamp.style.fontSize = `48px`; // はっきり見えるサイズ
+        stamp.style.setProperty('--rot', rot);
+        
+        document.body.appendChild(stamp);
+        
+        // 1.5秒後に削除
+        setTimeout(() => stamp.remove(), 1500);
+    }
+
+    function confirmSubmission(type) {
+        const sub = appState.submissions[type];
+        if (sub.latestSubmission && !sub.latestSubmission.isConfirmed) {
+            sub.latestSubmission.isConfirmed = true;
+            
+            sub.history.push({ ...sub.latestSubmission });
+            sub.targetMonth++; if (sub.targetMonth > 12) { sub.targetMonth = 1; sub.targetYear++; }
+            saveData(); updateDisplay();
+            if (appState.activeView === 'history') { renderHistoryCalendar(); renderHistoryTable(); }
+
+            // 提出確定時に👍リアクションを表示
+            createThumbsUpReaction(type);
+        }
+    }
+
+    function executeReset() { appState.submissions = { shift: { targetYear: null, targetMonth: null, latestSubmission: null, history: [] }, record: { targetYear: null, targetMonth: null, latestSubmission: null, history: [] } }; saveData(); closeConfirmModal(); showView('main'); setTimeout(startSetup, 300); }
     function startSetup() { currentSetupStep = 1; setupAnswers = { shift: false, record: false }; showSetupStep(); }
     function showSetupStep() {
-        const overlay = document.getElementById('setup-overlay'), msgEl = document.getElementById('setup-msg'), btnArea = document.getElementById('setup-btn-area'), curM = new Date().getMonth() + 1;
-        if (currentSetupStep === 1) { msgEl.innerHTML = `現在の月（${curM}月分）の<br>シフト表は提出済みですか？`; btnArea.innerHTML = `<button class="btn" style="background:#e5e5ea;color:var(--text-sub);padding:10px 4px;font-size:0.9rem;" onclick="cancelSetup()">戻る</button><button class="btn btn-outline" style="border-color:var(--text-sub);color:var(--text-main);padding:10px 4px;font-size:0.9rem;" onclick="handleSetupAnswer(false)">いいえ</button><button class="btn btn-primary" style="padding:10px 4px;font-size:0.9rem;" onclick="handleSetupAnswer(true)">はい</button>`; overlay.classList.add('show'); }
-        else if (currentSetupStep === 2) { msgEl.innerHTML = `現在の月（${curM}月分）の<br>勤務実績表は提出済みですか？`; btnArea.innerHTML = `<button class="btn" style="background:#e5e5ea;color:var(--text-sub);padding:10px 4px;font-size:0.9rem;" onclick="goBackSetup()">戻る</button><button class="btn btn-outline" style="border-color:var(--text-sub);color:var(--text-main);padding:10px 4px;font-size:0.9rem;" onclick="handleSetupAnswer(false)">いいえ</button><button class="btn btn-primary" style="padding:10px 4px;font-size:0.9rem;" onclick="handleSetupAnswer(true)">はい</button>`; overlay.classList.add('show'); }
+        const overlay = document.getElementById('setup-overlay'), msg = document.getElementById('setup-msg'), area = document.getElementById('setup-btn-area');
+        const now = new Date();
+        const curM = now.getMonth() + 1;
+        if (currentSetupStep === 1) { 
+            let targetDisplayM = curM + 1;
+            if (targetDisplayM > 12) targetDisplayM = 1;
+            msg.innerHTML = `${targetDisplayM}月分のシフト表は提出済みですか？`; 
+            area.innerHTML = `<button class="btn btn-outline" style="flex:1;" onclick="cancelSetup()">戻る</button><button class="btn btn-outline" style="flex:1;" onclick="handleSetupAnswer(false)">いいえ</button><button class="btn btn-primary" style="flex:1;" onclick="handleSetupAnswer(true)">はい</button>`; 
+            overlay.classList.add('show'); 
+        }
+        else if (currentSetupStep === 2) { 
+            let targetDisplayM = curM - 1;
+            if (targetDisplayM < 1) targetDisplayM = 12;
+            msg.innerHTML = `${targetDisplayM}月分の勤務実績表は提出済みですか？`; 
+            area.innerHTML = `<button class="btn btn-outline" style="flex:1;" onclick="goBackSetup()">戻る</button><button class="btn btn-outline" style="flex:1;" onclick="handleSetupAnswer(false)">いいえ</button><button class="btn btn-primary" style="flex:1;" onclick="handleSetupAnswer(true)">はい</button>`; 
+            overlay.classList.add('show'); 
+        }
         else overlay.classList.remove('show');
     }
-    function cancelSetup() { currentSetupStep = 0; showSetupStep(); }
-    function goBackSetup() { if (currentSetupStep === 2) { currentSetupStep = 1; showSetupStep(); } }
     function handleSetupAnswer(is) { if (currentSetupStep === 1) { setupAnswers.shift = is; currentSetupStep = 2; showSetupStep(); } else { setupAnswers.record = is; finishSetup(); } }
-    function finishSetup() { currentSetupStep = 0; document.getElementById('setup-overlay').classList.remove('show'); if (setupAnswers.shift) setInitialSubmitted('shift'); if (setupAnswers.record) setInitialSubmitted('record'); updateDisplay(); }
-    function setInitialSubmitted(type) {
+    function finishSetup() { currentSetupStep = 0; document.getElementById('setup-overlay').classList.remove('show'); if (setupAnswers.shift) setInitial('shift'); if (setupAnswers.record) setInitial('record'); updateDisplay(); }
+    function setInitial(type) {
         const now = new Date(), sub = appState.submissions[type]; sub.targetYear = now.getFullYear(); sub.targetMonth = now.getMonth() + 1;
-        sub.latestSubmission = { year: sub.targetYear, month: sub.targetMonth, label: `${sub.targetMonth}月分${type==='shift'?'シフト表':'勤務実績表'}`, timeLabel: `提出日時：${sub.targetMonth}月${now.getDate()}日 ${pad(now.getHours())}時${pad(now.getMinutes())}分 (初期設定)`, submitDate: `${now.getFullYear()}/${pad(now.getMonth()+1)}/${pad(now.getDate())}`, submitTime: `${pad(now.getHours())}時${pad(now.getMinutes())}分`, timingLabel: "初期設定", timingClass: "row-mid", isConfirmed: true, id: Date.now() };
+        
+        let displayM = now.getMonth() + 1;
+        let targetDisplayM = type === 'shift' ? displayM + 1 : displayM - 1;
+        if (targetDisplayM > 12) targetDisplayM = 1;
+        if (targetDisplayM < 1) targetDisplayM = 12;
+
+        sub.latestSubmission = { year: sub.targetYear, month: sub.targetMonth, label: `${targetDisplayM}月分${type==='shift'?'シフト表':'勤務実績表'}`, timeLabel: `提出日時：${displayM}月${now.getDate()}日 (初期設定)`, submitDate: `${now.getFullYear()}/${(now.getMonth()+1).toString().padStart(2,'0')}/${now.getDate().toString().padStart(2,'0')}`, submitTime: "初期設定", timingLabel: "初期設定", timingClass: "row-mid", isConfirmed: true, id: Date.now() };
         sub.history.push({ ...sub.latestSubmission }); sub.targetMonth++; if (sub.targetMonth > 12) { sub.targetMonth = 1; sub.targetYear++; } saveData();
     }
-    function showCustomAlert(msg) { document.getElementById('alert-msg').innerText = msg; document.getElementById('alert-overlay').classList.add('show'); }
+    function showConfirmModal() { document.getElementById('confirm-overlay').classList.add('show'); }
+    function closeConfirmModal() { document.getElementById('confirm-overlay').classList.remove('show'); }
+    function cancelSetup() { currentSetupStep = 0; showSetupStep(); }
+    function goBackSetup() { if (currentSetupStep === 2) { currentSetupStep = 1; showSetupStep(); } }
+    function showCustomAlert(m) { document.getElementById('alert-msg').innerText = m; document.getElementById('alert-overlay').classList.add('show'); }
     function closeAlert() { document.getElementById('alert-overlay').classList.remove('show'); }
     function showSubmissionFeedback(type, tc) {
-        const overlay = document.getElementById('feedback-overlay'), emoji = document.getElementById('feedback-emoji'), title = document.getElementById('feedback-title'), subt = document.getElementById('feedback-subtitle'), msg = document.getElementById('feedback-msg'), al = document.getElementById('animation-layer'); al.innerHTML = '';
-        if (tc === 'row-early') { emoji.innerText = '🎉'; emoji.className = 'feedback-emoji'; title.innerText = '提出を受け付けました'; subt.innerText = '提出お疲れ様でした。'; msg.innerHTML = '<p>迅速な対応、とても素晴らしいです！</p><p>早めに行動することで、心にも余裕が生まれます。</p><p>この調子で継続していきましょう。</p>'; createConfetti(al); createHearts(al); }
-        else if (tc === 'row-mid') { emoji.innerText = '👏'; emoji.className = 'feedback-emoji clap-animate'; title.innerText = '提出を受け付けました'; subt.innerText = '提出お疲れ様でした。'; msg.innerHTML = '<p>期日内に提出できており、とても良い対応です。</p><p>次回は、より余裕をもって対応できるよう、提出開始直後の提出を目標にしてみましょう。</p>'; }
-        else { emoji.innerText = '✅'; emoji.className = 'feedback-emoji'; title.innerText = '提出を受け付けました'; subt.innerText = '提出お疲れ様でした。'; msg.innerHTML = '<p>無事に提出されていますが、余裕をもって対応できましたか？</p><p>早めの提出で、自分にも担当者にも余裕が生まれます。</p><p>あなたならきっと大丈夫です。<br>次回はもう少し早めの提出を意識してみましょう。</p><p>もし難しい場合は、締め切りの1日前までに担当者へご連絡しましょう。</p>'; }
-        overlay.classList.add('show');
+        const o = document.getElementById('feedback-overlay');
+        const e = document.getElementById('feedback-emoji');
+        const t = document.getElementById('feedback-title');
+        const subt = document.getElementById('feedback-subtitle');
+        const m = document.getElementById('feedback-msg');
+
+        t.innerText = '提出を受け付けました';
+        subt.innerText = '提出お疲れ様でした。';
+
+        if (tc === 'row-early') {
+            e.innerText = '🎉';
+            m.innerText = 'とても良いタイミングでの提出です。\n早めの行動で、自分にも担当者にも余裕が生まれています。\n\nこの調子で続けていきましょう。\nその積み重ねが大きな力になります。';
+        } else if (tc === 'row-mid') {
+            e.innerText = '👏';
+            m.innerText = '問題ないタイミングで提出されています。\nただ、もう少し早めに対応するとより安心です。\n\n次回は少しだけ早めを意識してみましょう。';
+        } else if (tc === 'row-late') {
+            e.innerText = '✅';
+            m.innerText = '無事に提出されていますが、やや遅めの対応となっています。\n\n早めの提出で、自分にも担当者にも余裕が生まれます。\n次回はもう少し早めの提出を意識してみましょう。\n\n無理のない範囲で、今回より少し早めの提出を目標にしてみてください。';
+        } else if (tc === 'row-overdue') {
+            e.innerText = '✅';
+            m.innerText = '提出は完了していますが、期限を過ぎての対応となっています。\n\n早めの提出で、自分にも担当者にも余裕が生まれます。\n次回は無理のない範囲で、期限前の提出を意識してみましょう。\n\nもし難しい場合は、締め切りの1日前までに担当者へご連絡ください。\nそうすることで、担当者も安心して対応することができます。';
+        }
+        
+        o.classList.add('show');
+        
+        // モーダル表示時にスタンプアニメーションを実行
+        createModalStampsReaction(tc);
     }
-    function createConfetti(l) { for (let i = 0; i < 30; i++) { const c = document.createElement('div'); c.className = 'confetti'; c.style.left = Math.random() * 100 + '%'; c.style.background = ['#ff2d55', '#5856d6', '#34c759', '#ffcc00', '#007aff'][Math.floor(Math.random()*5)]; c.style.animationDelay = Math.random() * 2 + 's'; l.appendChild(c); } }
-    function createHearts(l) { for (let i = 0; i < 6; i++) { const h = document.createElement('div'); h.className = 'heart-float'; h.innerText = '❤️'; h.style.left = (20 + Math.random() * 60) + '%'; h.style.animationDelay = (Math.random() * 1) + 's'; l.appendChild(h); } }
     function closeFeedback() { document.getElementById('feedback-overlay').classList.remove('show'); }
 </script>
 </body>
