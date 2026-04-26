@@ -807,20 +807,30 @@
     let skippedStockTypes = [];
     let isJustAfterSetup = false;
 
-    window.onload = function() { 
-        const params = new URLSearchParams(window.location.search);
-        if (params.get("reset") === "1") {
-            localStorage.clear();
-            history.replaceState(null, "", location.pathname);
+    document.addEventListener('DOMContentLoaded', function() {
+        try {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get("reset") === "1") {
+                localStorage.clear();
+                if (window.history && window.history.replaceState) {
+                    history.replaceState(null, "", location.pathname);
+                }
+            }
+        } catch (e) {
+            console.error("Reset error:", e);
         }
 
-        loadData(); 
-        renderMainCalendar(); 
-        updateDisplay(); 
-        setInterval(updateDisplay, 1000); 
-        showView(appState.activeView || 'main'); 
-        checkWelcomeModal(); 
-    };
+        try {
+            loadData(); 
+            renderMainCalendar(); 
+            updateDisplay(); 
+            setInterval(updateDisplay, 1000); 
+            showView(appState.activeView || 'main'); 
+            checkWelcomeModal(); 
+        } catch (e) {
+            console.error("Init error:", e);
+        }
+    });
     
     function loadData() { 
         const saved = localStorage.getItem('edu_app_v27'); 
@@ -1093,6 +1103,7 @@
         
         showSubmissionFeedback(type, cls);
     }
+
     function undoSubmission(type) { appState.submissions[type].latestSubmission = null; saveData(); updateDisplay(); }
     
     function createModalStampsReaction(tc) {
@@ -1265,10 +1276,6 @@
             const key = `${keyPrefix}StockNoticeConfirmed_${y}_${m.toString().padStart(2, '0')}`;
             localStorage.removeItem(key);
             
-            if (appState.stockCheck && appState.stockCheck[type]) {
-                appState.stockCheck[type].checked = false;
-            }
-
             saveData();
             updateDisplay();
             
@@ -1358,22 +1365,28 @@
         const subt = document.getElementById('feedback-subtitle');
         const m = document.getElementById('feedback-msg');
 
-        t.innerText = '提出を受け付けました';
-        subt.innerText = '提出お疲れ様でした。';
+        t.innerText = '提出お疲れ様でした';
+        subt.innerText = '';
+
+        let msgText = '';
 
         if (tc === 'row-early') {
             e.innerText = '🎉';
-            m.innerText = 'とても良いタイミングでの提出です。\n早めの行動で、自分にも担当者にも余裕が生まれています。\n\nこの調子で続けていきましょう。\nその積み重ねが大きな力になります✨';
+            msgText = 'とても良いタイミングでの提出です👏<br><br>早めの行動で、自分にも担当者にも余裕が生まれています。<br><br>この調子で続けていきましょう。その積み重ねが大きな力になります✨';
         } else if (tc === 'row-mid') {
             e.innerText = '👏';
-            m.innerText = '問題ないタイミングで提出されています。\nただ、もう少し早めに対応するとより安心です。\n\n次回は少しだけ早めを意識してみましょう👌';
+            msgText = '問題ないタイミングで提出されています👌<br><br>ただ、もう少し早めに対応するとより安心です。<br><br>次回は少しだけ早めを意識してみましょう👌';
         } else if (tc === 'row-late') {
             e.innerText = '✅';
-            m.innerText = '無事に提出されていますが、やや遅めの対応となっています。\n\n早めの提出で、自分にも担当者にも余裕が生まれます。\n次回はもう少し早めの提出を意識してみましょう。\n\n無理のない範囲で、今回より少し早めの提出を目標にしてみてください💪';
+            msgText = '無事に提出されていますが、やや遅めの対応となっています。<br><br>早めの提出で、自分にも担当者にも余裕が生まれます。次回はもう少し早めの提出を意識してみましょう。<br><br>無理のない範囲で、今回より少し早めの提出を目標にしてみてください💪';
         } else if (tc === 'row-overdue') {
             e.innerText = '✅';
-            m.innerText = '提出は完了していますが、期限を過ぎての対応となっています。\n\n早めの提出で、自分にも担当者にも余裕が生まれます。\n次回は無理のない範囲で、期限前の提出を意識してみましょう。\n\nもし難しい場合は、締め切りの1日前までに担当者へご連絡ください。\nそうすることで、担当者も安心して対応することができます😊';
+            msgText = '提出は完了していますが、期限を過ぎての対応となっています。<br><br>早めの提出で、自分にも担当者にも余裕が生まれます。次回は無理のない範囲で、期限前の提出を意識してみましょう。<br><br>もし難しい場合は、締め切りの1日前までに担当者へご連絡しましょう。そうすることで、処理を行う担当者も安心して対応することができます😊';
         }
+        
+        msgText += '<br><br>内容をご確認のうえ、最後に「提出を確定する」ボタンを押してください。';
+
+        m.innerHTML = `<div style="text-align:left; line-height:1.8;">${msgText}</div>`;
         
         o.classList.add('show');
         
