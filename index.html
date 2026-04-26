@@ -43,7 +43,7 @@
         }
         .container {
             width: 100%;
-            max-width: 760px;
+            max-width: 800px;
             padding: 12px 16px;
         }
         nav {
@@ -84,16 +84,12 @@
             margin-bottom: 4px;
             letter-spacing: 0.05em;
         }
-
-        /* アプリ説明文 */
         .app-description {
             font-size: 0.85rem;
             color: var(--text-sub);
             margin-bottom: 8px;
             font-weight: normal;
         }
-        
-        /* サブメッセージ */
         .sub-message {
             background-color: #FFFDE7;
             color: var(--text-main);
@@ -103,8 +99,6 @@
             margin: 4px auto 8px;
             display: inline-block;
         }
-
-        /* 日付・時刻表示エリア */
         .current-date-wrapper {
             display: flex;
             justify-content: center;
@@ -125,8 +119,6 @@
             min-width: 310px;
             text-align: center;
         }
-
-        /* --- カレンダー表示 --- */
         .calendar-container {
             display: flex;
             justify-content: center;
@@ -201,29 +193,20 @@
         .calendar-day.empty { background: transparent; }
         .calendar-day.sunday { color: var(--accent-red); }
         .calendar-day.saturday { color: var(--accent-blue); }
-        
         .calendar-day.today {
             box-shadow: inset 0 0 0 2px #d32f2f;
             font-weight: 800;
             z-index: 5;
         }
-
-        /* 管理一覧カレンダー用の色分け */
         .calendar-day.shift-period { background-color: #e8f5e9; }
         .calendar-day.record-period { background-color: #fff3e0; }
-
-        /* 提出済一覧カレンダー用の枠線表示（塗りつぶしなし） */
         .history-clickable { cursor: pointer; transition: filter 0.2s; }
         .history-clickable:hover { filter: brightness(0.95); }
-        
-        /* z-indexを設定して角の欠けを防ぐ */
         .history-day-shift, .history-day-record, .history-day-both { z-index: 2; }
         .history-day-shift { box-shadow: inset 0 0 0 2px var(--accent-blue); }
         .history-day-record { box-shadow: inset 0 0 0 2px var(--accent-purple); }
         .history-day-both { box-shadow: inset 0 0 0 2px var(--accent-purple), inset 0 0 0 4px var(--accent-blue); }
         .history-day-selected { box-shadow: inset 0 0 0 2px var(--accent-red) !important; z-index: 10; font-weight: 800; }
-
-        /* カレンダー凡例 */
         .calendar-legend-box {
             background-color: #f5f5f7;
             border-radius: 8px;
@@ -260,8 +243,6 @@
             border-radius: 3px;
             display: inline-block;
         }
-
-        /* 提出タイミング凡例（カード形式） */
         .timing-legend-box {
             background-color: #ffffff;
             border: 1px solid #e0e0e0;
@@ -293,41 +274,36 @@
             border-radius: 3px;
             display: inline-block;
         }
-        .timing-box.early { background-color: var(--accent-green); }
-        .timing-box.mid { background-color: #facc15; }
-        .timing-box.late { background-color: var(--accent-red); }
-
-        /* 管理一覧用アイコン */
+        .timing-box.early { background-color: #82d997; } 
+        .timing-box.mid { background-color: #fde047; }   
+        .timing-box.late { background-color: #fc8181; }  
         .legend-color.shift { background-color: #e8f5e9; border: 1px solid #81c784; }
         .legend-color.record { background-color: #fff3e0; border: 1px solid #ffb74d; }
         .legend-color.today { background: transparent; border: 2px solid #d32f2f; box-sizing: border-box; }
-        
-        /* 提出済一覧用アイコン */
         .legend-color.history-shift { background: transparent; box-shadow: inset 0 0 0 2px var(--accent-blue); border: none; }
         .legend-color.history-record { background: transparent; box-shadow: inset 0 0 0 2px var(--accent-purple); border: none; }
         .legend-color.history-selected { background: transparent; box-shadow: inset 0 0 0 2px var(--accent-red); border: none; }
-
-        /* --- 2列メイングリッド --- */
         .main-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
         }
-        @media (max-width: 600px) {
+        @media (max-width: 700px) {
             .main-grid {
-                grid-template-columns: 1fr;
-                gap: 16px;
+                flex-direction: column;
+                align-items: center;
+            }
+            .column {
+                width: 100% !important;
+                max-width: 380px; 
             }
         }
-
-        /* 1列（セット）のレイアウト */
         .column {
             display: flex;
             flex-direction: column;
             gap: 8px;
+            width: 360px; 
         }
-
-        /* カウントダウン表示エリア（カード形式） */
         .countdown-card {
             border: 2px solid transparent;
             border-radius: 12px;
@@ -342,8 +318,6 @@
             position: relative;
             z-index: 10;
         }
-        
-        /* 通常時（未提出なし・次を待機） */
         .countdown-card.bg-normal { 
             background: #f8fcf9; 
             border-color: #7fc7a0; 
@@ -351,21 +325,16 @@
                 0 -4px 10px rgba(127, 199, 160, 0.1),
                 0 2px 6px rgba(0,0,0,0.04);
         }
-        
-        /* 未提出あり（期限内・注意） */
         .countdown-card.bg-pending { 
             background-color: #fffdf0; 
             border-color: #facc15; 
             box-shadow: 0 4px 10px rgba(250, 204, 21, 0.1);
         }
-
-        /* 未提出あり（期限超過・警告） */
         .countdown-card.bg-overdue { 
             background-color: #fff5f5; 
             border-color: var(--accent-red); 
             box-shadow: 0 4px 10px rgba(255, 59, 48, 0.1);
         }
-        
         .countdown-title {
             font-size: 0.75rem;
             font-weight: 800;
@@ -373,22 +342,18 @@
             margin-bottom: 2px;
             width: 100%;
         }
-
         .timer-prefix {
             font-size: 0.7rem;
             color: var(--text-sub);
             margin-bottom: 4px;
             font-weight: 600;
         }
-
-        /* 状態に応じたプレフィックスの強調 */
         .countdown-card.bg-pending .timer-prefix,
         .countdown-card.bg-overdue .timer-prefix {
             color: var(--accent-red);
             font-size: 0.85rem;
             font-weight: 800;
         }
-
         .countdown-content {
             display: flex;
             flex-direction: column;
@@ -396,14 +361,12 @@
             width: 100%;
             min-height: 1.8rem;
         }
-
         .timer-values {
             display: flex;
             align-items: baseline;
             justify-content: center;
             gap: 1px;
         }
-
         .countdown-val {
             font-weight: 800;
             font-variant-numeric: tabular-nums; 
@@ -411,22 +374,18 @@
         .countdown-val.large { font-size: 1.6rem; color: var(--text-main); }
         .countdown-val.medium { font-size: 1.1rem; color: var(--text-main); }
         .countdown-unit { font-size: 0.75rem; color: var(--text-sub); margin-right: 3px; }
-
         .sub-countdown-text {
             font-size: 0.75rem;
             color: var(--text-main);
             font-weight: 800;
             margin-top: 2px;
         }
-
         .overdue-alert-text {
             font-size: 0.95rem;
             color: var(--accent-red);
             font-weight: 900;
             margin-top: 2px;
         }
-
-        /* ボタンエリア */
         .button-group {
             padding: 10px; 
             background: rgba(255,255,255,0.5);
@@ -436,7 +395,7 @@
             flex-direction: column;
             justify-content: center;
             position: relative;
-            z-index: 100; /* クリックを確実にするため最前面に */
+            z-index: 100; 
         }
         .btn {
             display: block;
@@ -453,12 +412,10 @@
         }
         .btn:active:not(:disabled) { transform: scale(0.97); }
         .btn:disabled { cursor: default; opacity: 0.5; }
-        
         .btn-primary { background: var(--accent-blue); color: white; }
         .btn-success { background: var(--accent-green); color: white; }
         .btn-shift { background: #5856d6; color: white; }
         .btn-danger { background: var(--accent-red); color: white; }
-        
         .btn-outline {
             background: #e5e5ea;
             border: 1px solid #d1d1d6;
@@ -468,16 +425,32 @@
             border-radius: 10px;
         }
         .btn-outline:active { background: #d1d1d6; }
-
+        .btn-light-red {
+            background: #ffe4e6;
+            border: 1px solid #fecdd3;
+            color: #e11d48;
+        }
+        .btn-light-red:active { background: #fecdd3; }
         .btn-reset {
             background: #ffe4e6;
             border: 1px solid #fecdd3;
             color: #e11d48;
-            margin-top: 16px;
+            margin-top: 8px; /* 余白を調整 */
         }
         .btn-reset:active { background: #fecdd3; }
+        
+        /* 設定画面の案内文 */
+        .setting-note {
+            text-align: left;
+            font-size: 0.75rem; /* 12px相当 */
+            color: #666;
+            line-height: 1.6;
+            margin: 20px 0 0 0;
+        }
+        .setting-note span {
+            font-size: 0.7rem; /* 11px相当 */
+        }
 
-        /* ステータス表示 */
         .status-item {
             text-align: center;
             padding: 10px 12px; 
@@ -507,7 +480,6 @@
             line-height: 1.4;
         }
         .status-value { font-weight: bold; font-size: 1rem; }
-        
         .status-before { color: var(--text-sub); font-weight: 600; font-size: 0.9rem; }
         .status-pending { color: #ff6b6b; font-weight: 800; }
         .status-overdue { 
@@ -522,14 +494,11 @@
             margin-top: 4px;
         }
         .status-submitted { color: var(--accent-blue); }
-        
         .status-item.is-submitted {
             background-color: var(--submitted-bg);
             border: 1px solid #b3e5fc;
             box-shadow: 0 4px 10px rgba(0, 122, 255, 0.1);
         }
-        
-        /* 管理一覧 - 最新の提出済み表示 */
         .latest-column {
             display: flex;
             flex-direction: column;
@@ -553,32 +522,58 @@
         .latest-card-time { font-size: 0.75rem; color: var(--text-sub); margin-left: 28px; font-weight: normal; }
         .latest-card .icon { margin-right: 8px; font-size: 0.9rem; }
         
-        .hidden { display: none !important; }
+        .btn-cancel-submission {
+            background: transparent;
+            border: 1px solid rgba(0,0,0,0.15);
+            color: var(--text-sub);
+            font-size: 0.7rem;
+            padding: 4px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 600;
+        }
+        .btn-cancel-submission:hover {
+            background: rgba(0,0,0,0.05);
+            color: var(--text-main);
+            border-color: rgba(0,0,0,0.3);
+        }
 
-        /* 設定項目 */
+        .hidden { display: none !important; }
         .setting-item { margin-bottom: 20px; text-align: left; }
         .setting-item label { display: block; margin-bottom: 8px; font-size: 0.9rem; font-weight: 600; color: var(--text-main); }
         .setting-item input[type="time"] { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 1rem; background: #f9f9f9; box-sizing: border-box; }
         .section-title { font-size: 0.8rem; color: var(--text-sub); margin-bottom: 12px; font-weight: bold; text-align: left; }
-
-        /* 通知バー */
         .notification-bar { text-align: center; margin-top: 14px; margin-bottom: 14px; }
         .notice-box { padding: 8px 16px; border-radius: 10px; display: inline-block; font-size: 0.95rem; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
         .notif-none { background: #f5f5f7; color: #666; font-weight: 500; } 
         .notif-pending { background: #fffde7; color: #e65100; font-weight: 600; }
         .notif-overdue { background: #fff3f3; color: #c62828; font-weight: 800; }
-
-        /* 提出済一覧テーブル */
         .history-table-container { width: 100%; overflow-x: auto; background: var(--card-bg); border-radius: 12px; border: 1px solid #e0e0e0; box-shadow: 0 2px 8px rgba(0,0,0,0.02); overflow: hidden; padding-bottom: 4px; }
         .history-table-title-area { text-align: center; padding: 16px 12px; }
         .shift-header { background-color: #5856d6; }
         .record-header { background-color: var(--accent-green); }
         .history-title { font-size: 1.05rem; font-weight: bold; color: #ffffff; margin-bottom: 4px; }
         .history-period { font-size: 0.8rem; color: rgba(255, 255, 255, 0.9); font-weight: bold; }
-        .history-table { width: 100%; table-layout: fixed; border-collapse: separate; border-spacing: 0; white-space: normal; } /* 文字の折り返しを許可 */
-        .history-table th, .history-table td { padding: 10px 4px; font-size: 0.75rem; line-height: 1.3; color: var(--text-main); border-bottom: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; text-align: center; word-break: break-word; } /* 余白と文字サイズを調整 */
+        .history-table { width: 100%; table-layout: fixed; border-collapse: separate; border-spacing: 0; white-space: normal; } 
+        .history-table th, .history-table td { 
+            padding: 4px; 
+            font-size: 0.75rem; 
+            line-height: 1.3; 
+            color: var(--text-main); 
+            border-bottom: 1px solid #e0e0e0; 
+            border-right: 1px solid #e0e0e0; 
+            text-align: center; 
+            vertical-align: middle; 
+            word-break: keep-all; 
+        }
+        .history-table th:nth-child(1), .history-table td:nth-child(1) { width: 20%; }
+        .history-table th:nth-child(2), .history-table td:nth-child(2) { width: 25%; }
+        .history-table th:nth-child(3), .history-table td:nth-child(3) { width: 25%; }
+        .history-table th:nth-child(4), .history-table td:nth-child(4) { width: 30%; white-space: normal; word-break: keep-all; }
+        .history-table th { background: #f5f5f7; color: var(--text-main); font-weight: 600; height: 42px; }
+        .history-table td { height: 48px; }
         .history-table th:last-child, .history-table td:last-child { border-right: none; }
-        .history-table th { background: #f5f5f7; color: var(--text-main); font-weight: 600; }
         .history-table tr { cursor: pointer; transition: background-color 0.2s; }
         .history-table tr:hover td { background-color: #f9f9fa; }
         .history-table tr.row-selected td {
@@ -592,21 +587,15 @@
         .row-early { background-color: var(--bg-early); }
         .row-mid { background-color: var(--bg-mid); }
         .row-late, .row-overdue { background-color: var(--bg-late); }
-
-        /* モーダル */
-        .feedback-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.65); display: flex; justify-content: center; align-items: center; z-index: 2000; opacity: 0; visibility: hidden; transition: all 0.3s; }
+        .feedback-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.65); display: flex; justify-content: center; align-items: center; z-index: 2000; opacity: 0; visibility: hidden; }
         .feedback-overlay.show { opacity: 1; visibility: visible; }
-        .feedback-modal { background: white; width: 90%; max-width: 440px; border-radius: 20px; padding: 32px 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); transform: scale(0.9); transition: all 0.3s; position: relative; overflow: hidden; }
-        .feedback-overlay.show .feedback-modal { transform: scale(1); }
+        .feedback-modal { background: white; width: 90%; max-width: 440px; border-radius: 20px; padding: 32px 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); position: relative; overflow: hidden; }
         .feedback-emoji { font-size: 4rem; margin-bottom: 16px; display: block; text-align: center; } 
         .feedback-title { font-size: 1.2rem; font-weight: 800; color: var(--text-main); margin-bottom: 8px; text-align: center; }
         .feedback-subtitle { font-size: 1.1rem; font-weight: 800; color: var(--text-main); text-align: center; }
         .feedback-msg { font-size: 0.95rem; line-height: 1.7; color: var(--text-main); margin-bottom: 28px; white-space: pre-line; }
-        
         .confetti { position: absolute; width: 10px; height: 10px; top: -10px; animation: fall 3s linear infinite; }
         @keyframes fall { to { transform: translateY(400px) rotate(720deg); opacity: 0; } }
-        
-        /* 提出確定時のスタンプリアクション用 */
         .stamp-reaction {
             position: fixed;
             pointer-events: none;
@@ -616,8 +605,6 @@
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
             transform: translate(-50%, 0);
         }
-
-        /* モーダル内のスタンプリアクション用 */
         .modal-stamp-reaction {
             position: absolute;
             pointer-events: none;
@@ -627,42 +614,17 @@
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
             transform: translate(-50%, 0);
         }
-
         @keyframes floatUpStamp {
-            0% { 
-                transform: translate(-50%, 0) scale(0.5) rotate(calc(var(--rot) * 1deg)); 
-                opacity: 0; 
-            }
-            20% { 
-                transform: translate(-50%, -30px) scale(1.1) rotate(calc(var(--rot) * 1deg)); 
-                opacity: 1; 
-            }
-            70% {
-                opacity: 0.9;
-            }
-            100% { 
-                transform: translate(-50%, -120px) scale(1.3) rotate(calc(var(--rot) * 1deg)); 
-                opacity: 0; 
-            }
+            0% { transform: translate(-50%, 0) scale(0.5) rotate(calc(var(--rot) * 1deg)); opacity: 0; }
+            20% { transform: translate(-50%, -30px) scale(1.1) rotate(calc(var(--rot) * 1deg)); opacity: 1; }
+            70% { opacity: 0.9; }
+            100% { transform: translate(-50%, -120px) scale(1.3) rotate(calc(var(--rot) * 1deg)); opacity: 0; }
         }
-
         @keyframes modalStampAnim {
-            0% { 
-                transform: translate(-50%, 0) scale(0.5) rotate(calc(var(--rot) * 1deg)); 
-                opacity: 0; 
-            }
-            30% { 
-                transform: translate(-50%, -15px) scale(1.1) rotate(calc(var(--rot) * 1deg)); 
-                opacity: 1; 
-            }
-            70% {
-                opacity: 0.9;
-                transform: translate(-50%, -25px) scale(1.1) rotate(calc(var(--rot) * 1deg)); 
-            }
-            100% { 
-                transform: translate(-50%, -40px) scale(1.2) rotate(calc(var(--rot) * 1deg)); 
-                opacity: 0; 
-            }
+            0% { transform: translate(-50%, 0) scale(0.5) rotate(calc(var(--rot) * 1deg)); opacity: 0; }
+            30% { transform: translate(-50%, -15px) scale(1.1) rotate(calc(var(--rot) * 1deg)); opacity: 1; }
+            70% { opacity: 0.9; transform: translate(-50%, -25px) scale(1.1) rotate(calc(var(--rot) * 1deg)); }
+            100% { transform: translate(-50%, -40px) scale(1.2) rotate(calc(var(--rot) * 1deg)); opacity: 0; }
         }
     </style>
 </head>
@@ -676,7 +638,7 @@
     <header>
         <h1>提出管理アシスタント</h1>
         <p class="app-description">シフト表・勤務実績表の提出を管理</p>
-        <div class="sub-message">早めの行動で、自分にもみんなにも心の余裕が生まれます</div>
+        <div class="sub-message">余裕をもった行動が、自分にも周りにも良い流れを生みます✨</div>
         <div class="current-date-wrapper">
             <div class="current-date" id="current-date-display">📆 ----年 --月 --日（-）　⏰ --：--：--</div>
         </div>
@@ -731,8 +693,6 @@
 
     <div id="view-history" class="hidden">
         <div id="history-calendar-container" class="calendar-container"></div>
-        
-        <!-- 提出タイミング凡例 -->
         <div class="timing-legend-box">
             <div class="timing-legend">
                 <div class="timing-item"><div class="timing-box early"></div>初日提出・早めの提出</div>
@@ -740,7 +700,6 @@
                 <div class="timing-item"><div class="timing-box late"></div>遅めの提出・期限超過</div>
             </div>
         </div>
-
         <div class="main-grid">
             <div class="column">
                 <div class="history-table-container">
@@ -749,7 +708,7 @@
                         <div class="history-period">提出期日：毎月15～20日</div>
                     </div>
                     <table class="history-table">
-                        <thead><tr><th>提出日</th><th>提出時間</th><th>提出タイミング</th></tr></thead>
+                        <thead><tr><th>対象月</th><th>提出日</th><th>提出時間</th><th>提出タイミング</th></tr></thead>
                         <tbody id="history-table-shift-body"></tbody>
                     </table>
                 </div>
@@ -761,7 +720,7 @@
                         <div class="history-period">提出期日：毎月1～5日</div>
                     </div>
                     <table class="history-table">
-                        <thead><tr><th>提出日</th><th>提出時間</th><th>提出タイミング</th></tr></thead>
+                        <thead><tr><th>対象月</th><th>提出日</th><th>提出時間</th><th>提出タイミング</th></tr></thead>
                         <tbody id="history-table-record-body"></tbody>
                     </table>
                 </div>
@@ -776,6 +735,11 @@
             <div class="setting-item"><label>締切前日：午前通知時間</label><input type="time" id="setting-time-pre-am" value="09:00"></div>
             <div class="setting-item"><label>締切前日：午後通知時間</label><input type="time" id="setting-time-pre-pm" value="17:00"></div>
             <button class="btn btn-primary" onclick="saveSettings()">設定内容を保存する</button>
+            
+            <div class="setting-note">
+                ※ 初回およびリセット時は、「今日から始める」ボタンから開始してください<br>
+                <span>（設定内容が管理一覧に反映されます）</span>
+            </div>
             <button class="btn btn-reset" onclick="showConfirmModal()">今日から始める</button>
         </div>
     </div>
@@ -799,6 +763,33 @@
 <button id="feedback-close-btn" class="btn btn-outline" style="width:100%; border-color: var(--text-sub);" onclick="closeFeedback()">閉じる</button>
 </div></div>
 
+<!-- 提出取り消し確認モーダル -->
+<div id="cancel-overlay" class="feedback-overlay">
+    <div class="feedback-modal">
+        <div class="feedback-title">確認</div>
+        <div id="cancel-msg" class="feedback-msg" style="text-align:center;"></div>
+        <div style="display:flex; gap:12px;">
+            <button class="btn btn-outline" style="flex:1; background-color:#f0f2f5; border:none; color:var(--text-sub);" onclick="closeCancelModal()">いいえ</button>
+            <button class="btn btn-danger" style="flex:1; background-color:#e53935;" onclick="executeCancelSubmission()">取り消す</button>
+        </div>
+    </div>
+</div>
+
+<!-- Stock確認モーダル -->
+<div id="stock-check-overlay" class="feedback-overlay">
+    <div class="feedback-modal" style="padding: 32px 20px;">
+        <div class="feedback-header">
+            <span class="feedback-emoji">📩</span>
+            <div class="feedback-title" id="stock-check-title">案内確認</div>
+        </div>
+        <div id="stock-check-msg" class="feedback-msg" style="text-align:left; font-size: 0.85rem; line-height: 1.6; margin-bottom: 24px;"></div>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+            <button class="btn btn-primary" style="width:100%;" onclick="confirmStockModal()">確認済</button>
+            <button class="btn btn-outline" style="width:100%;" onclick="closeStockModal(true)">閉じる</button>
+        </div>
+    </div>
+</div>
+
 <script>
     let appState = {
         settings: { enabled: true, timeNormal: "09:00", timePreAm: "09:00", timePrePm: "17:00" },
@@ -812,14 +803,73 @@
     let mainCalendarDate = new Date(), historyCalendarDate = new Date(), lastRenderedToday = new Date().getDate();
     let selectedHistory = { date: null, type: null }, currentSetupStep = 0, setupAnswers = { shift: false, record: false };
 
-    window.onload = function() { loadData(); renderMainCalendar(); updateDisplay(); setInterval(updateDisplay, 1000); showView(appState.activeView || 'main'); checkWelcomeModal(); };
-    function loadData() { const saved = localStorage.getItem('edu_app_v27'); if (saved) { appState = JSON.parse(saved); document.getElementById('setting-time-normal').value = appState.settings.timeNormal; document.getElementById('setting-time-pre-am').value = appState.settings.timePreAm; document.getElementById('setting-time-pre-pm').value = appState.settings.timePrePm; } }
+    // セッション中のスキップ状態や初回設定直後かの判定用変数
+    let skippedStockTypes = [];
+    let isJustAfterSetup = false;
+
+    window.onload = function() { 
+        loadData(); 
+        renderMainCalendar(); 
+        updateDisplay(); 
+        setInterval(updateDisplay, 1000); 
+        showView(appState.activeView || 'main'); 
+        checkWelcomeModal(); 
+    };
+    
+    function loadData() { 
+        const saved = localStorage.getItem('edu_app_v27'); 
+        if (saved) { 
+            appState = JSON.parse(saved); 
+            document.getElementById('setting-time-normal').value = appState.settings.timeNormal; 
+            document.getElementById('setting-time-pre-am').value = appState.settings.timePreAm; 
+            document.getElementById('setting-time-pre-pm').value = appState.settings.timePrePm; 
+        } 
+    }
+    
     function saveData() { localStorage.setItem('edu_app_v27', JSON.stringify(appState)); }
-    function checkWelcomeModal() { if (!localStorage.getItem('edu_app_v27_welcomed')) document.getElementById('welcome-overlay').classList.add('show'); }
-    function closeWelcomeModal() { document.getElementById('welcome-overlay').classList.remove('show'); localStorage.setItem('edu_app_v27_welcomed', 'true'); }
-    function showView(v) { appState.activeView = v; document.getElementById('view-main').classList.toggle('hidden', v !== 'main'); document.getElementById('view-history').classList.toggle('hidden', v !== 'history'); document.getElementById('view-settings').classList.toggle('hidden', v !== 'settings'); document.getElementById('tab-main').classList.toggle('active', v === 'main'); document.getElementById('tab-history').classList.toggle('active', v === 'history'); document.getElementById('tab-settings').classList.toggle('active', v === 'settings'); if (v === 'main') { updateDisplay(); renderMainCalendar(); } if (v === 'history') { renderHistoryCalendar(); renderHistoryTable(); } saveData(); }
-    function saveSettings() { appState.settings.timeNormal = document.getElementById('setting-time-normal').value; appState.settings.timePreAm = document.getElementById('setting-time-pre-am').value; appState.settings.timePrePm = document.getElementById('setting-time-pre-pm').value; saveData(); showView('main'); }
-    function changeMonth(delta, view) { if (view === 'main') { mainCalendarDate.setMonth(mainCalendarDate.getMonth() + delta); renderMainCalendar(); } else { historyCalendarDate.setMonth(historyCalendarDate.getMonth() + delta); renderHistoryCalendar(); } }
+    
+    function checkWelcomeModal() { 
+        if (!localStorage.getItem('edu_app_v27_welcomed')) {
+            document.getElementById('welcome-overlay').classList.add('show'); 
+        } else {
+            setTimeout(checkModalDisplay, 500);
+        }
+    }
+    
+    function closeWelcomeModal() { 
+        document.getElementById('welcome-overlay').classList.remove('show'); 
+        localStorage.setItem('edu_app_v27_welcomed', 'true'); 
+        setTimeout(checkModalDisplay, 500);
+    }
+
+    function showView(v) { 
+        appState.activeView = v; 
+        document.getElementById('view-main').classList.toggle('hidden', v !== 'main'); 
+        document.getElementById('view-history').classList.toggle('hidden', v !== 'history'); 
+        document.getElementById('view-settings').classList.toggle('hidden', v !== 'settings'); 
+        document.getElementById('tab-main').classList.toggle('active', v === 'main'); 
+        document.getElementById('tab-history').classList.toggle('active', v === 'history'); 
+        document.getElementById('tab-settings').classList.toggle('active', v === 'settings'); 
+        if (v === 'main') { updateDisplay(); renderMainCalendar(); } 
+        if (v === 'history') { renderHistoryCalendar(); renderHistoryTable(); } 
+        saveData(); 
+    }
+    function saveSettings() { 
+        appState.settings.timeNormal = document.getElementById('setting-time-normal').value; 
+        appState.settings.timePreAm = document.getElementById('setting-time-pre-am').value; 
+        appState.settings.timePrePm = document.getElementById('setting-time-pre-pm').value; 
+        saveData(); 
+        showView('main'); 
+    }
+    function changeMonth(delta, view) { 
+        if (view === 'main') { 
+            mainCalendarDate.setMonth(mainCalendarDate.getMonth() + delta); 
+            renderMainCalendar(); 
+        } else { 
+            historyCalendarDate.setMonth(historyCalendarDate.getMonth() + delta); 
+            renderHistoryCalendar(); 
+        } 
+    }
 
     function renderMainCalendar() {
         const container = document.getElementById('main-calendar-container'); if (!container) return;
@@ -861,22 +911,18 @@
 
     function selectHistoryDate(d, t = 'all') { if (!d || d === '-') return; if (selectedHistory.date === d && selectedHistory.type === t) selectedHistory = { date: null, type: null }; else { selectedHistory = { date: d, type: t }; const p = d.split('/'); if (p.length === 3) { historyCalendarDate.setFullYear(parseInt(p[0])); historyCalendarDate.setMonth(parseInt(p[1]) - 1); } } renderHistoryCalendar(); renderHistoryTable(); }
 
-    function getTargetYearMonth(now, type) {
-        let curY = now.getFullYear();
-        let curM = now.getMonth() + 1;
-        let targetY = curY;
-        let targetM = type === 'shift' ? curM + 1 : curM - 1;
-        if (targetM > 12) { targetM = 1; targetY++; }
-        if (targetM < 1) { targetM = 12; targetY--; }
-        return { year: targetY, month: targetM };
-    }
-
     function getCountdownFormat(target) { const diff = target - new Date(); if (diff <= 0) return `<span class="countdown-val medium">0</span><span class="countdown-unit">秒</span>`; const d = Math.floor(diff / 86400000), h = Math.floor((diff / 3600000) % 24), m = Math.floor((diff / 60000) % 60), s = Math.floor((diff / 1000) % 60); return `<span class="countdown-val medium">${d}</span><span class="countdown-unit">日</span><span class="countdown-val medium">${h}</span><span class="countdown-unit">時間</span><span class="countdown-val medium">${m.toString().padStart(2,'0')}</span><span class="countdown-unit">分</span><span class="countdown-val medium">${s.toString().padStart(2,'0')}</span><span class="countdown-unit">秒</span>`; }
     function getCountdownFormatDaysOnly(target) { const diff = target - new Date(); if (diff <= 0) return `<span class="countdown-val large">0</span><span class="countdown-unit">日</span>`; return `<div style="margin-top:2px;"><span class="countdown-val large" style="color:var(--text-main);">${Math.ceil(diff / 86400000)}</span><span class="countdown-unit">日</span></div>`; }
 
     function getStatus(ty, tm, type, now) {
-        const s = type === 'shift' ? new Date(ty, tm-1, 15) : new Date(ty, tm-1, 1);
-        const dl = type === 'shift' ? new Date(ty, tm-1, 20, 23, 59, 59) : new Date(ty, tm-1, 5, 23, 59, 59);
+        let periodY = ty;
+        let periodM = type === 'shift' ? tm - 1 : tm + 1; 
+        if (periodM < 1) { periodM = 12; periodY--; }
+        if (periodM > 12) { periodM = 1; periodY++; }
+
+        const s = type === 'shift' ? new Date(periodY, periodM-1, 15) : new Date(periodY, periodM-1, 1);
+        const dl = type === 'shift' ? new Date(periodY, periodM-1, 20, 23, 59, 59) : new Date(periodY, periodM-1, 5, 23, 59, 59);
+
         if (now > dl) return { text: '未提出（期限超過）<br><span class="overdue-sub">速やかに確認し、対応してください</span>', class: 'status-value status-overdue', overdue: true };
         if (now >= s) return { text: '未提出', class: 'status-value status-pending', pending: true };
         return { text: '提出受付前', class: 'status-value status-before' };
@@ -887,20 +933,26 @@
         document.getElementById('current-date-display').innerText = `📆 ${y}年 ${m+1}月 ${d}日（${dj[now.getDay()]}）　⏰ ${now.getHours().toString().padStart(2,'0')}：${now.getMinutes().toString().padStart(2,'0')}：${now.getSeconds().toString().padStart(2,'0')}`;
         if (appState.activeView !== 'main') return;
         if (d !== lastRenderedToday) { lastRenderedToday = d; renderMainCalendar(); }
-        if (!appState.submissions.shift.targetMonth) { appState.submissions.shift.targetYear = y; appState.submissions.shift.targetMonth = m + 1; }
-        if (!appState.submissions.record.targetMonth) { appState.submissions.record.targetYear = y; appState.submissions.record.targetMonth = m + 1; }
+        
+        if (!appState.submissions.shift.targetMonth) { 
+            let tm = m + 2; let ty = y; 
+            if (tm > 12) { tm -= 12; ty++; }
+            appState.submissions.shift.targetYear = ty; 
+            appState.submissions.shift.targetMonth = tm; 
+        }
+        if (!appState.submissions.record.targetMonth) { 
+            let tm = m; let ty = y; 
+            if (tm < 1) { tm += 12; ty--; }
+            appState.submissions.record.targetYear = ty; 
+            appState.submissions.record.targetMonth = tm; 
+        }
 
         let ho = false, hp = false;
 
         ['shift', 'record'].forEach(type => {
             const sub = appState.submissions[type], box = document.getElementById(`countdown-${type}-box`), prefix = document.getElementById(`countdown-${type}-prefix`), valArea = document.getElementById(`countdown-${type}-value-area`), statusEl = document.getElementById(`status-${type}`), itemBox = document.getElementById(`item-box-${type}`), btnSub = document.getElementById(`btn-${type}-submit`), areaUnconf = document.getElementById(`btn-${type}-area-unconfirmed`);
             
-            // 対象月の表示文言だけを現在月基準で強制的に修正
-            let displayM = m + 1;
-            let targetDisplayM = type === 'shift' ? displayM + 1 : displayM - 1;
-            if (targetDisplayM > 12) targetDisplayM = 1;
-            if (targetDisplayM < 1) targetDisplayM = 12;
-            document.getElementById(`target-month-${type}`).innerText = `${targetDisplayM}月分${type==='shift'?'シフト表':'勤務実績表'}`;
+            document.getElementById(`target-month-${type}`).innerText = `${sub.targetMonth}月分${type==='shift'?'シフト表':'勤務実績表'}`;
             
             const si = getStatus(sub.targetYear, sub.targetMonth, type, now);
             const isTemp = sub.latestSubmission && !sub.latestSubmission.isConfirmed;
@@ -918,6 +970,11 @@
                 areaUnconf.classList.add('hidden');
                 btnSub.classList.remove('hidden');
                 
+                let periodY = sub.targetYear;
+                let periodM = type === 'shift' ? sub.targetMonth - 1 : sub.targetMonth + 1; 
+                if (periodM < 1) { periodM = 12; periodY--; }
+                if (periodM > 12) { periodM = 1; periodY++; }
+
                 if (si.overdue) {
                     box.className = "countdown-card bg-overdue";
                     prefix.innerText = "未提出（期限超過）";
@@ -925,13 +982,13 @@
                     ho = true;
                 } else if (si.pending) {
                     box.className = "countdown-card bg-pending";
-                    const target = type === 'shift' ? new Date(sub.targetYear, sub.targetMonth-1, 20, 23, 59, 59) : new Date(sub.targetYear, sub.targetMonth-1, 5, 23, 59, 59);
+                    const target = type === 'shift' ? new Date(periodY, periodM-1, 20, 23, 59, 59) : new Date(periodY, periodM-1, 5, 23, 59, 59);
                     prefix.innerText = "提出締切まであと";
                     valArea.innerHTML = `<div class="timer-values">${getCountdownFormat(target)}</div><div class="sub-countdown-text" style="color: var(--text-main);">（次回提出まであと ${getCountdownFormat(target)}）</div>`;
                     hp = true;
                 } else {
                     box.className = "countdown-card bg-normal";
-                    const target = type === 'shift' ? new Date(sub.targetYear, sub.targetMonth-1, 15) : new Date(sub.targetYear, sub.targetMonth-1, 1);
+                    const target = type === 'shift' ? new Date(periodY, periodM-1, 15) : new Date(periodY, periodM-1, 1);
                     prefix.innerText = "次の提出開始日まであと";
                     valArea.innerHTML = `<div class="timer-values">${getCountdownFormatDaysOnly(target)}</div>`;
                 }
@@ -948,7 +1005,13 @@
             const col = document.getElementById(`latest-${type}-col`), ls = appState.submissions[type].latestSubmission;
             col.innerHTML = ''; if (!ls) { col.style.display = 'none'; return; } col.style.display = 'flex';
             const card = document.createElement('div'); card.className = `latest-card latest-card-${type}`;
-            card.innerHTML = `<div class="latest-card-header"><div class="latest-label-group"><span class="icon">✅</span><span>${ls.label} ${ls.isConfirmed ? '提出済み（確定）' : '提出済み'}</span></div></div><div class="latest-card-time">${ls.timeLabel}</div>`;
+            
+            let cancelBtn = '';
+            if (ls.isConfirmed) {
+                cancelBtn = `<button class="btn-cancel-submission" onclick="confirmCancelSubmission('${type}')">取り消す</button>`;
+            }
+            
+            card.innerHTML = `<div class="latest-card-header"><div class="latest-label-group"><span class="icon">✅</span><span>${ls.label} ${ls.isConfirmed ? '提出済み（確定）' : '提出済み'}</span></div>${cancelBtn}</div><div class="latest-card-time">${ls.timeLabel}</div>`;
             col.appendChild(card);
         });
     }
@@ -957,18 +1020,24 @@
         ['shift', 'record'].forEach(type => {
             const body = document.getElementById(`history-table-${type}-body`); body.innerHTML = '';
             const history = [...(appState.submissions[type].history || [])].sort((a, b) => b.id - a.id);
-            if (history.length === 0) body.innerHTML = `<tr><td colspan="3" style="color:var(--text-sub);">履歴がありません</td></tr>`;
+            if (history.length === 0) body.innerHTML = `<tr><td colspan="4" style="color:var(--text-sub);">履歴がありません</td></tr>`;
             else history.forEach(h => {
                 const tr = document.createElement('tr'); tr.className = h.timingClass || '';
                 if (h.submitDate === selectedHistory.date && (selectedHistory.type === type || selectedHistory.type === 'all')) tr.classList.add('row-selected');
                 
-                // 「（期限超過）」が含まれている場合は改行して文字を少し小さくする
                 let displayTiming = h.timingLabel;
                 if (displayTiming.includes('（期限超過）') && !displayTiming.includes('<br>')) {
                     displayTiming = displayTiming.replace('（期限超過）', '<br><span style="font-size: 0.7rem;">（期限超過）</span>');
                 }
                 
-                tr.innerHTML = `<td>${h.submitDate}</td><td>${h.submitTime}</td><td>${displayTiming}</td>`;
+                let displayMStr = h.targetDisplayMonth;
+                if (!displayMStr) {
+                    const mMatch = h.label && h.label.match(/^(\d+)月分/);
+                    displayMStr = mMatch ? mMatch[1] : h.month;
+                }
+                
+                const targetMonthStr = `${displayMStr}月分`;
+                tr.innerHTML = `<td><span style="font-weight: bold; color: var(--text-main);">${targetMonthStr}</span></td><td>${h.submitDate}</td><td>${h.submitTime}</td><td>${displayTiming}</td>`;
                 tr.onclick = () => selectHistoryDate(h.submitDate, type); body.appendChild(tr);
             });
         });
@@ -983,8 +1052,14 @@
 
     function markSubmitted(type) { 
         const now = new Date(), sub = appState.submissions[type];
-        const sd = type === 'shift' ? new Date(sub.targetYear, sub.targetMonth-1, 15) : new Date(sub.targetYear, sub.targetMonth-1, 1);
-        const dl = type === 'shift' ? new Date(sub.targetYear, sub.targetMonth-1, 20, 23, 59, 59) : new Date(sub.targetYear, sub.targetMonth-1, 5, 23, 59, 59);
+        
+        let periodY = sub.targetYear;
+        let periodM = type === 'shift' ? sub.targetMonth - 1 : sub.targetMonth + 1; 
+        if (periodM < 1) { periodM = 12; periodY--; }
+        if (periodM > 12) { periodM = 1; periodY++; }
+        
+        const sd = type === 'shift' ? new Date(periodY, periodM-1, 15) : new Date(periodY, periodM-1, 1);
+        const dl = type === 'shift' ? new Date(periodY, periodM-1, 20, 23, 59, 59) : new Date(periodY, periodM-1, 5, 23, 59, 59);
         
         if (now < sd) { showCustomAlert(`提出期間前です。${type==='shift'?'15日':'1日'}から提出できます。`); return; }
         
@@ -1002,13 +1077,8 @@
             cls = 'row-mid';
         }
 
-        let displayM = now.getMonth() + 1;
-        let targetDisplayM = type === 'shift' ? displayM + 1 : displayM - 1;
-        if (targetDisplayM > 12) targetDisplayM = 1;
-        if (targetDisplayM < 1) targetDisplayM = 12;
-
         sub.latestSubmission = { 
-            year: sub.targetYear, month: sub.targetMonth, label: `${targetDisplayM}月分${type==='shift'?'シフト表':'勤務実績表'}`, 
+            year: sub.targetYear, month: sub.targetMonth, targetDisplayMonth: sub.targetMonth, label: `${sub.targetMonth}月分${type==='shift'?'シフト表':'勤務実績表'}`, 
             timeLabel: `提出日時：${now.getMonth()+1}月${now.getDate()}日 ${now.getHours().toString().padStart(2,'0')}時${now.getMinutes().toString().padStart(2,'0')}分`, 
             submitDate: `${now.getFullYear()}/${(now.getMonth()+1).toString().padStart(2,'0')}/${now.getDate().toString().padStart(2,'0')}`, 
             submitTime: `${now.getHours().toString().padStart(2,'0')}時${now.getMinutes().toString().padStart(2,'0')}分`, 
@@ -1016,13 +1086,11 @@
         };
         saveData(); updateDisplay(); 
         
-        // 提出するボタンを押した直後に提出完了モーダルを表示
         showSubmissionFeedback(type, cls);
     }
     function undoSubmission(type) { appState.submissions[type].latestSubmission = null; saveData(); updateDisplay(); }
     
     function createModalStampsReaction(tc) {
- 
         setTimeout(() => {
             const modal = document.querySelector('#feedback-overlay .feedback-modal'); 
             const emojiEl = document.getElementById('feedback-emoji'); 
@@ -1032,11 +1100,8 @@
             const modalRect = modal.getBoundingClientRect();
             const emojiRect = emojiEl.getBoundingClientRect();
 
-            // モーダル内の相対位置に変換
-            // Y座標: 絵文字(チェックマークなど)の下あたり
             const baseY = emojiRect.bottom - modalRect.top + 10;
             
-            // X座標: モーダルの左右の空白（端から55pxの位置にして少し中央寄りに）
             const leftBaseX = 55;
             const rightBaseX = modalRect.width - 55;
 
@@ -1046,7 +1111,6 @@
             else if (tc === 'row-late') baseEmojis = ['🌱', '🌱'];
             else if (tc === 'row-overdue') baseEmojis = ['💪', '💪'];
 
-            // 固定に近い配置用のオフセット (x: 基準からのズレ, y: baseYからのズレ)
             const leftPositions = [
                 { x: 0, y: 0 },
                 { x: 15, y: 35 },
@@ -1058,12 +1122,9 @@
                 { x: 5, y: 40 }
             ];
 
-            // 3回繰り返す
             for (let loop = 0; loop < 3; loop++) {
-                // 各ループの開始時間をずらす (例: 0秒, 1.6秒, 3.2秒後)
                 setTimeout(() => {
                     let emojis = [...baseEmojis];
-                    // 順番を少しバラバラにする
                     emojis.sort(() => Math.random() - 0.5);
 
                     let leftCount = 0;
@@ -1075,7 +1136,6 @@
                             el.className = 'modal-stamp-reaction';
                             el.innerText = emoji;
 
-                            // 左右交互に配置
                             const isLeft = i % 2 === 0;
                             let pos;
                             let baseX;
@@ -1090,34 +1150,29 @@
                                 rightCount++;
                             }
 
-                            // ほんの少しだけランダム性を入れる（固定に近い）
                             const randomOffsetX = (Math.random() - 0.5) * 10;
                             const randomOffsetY = (Math.random() - 0.5) * 10;
 
                             el.style.left = (baseX + pos.x + randomOffsetX) + 'px';
                             el.style.top = (baseY + pos.y + randomOffsetY) + 'px';
                             
-                            // 回転とサイズ
-                            const rot = (Math.random() - 0.5) * 30; // -15度〜+15度
-                            const size = 26 + Math.random() * 4; // 26px ~ 30px
+                            const rot = (Math.random() - 0.5) * 30; 
+                            const size = 26 + Math.random() * 4; 
                             el.style.fontSize = `${size}px`;
                             el.style.setProperty('--rot', rot);
                             
-                            // モーダル要素内に追加
                             modal.appendChild(el); 
 
-                            // アニメーションが終わる頃に削除
                             setTimeout(() => el.remove(), 1200);
 
-                        }, i * 180); // 少し長めにずらしてふわっと順番に表示
+                        }, i * 180); 
                     });
-                }, loop * 1600); // 1.6秒間隔で3回ループさせる
+                }, loop * 1600); 
             }
         }, 300);
     }
 
     function createThumbsUpReaction(type) {
-        // 確定後に表示されるカードを基準にする
         const targetEl = document.getElementById(`latest-${type}-col`);
         if (!targetEl) return;
         
@@ -1127,18 +1182,16 @@
         stamp.className = 'stamp-reaction';
         stamp.innerText = '👍';
         
-        // 少しだけランダムな揺らぎを入れる
         const offsetX = (Math.random() - 0.5) * 20; 
         const rot = (Math.random() - 0.5) * 30; 
         
         stamp.style.left = `${rect.left + rect.width / 2 + offsetX}px`;
         stamp.style.top = `${rect.top - 20}px`;
-        stamp.style.fontSize = `48px`; // はっきり見えるサイズ
+        stamp.style.fontSize = `48px`; 
         stamp.style.setProperty('--rot', rot);
         
         document.body.appendChild(stamp);
         
-        // 1.5秒後に削除
         setTimeout(() => stamp.remove(), 1500);
     }
 
@@ -1152,45 +1205,140 @@
             saveData(); updateDisplay();
             if (appState.activeView === 'history') { renderHistoryCalendar(); renderHistoryTable(); }
 
-            // 提出確定時に👍リアクションを表示
             createThumbsUpReaction(type);
         }
     }
 
-    function executeReset() { appState.submissions = { shift: { targetYear: null, targetMonth: null, latestSubmission: null, history: [] }, record: { targetYear: null, targetMonth: null, latestSubmission: null, history: [] } }; saveData(); closeConfirmModal(); showView('main'); setTimeout(startSetup, 300); }
+    let currentCancelType = null;
+
+    function confirmCancelSubmission(type) {
+        currentCancelType = type;
+        const sub = appState.submissions[type];
+        if (!sub || !sub.latestSubmission) return;
+        
+        let displayMStr = sub.latestSubmission.targetDisplayMonth;
+        if (!displayMStr) {
+            const mMatch = sub.latestSubmission.label && sub.latestSubmission.label.match(/^(\d+)月分/);
+            displayMStr = mMatch ? mMatch[1] : sub.latestSubmission.month;
+        }
+        
+        const msg = `この操作により、${displayMStr}月分は未提出の状態に戻ります。<br>本当に取り消してよろしいですか？`;
+        document.getElementById('cancel-msg').innerHTML = msg;
+        document.getElementById('cancel-overlay').classList.add('show');
+    }
+
+    function closeCancelModal() {
+        document.getElementById('cancel-overlay').classList.remove('show');
+        currentCancelType = null;
+    }
+
+    function executeCancelSubmission() {
+        if (!currentCancelType) return;
+        const type = currentCancelType;
+        const sub = appState.submissions[type];
+        
+        if (sub.latestSubmission && sub.latestSubmission.isConfirmed) {
+            sub.targetMonth--;
+            if (sub.targetMonth < 1) {
+                sub.targetMonth = 12;
+                sub.targetYear--;
+            }
+            
+            const lsId = sub.latestSubmission.id;
+            sub.history = sub.history.filter(h => h.id !== lsId);
+            
+            if (sub.history.length > 0) {
+                sub.latestSubmission = { ...sub.history[sub.history.length - 1] };
+            } else {
+                sub.latestSubmission = null;
+            }
+            
+            const now = new Date();
+            const y = now.getFullYear();
+            const m = now.getMonth() + 1;
+            const keyPrefix = type === 'shift' ? 'shift' : 'work';
+            const key = `${keyPrefix}StockNoticeConfirmed_${y}_${m.toString().padStart(2, '0')}`;
+            localStorage.removeItem(key);
+            
+            if (appState.stockCheck && appState.stockCheck[type]) {
+                appState.stockCheck[type].checked = false;
+            }
+
+            saveData();
+            updateDisplay();
+            
+            if (appState.activeView === 'history') {
+                renderHistoryCalendar();
+                renderHistoryTable();
+            }
+            
+            closeCancelModal();
+            setTimeout(checkModalDisplay, 500);
+        }
+    }
+
+    function executeReset() { 
+        appState.submissions = { shift: { targetYear: null, targetMonth: null, latestSubmission: null, history: [] }, record: { targetYear: null, targetMonth: null, latestSubmission: null, history: [] } }; 
+        saveData(); 
+        closeConfirmModal(); 
+        showView('main'); 
+        setTimeout(startSetup, 300); 
+    }
     function startSetup() { currentSetupStep = 1; setupAnswers = { shift: false, record: false }; showSetupStep(); }
     function showSetupStep() {
         const overlay = document.getElementById('setup-overlay'), msg = document.getElementById('setup-msg'), area = document.getElementById('setup-btn-area');
         const now = new Date();
+        const curY = now.getFullYear();
         const curM = now.getMonth() + 1;
+        
         if (currentSetupStep === 1) { 
             let targetDisplayM = curM + 1;
             if (targetDisplayM > 12) targetDisplayM = 1;
             msg.innerHTML = `${targetDisplayM}月分のシフト表は提出済みですか？`; 
-            area.innerHTML = `<button class="btn btn-outline" style="flex:1;" onclick="cancelSetup()">戻る</button><button class="btn btn-outline" style="flex:1;" onclick="handleSetupAnswer(false)">いいえ</button><button class="btn btn-primary" style="flex:1;" onclick="handleSetupAnswer(true)">はい</button>`; 
+            area.innerHTML = `<button class="btn btn-outline" style="flex:1;" onclick="cancelSetup()">戻る</button><button class="btn btn-light-red" style="flex:1;" onclick="handleSetupAnswer(false)">いいえ</button><button class="btn btn-primary" style="flex:1;" onclick="handleSetupAnswer(true)">はい</button>`; 
             overlay.classList.add('show'); 
         }
         else if (currentSetupStep === 2) { 
             let targetDisplayM = curM - 1;
             if (targetDisplayM < 1) targetDisplayM = 12;
             msg.innerHTML = `${targetDisplayM}月分の勤務実績表は提出済みですか？`; 
-            area.innerHTML = `<button class="btn btn-outline" style="flex:1;" onclick="goBackSetup()">戻る</button><button class="btn btn-outline" style="flex:1;" onclick="handleSetupAnswer(false)">いいえ</button><button class="btn btn-primary" style="flex:1;" onclick="handleSetupAnswer(true)">はい</button>`; 
+            area.innerHTML = `<button class="btn btn-outline" style="flex:1;" onclick="goBackSetup()">戻る</button><button class="btn btn-light-red" style="flex:1;" onclick="handleSetupAnswer(false)">いいえ</button><button class="btn btn-primary" style="flex:1;" onclick="handleSetupAnswer(true)">はい</button>`; 
             overlay.classList.add('show'); 
         }
         else overlay.classList.remove('show');
     }
     function handleSetupAnswer(is) { if (currentSetupStep === 1) { setupAnswers.shift = is; currentSetupStep = 2; showSetupStep(); } else { setupAnswers.record = is; finishSetup(); } }
-    function finishSetup() { currentSetupStep = 0; document.getElementById('setup-overlay').classList.remove('show'); if (setupAnswers.shift) setInitial('shift'); if (setupAnswers.record) setInitial('record'); updateDisplay(); }
-    function setInitial(type) {
-        const now = new Date(), sub = appState.submissions[type]; sub.targetYear = now.getFullYear(); sub.targetMonth = now.getMonth() + 1;
+    function finishSetup() { 
+        currentSetupStep = 0; 
+        document.getElementById('setup-overlay').classList.remove('show'); 
+        if (setupAnswers.shift) setInitial('shift'); 
+        if (setupAnswers.record) setInitial('record'); 
         
-        let displayM = now.getMonth() + 1;
-        let targetDisplayM = type === 'shift' ? displayM + 1 : displayM - 1;
-        if (targetDisplayM > 12) targetDisplayM = 1;
-        if (targetDisplayM < 1) targetDisplayM = 12;
+        localStorage.setItem("setupCompleted", "true");
+        
+        updateDisplay(); 
+        
+        isJustAfterSetup = true;
+        setTimeout(checkModalDisplay, 500);
+    }
+    function setInitial(type) {
+        const now = new Date(), sub = appState.submissions[type]; 
+        
+        let curY = now.getFullYear();
+        let curM = now.getMonth() + 1;
+        let targetDisplayM = type === 'shift' ? curM + 1 : curM - 1;
+        let targetDisplayY = curY;
+        if (targetDisplayM > 12) { targetDisplayM -= 12; targetDisplayY++; }
+        if (targetDisplayM < 1) { targetDisplayM += 12; targetDisplayY--; }
 
-        sub.latestSubmission = { year: sub.targetYear, month: sub.targetMonth, label: `${targetDisplayM}月分${type==='shift'?'シフト表':'勤務実績表'}`, timeLabel: `提出日時：${displayM}月${now.getDate()}日 (初期設定)`, submitDate: `${now.getFullYear()}/${(now.getMonth()+1).toString().padStart(2,'0')}/${now.getDate().toString().padStart(2,'0')}`, submitTime: "初期設定", timingLabel: "初期設定", timingClass: "row-mid", isConfirmed: true, id: Date.now() };
-        sub.history.push({ ...sub.latestSubmission }); sub.targetMonth++; if (sub.targetMonth > 12) { sub.targetMonth = 1; sub.targetYear++; } saveData();
+        sub.targetYear = targetDisplayY; 
+        sub.targetMonth = targetDisplayM;
+
+        sub.latestSubmission = { year: sub.targetYear, month: sub.targetMonth, targetDisplayMonth: sub.targetMonth, label: `${sub.targetMonth}月分${type==='shift'?'シフト表':'勤務実績表'}`, timeLabel: `提出日時：${curM}月${now.getDate()}日 (初期設定)`, submitDate: `${now.getFullYear()}/${(now.getMonth()+1).toString().padStart(2,'0')}/${now.getDate().toString().padStart(2,'0')}`, submitTime: "初期設定", timingLabel: "初期設定", timingClass: "row-mid", isConfirmed: true, id: Date.now() };
+        sub.history.push({ ...sub.latestSubmission }); 
+        
+        sub.targetMonth++; if (sub.targetMonth > 12) { sub.targetMonth = 1; sub.targetYear++; } 
+        saveData();
     }
     function showConfirmModal() { document.getElementById('confirm-overlay').classList.add('show'); }
     function closeConfirmModal() { document.getElementById('confirm-overlay').classList.remove('show'); }
@@ -1210,24 +1358,115 @@
 
         if (tc === 'row-early') {
             e.innerText = '🎉';
-            m.innerText = 'とても良いタイミングでの提出です。\n早めの行動で、自分にも担当者にも余裕が生まれています。\n\nこの調子で続けていきましょう。\nその積み重ねが大きな力になります。';
+            m.innerText = 'とても良いタイミングでの提出です。\n早めの行動で、自分にも担当者にも余裕が生まれています。\n\nこの調子で続けていきましょう。\nその積み重ねが大きな力になります✨';
         } else if (tc === 'row-mid') {
             e.innerText = '👏';
-            m.innerText = '問題ないタイミングで提出されています。\nただ、もう少し早めに対応するとより安心です。\n\n次回は少しだけ早めを意識してみましょう。';
+            m.innerText = '問題ないタイミングで提出されています。\nただ、もう少し早めに対応するとより安心です。\n\n次回は少しだけ早めを意識してみましょう👌';
         } else if (tc === 'row-late') {
             e.innerText = '✅';
-            m.innerText = '無事に提出されていますが、やや遅めの対応となっています。\n\n早めの提出で、自分にも担当者にも余裕が生まれます。\n次回はもう少し早めの提出を意識してみましょう。\n\n無理のない範囲で、今回より少し早めの提出を目標にしてみてください。';
+            m.innerText = '無事に提出されていますが、やや遅めの対応となっています。\n\n早めの提出で、自分にも担当者にも余裕が生まれます。\n次回はもう少し早めの提出を意識してみましょう。\n\n無理のない範囲で、今回より少し早めの提出を目標にしてみてください💪';
         } else if (tc === 'row-overdue') {
             e.innerText = '✅';
-            m.innerText = '提出は完了していますが、期限を過ぎての対応となっています。\n\n早めの提出で、自分にも担当者にも余裕が生まれます。\n次回は無理のない範囲で、期限前の提出を意識してみましょう。\n\nもし難しい場合は、締め切りの1日前までに担当者へご連絡ください。\nそうすることで、担当者も安心して対応することができます。';
+            m.innerText = '提出は完了していますが、期限を過ぎての対応となっています。\n\n早めの提出で、自分にも担当者にも余裕が生まれます。\n次回は無理のない範囲で、期限前の提出を意識してみましょう。\n\nもし難しい場合は、締め切りの1日前までに担当者へご連絡ください。\nそうすることで、担当者も安心して対応することができます😊';
         }
         
         o.classList.add('show');
         
-        // モーダル表示時にスタンプアニメーションを実行
         createModalStampsReaction(tc);
     }
     function closeFeedback() { document.getElementById('feedback-overlay').classList.remove('show'); }
+
+    // --- Stock確認モーダル機能 ---
+    let currentStockType = null;
+    let currentStockYear = null;
+    let currentStockMonth = null;
+
+    function checkModalDisplay() {
+        const isSetup = localStorage.getItem("setupCompleted");
+        if (isSetup !== "true") return; 
+        if (currentSetupStep !== 0) return;
+
+        const now = new Date();
+        const y = now.getFullYear();
+        const m = now.getMonth() + 1;
+        const d = now.getDate();
+
+        let showRecord = false;
+        let showShift = false;
+
+        const isRecordChecked = localStorage.getItem(`workStockNoticeConfirmed_${y}_${m.toString().padStart(2, '0')}`) === "true";
+        const isShiftChecked = localStorage.getItem(`shiftStockNoticeConfirmed_${y}_${m.toString().padStart(2, '0')}`) === "true";
+
+        if (isJustAfterSetup) {
+            if (setupAnswers.record === false && !isRecordChecked && !skippedStockTypes.includes('record')) showRecord = true;
+            if (setupAnswers.shift === false && !isShiftChecked && !skippedStockTypes.includes('shift')) showShift = true;
+        } else {
+            const recordStatus = getStatus(appState.submissions.record.targetYear, appState.submissions.record.targetMonth, 'record', now);
+            const isRecordPending = recordStatus.pending || recordStatus.overdue;
+
+            if (d >= 1 && d <= 5 && isRecordPending && !isRecordChecked && !skippedStockTypes.includes('record')) {
+                showRecord = true;
+            }
+
+            const shiftStatus = getStatus(appState.submissions.shift.targetYear, appState.submissions.shift.targetMonth, 'shift', now);
+            const isShiftPending = shiftStatus.pending || shiftStatus.overdue;
+
+            if (d >= 15 && d <= 20 && isShiftPending && !isShiftChecked && !skippedStockTypes.includes('shift')) {
+                showShift = true;
+            }
+        }
+
+        let typeToShow = null;
+        if (showRecord) typeToShow = 'record';
+        else if (showShift) typeToShow = 'shift';
+
+        if (!typeToShow && isJustAfterSetup) {
+            isJustAfterSetup = false;
+        }
+
+        if (typeToShow) {
+            showStockModal(typeToShow, y, m);
+        }
+    }
+
+    function showStockModal(type, year, month) {
+        currentStockType = type;
+        currentStockYear = year;
+        currentStockMonth = month;
+        
+        const overlay = document.getElementById('stock-check-overlay');
+        const titleEl = document.getElementById('stock-check-title');
+        const msgEl = document.getElementById('stock-check-msg');
+
+        if (type === 'shift') {
+            titleEl.innerText = "シフト表の案内確認";
+            msgEl.innerHTML = 'Stockメッセージの全体配信チャットにて【DX事務局】から、\n<span style="color:#5b5bd6; font-weight:bold;">シフト表提出</span>についての案内が来ているか確認しましょう。\n\n案内確認後は、「了解しました」または👍で\n確認したことを伝える習慣づけを心がけましょう。\n\nまた、理由があり提出が遅れる場合は、全体配信チャットではなく【DX事務局】への個人チャットにて、理由を添えて早めに連絡し、遅くとも前日までには連絡するよう心がけましょう。\n\n<div style="text-align:center; font-weight:bold; margin-top:8px;">日頃から余裕をもった対応を心がけましょう✨</div>';
+        } else {
+            titleEl.innerText = "勤務実績表の案内確認";
+            msgEl.innerHTML = 'Stockメッセージの全体配信チャットにて【DX事務局】から、\n<span style="color:#2eb85c; font-weight:bold;">勤務実績表提出</span>についての案内が来ているか確認しましょう。\n\n案内確認後は、「了解しました」または👍で\n確認したことを伝える習慣づけを心がけましょう。\n\nまた、理由があり提出が遅れる場合は、全体配信チャットではなく【DX事務局】への個人チャットにて、理由を添えて早めに連絡し、遅くとも前日までには連絡するよう心がけましょう。\n\n<div style="text-align:center; font-weight:bold; margin-top:8px;">日頃から余裕をもった対応を心がけましょう✨</div>';
+        }
+
+        overlay.classList.add('show');
+    }
+
+    function closeStockModal(isSkip) {
+        if (isSkip && currentStockType) {
+            skippedStockTypes.push(currentStockType);
+        }
+        document.getElementById('stock-check-overlay').classList.remove('show');
+        currentStockType = null;
+        
+        setTimeout(checkModalDisplay, 500);
+    }
+
+    function confirmStockModal() {
+        if (currentStockType) {
+            const keyPrefix = currentStockType === 'shift' ? 'shift' : 'work';
+            const key = `${keyPrefix}StockNoticeConfirmed_${currentStockYear}_${currentStockMonth.toString().padStart(2, '0')}`;
+            localStorage.setItem(key, "true");
+        }
+        closeStockModal(false);
+    }
 </script>
 </body>
 </html>
