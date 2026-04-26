@@ -834,11 +834,16 @@
     
     function saveData() { localStorage.setItem('edu_app_v27', JSON.stringify(appState)); }
     
-    function checkWelcomeModal() { 
-        if (localStorage.getItem("setupCompleted") !== "true") {
-            document.getElementById('welcome-overlay').classList.add('show'); 
-        } else {
-            setTimeout(checkModalDisplay, 500);
+   function checkWelcomeModal() {
+    const saved = localStorage.getItem('edu_app_v27');
+    const isSetupCompleted = saved && JSON.parse(saved).setupCompleted === true;
+
+    if (!isSetupCompleted) {
+        document.getElementById('welcome-overlay').classList.add('show');
+    } else {
+        setTimeout(checkModalDisplay, 500);
+    }
+}
         }
     }
     
