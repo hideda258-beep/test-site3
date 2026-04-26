@@ -808,6 +808,12 @@
     let isJustAfterSetup = false;
 
     window.onload = function() { 
+        const params = new URLSearchParams(window.location.search);
+        if (params.get("reset") === "1") {
+            localStorage.clear();
+            history.replaceState(null, "", location.pathname);
+        }
+
         loadData(); 
         renderMainCalendar(); 
         updateDisplay(); 
@@ -829,7 +835,7 @@
     function saveData() { localStorage.setItem('edu_app_v27', JSON.stringify(appState)); }
     
     function checkWelcomeModal() { 
-        if (!localStorage.getItem('edu_app_v27_welcomed')) {
+        if (localStorage.getItem("setupCompleted") !== "true") {
             document.getElementById('welcome-overlay').classList.add('show'); 
         } else {
             setTimeout(checkModalDisplay, 500);
@@ -838,7 +844,6 @@
     
     function closeWelcomeModal() { 
         document.getElementById('welcome-overlay').classList.remove('show'); 
-        localStorage.setItem('edu_app_v27_welcomed', 'true'); 
         setTimeout(checkModalDisplay, 500);
     }
 
