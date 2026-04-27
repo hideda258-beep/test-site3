@@ -826,6 +826,13 @@
                 <span>（設定内容が管理一覧に反映されます）</span>
             </div>
             <button class="btn btn-reset" onclick="showConfirmModal()">今日から始める</button>
+
+            <div style="margin-top: 48px; padding-top: 24px; border-top: 1px solid #eaeaea;">
+                <div style="text-align: center; font-size: 0.75rem; color: #d9534f; margin-bottom: 12px; font-weight: 600;">
+                    ※データはすべて削除されます。初期状態に戻す場合のみご利用ください。
+                </div>
+                <button class="btn btn-outline" style="color: #d32f2f; border-color: #ffcdd2;" onclick="resetAppToInitial()">初期状態に戻す</button>
+            </div>
         </div>
     </div>
 </div>
@@ -856,6 +863,21 @@
         <div style="display:flex; gap:12px;">
             <button class="btn btn-outline" style="flex:1; background-color:#f0f2f5; border:none; color:var(--text-sub);" onclick="closeCancelModal()">いいえ</button>
             <button class="btn btn-danger" style="flex:1; background-color:#e53935;" onclick="executeCancelSubmission()">取り消す</button>
+        </div>
+    </div>
+</div>
+
+<!-- 初期化（リセット）確認モーダルを追加 -->
+<div id="factory-reset-overlay" class="feedback-overlay">
+    <div class="feedback-modal">
+        <div class="feedback-header">
+            <span class="feedback-emoji" style="font-size: 3rem; margin-bottom: 12px;">⚠️</span>
+            <div class="feedback-title" style="color:var(--accent-red);">確認</div>
+        </div>
+        <div class="feedback-msg" style="text-align:center;">本当に初期状態に戻しますか？<br>保存されているデータはすべて削除されます。</div>
+        <div style="display:flex; gap:12px;">
+            <button class="btn btn-outline" style="flex:1;" onclick="closeFactoryResetModal()">キャンセル</button>
+            <button class="btn btn-danger" style="flex:1;" onclick="executeFactoryReset()">初期状態に戻す</button>
         </div>
     </div>
 </div>
@@ -1389,6 +1411,20 @@
     function closeCancelModal() {
         document.getElementById('cancel-overlay').classList.remove('show');
         currentCancelType = null;
+    }
+
+    // 初期状態に戻す処理をカスタムモーダルに変更
+    function resetAppToInitial() {
+        document.getElementById('factory-reset-overlay').classList.add('show');
+    }
+
+    function closeFactoryResetModal() {
+        document.getElementById('factory-reset-overlay').classList.remove('show');
+    }
+
+    function executeFactoryReset() {
+        localStorage.clear();
+        location.reload();
     }
 
     function executeCancelSubmission() {
