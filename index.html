@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>提出管理アシスタント</title>
+    <title>DX人材育成用 提出管理アシスタント</title>
     <style>
         :root {
             --bg-color: #f0f2f5;
@@ -79,11 +79,34 @@
             margin-bottom: 12px;
         }
         header h1 {
-            font-size: 1.15rem;
-            font-weight: 800;
+            font-size: 1.5rem; /* 1.15remから約1.3倍に拡大しました */
+            font-weight: 900; /* 立体感が映えるように少し太く設定 */
             margin-bottom: 4px;
             letter-spacing: 0.05em;
+            font-family: "Arial Black", "ヒラギノ角ゴ StdN", "Hiragino Kaku Gothic StdN", "メイリオ", Meiryo, sans-serif;
+            
+            /* 緑系グラデーション（上：明るい緑 → 下：濃い緑） */
+            background: linear-gradient(to bottom, #a5d6a7 0%, #4caf50 40%, #2e7d32 70%, #1b5e20 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            
+            /* 文字の輪郭を引き締め、ぼやけを防ぐ */
+            -webkit-text-stroke: 0.3px rgba(27, 94, 32, 0.5);
+            
+            /* 立体感（厚み）と、下方向への自然な影（浮遊感） */
+            filter: 
+                drop-shadow(0.5px 1px 0px #2e7d32)
+                drop-shadow(1px 2px 0px #1b5e20)
+                drop-shadow(1.5px 3px 4px rgba(0, 0, 0, 0.25));
         }
+        
+        /* 画面が小さいスマホ向けの調整を追加 */
+        @media (max-width: 500px) {
+            header h1 {
+                font-size: 1.25rem;
+            }
+        }
+        
         .app-description {
             font-size: 0.85rem;
             color: var(--text-sub);
@@ -122,15 +145,15 @@
         .calendar-container {
             display: flex;
             justify-content: center;
-            margin: 10px auto 20px; 
-            max-width: 440px; 
+            margin: 10px auto 32px; /* カレンダー下の余白を広めに確保 */
+            max-width: 396px; /* 440pxから約10%縮小 */
             width: 100%;
         }
         .calendar {
             background: var(--card-bg);
             border-radius: 12px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            padding: 10px 14px; 
+            padding: 8px 12px; /* 余白を少し小さく調整 */
             width: 100%;
             border: 1px solid #eaeaea;
         }
@@ -138,26 +161,34 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             font-weight: bold;
             color: var(--text-main);
-            font-size: 0.9rem; 
+            font-size: 0.85rem; /* 少し小さく調整 */
         }
         .calendar-nav-btn {
             background: #f0f2f5;
             border: none;
-            border-radius: 50%;
-            width: 24px; 
-            height: 24px;
+            border-radius: 14px;
+            height: 24px; /* 少し小さく調整 */
+            padding: 0 8px; /* 少し小さく調整 */
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 0.8rem;
+            gap: 4px;
+            font-size: 0.7rem; /* 少し小さく調整 */
+            font-weight: 600;
             cursor: pointer;
             color: var(--text-sub);
             transition: all 0.2s;
         }
         .calendar-nav-btn:hover { background: #e5e5ea; }
+        
+        @media (max-width: 380px) {
+            .calendar-nav-btn-text { display: none; }
+            .calendar-nav-btn { padding: 0; width: 24px; border-radius: 50%; } /* 幅も調整 */
+        }
+
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
@@ -169,20 +200,20 @@
         .calendar-day-header {
             font-weight: bold;
             color: var(--text-sub);
-            padding: 4px 0; 
-            font-size: 0.7rem; 
+            padding: 3px 0; /* 少し小さく調整 */
+            font-size: 0.65rem; /* 少し小さく調整 */
             border-bottom: 1px solid #e0e0e0;
             border-right: 1px solid #e0e0e0;
             background-color: #f9f9f9;
         }
         .calendar-day {
-            padding: 4px 0; 
+            padding: 3px 0; /* 少し小さく調整 */
             border-radius: 0;
             cursor: default;
             color: var(--text-main);
-            font-size: 0.8rem; 
+            font-size: 0.75rem; /* 少し小さく調整 */
             font-weight: 600;
-            min-height: 28px; 
+            min-height: 25px; /* 少し小さく調整 */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -210,17 +241,17 @@
         .calendar-legend-box {
             background-color: #f5f5f7;
             border-radius: 8px;
-            padding: 6px 10px;
+            padding: 5px 8px; /* 少し小さく調整 */
             margin-top: 6px;
             display: flex;
             justify-content: center;
         }
         .calendar-legend {
-            font-size: 0.75rem;
+            font-size: 0.65rem; /* 少し小さく調整 */
             color: var(--text-sub);
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 4px; /* 少し小さく調整 */
             width: 100%;
         }
         .legend-row {
@@ -307,14 +338,14 @@
         .countdown-card {
             border: 2px solid transparent;
             border-radius: 12px;
-            padding: 10px 12px; 
+            padding: 6px 12px; /* 上下の余白を8pxから6pxへ微調整 */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
             transition: all 0.3s ease;
-            min-height: 90px;
+            min-height: 72px; /* 高さを80pxから72pxへ約10%狭めました */
             position: relative;
             z-index: 10;
         }
@@ -499,6 +530,17 @@
             border: 1px solid #b3e5fc;
             box-shadow: 0 4px 10px rgba(0, 122, 255, 0.1);
         }
+        
+        /* 前回提出タイミング用 */
+        .prev-timing {
+            font-size: 0.75rem;
+            color: var(--text-sub);
+            margin-top: 6px;
+            padding-top: 6px;
+            border-top: 1px dashed #eaeaea;
+            font-weight: 600;
+        }
+
         .latest-column {
             display: flex;
             flex-direction: column;
@@ -543,12 +585,35 @@
         .setting-item { margin-bottom: 20px; text-align: left; }
         .setting-item label { display: block; margin-bottom: 8px; font-size: 0.9rem; font-weight: 600; color: var(--text-main); }
         .setting-item input[type="time"] { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 1rem; background: #f9f9f9; box-sizing: border-box; }
+        
+        /* 横並び設定用のスタイル追加 */
+        .setting-group { margin-bottom: 20px; text-align: left; }
+        .setting-group-label { display: block; margin-bottom: 8px; font-size: 0.9rem; font-weight: 600; color: var(--text-main); }
+        .setting-row { display: flex; gap: 12px; }
+        .setting-row .setting-item { flex: 1; margin-bottom: 0; }
+        @media (max-width: 500px) {
+            .setting-row { flex-direction: column; gap: 16px; }
+        }
+
         .section-title { font-size: 0.8rem; color: var(--text-sub); margin-bottom: 12px; font-weight: bold; text-align: left; }
-        .notification-bar { text-align: center; margin-top: 14px; margin-bottom: 14px; }
-        .notice-box { padding: 8px 16px; border-radius: 10px; display: inline-block; font-size: 0.95rem; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
-        .notif-none { background: #f5f5f7; color: #666; font-weight: 500; } 
-        .notif-pending { background: #fffde7; color: #e65100; font-weight: 600; }
-        .notif-overdue { background: #fff3f3; color: #c62828; font-weight: 800; }
+        
+        /* 新しい未提出アラートのスタイル */
+        .unsubmitted-alert {
+            background: #fff4e5;   /* 薄オレンジ */
+            color: #cc7a00;        /* 落ち着いたオレンジ文字 */
+            border: 1px solid #ff9800; /* オレンジ枠線 */
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin: 16px auto;
+            max-width: 520px;
+            text-align: center;
+            font-weight: bold;
+        }
+        /* 期限超過時のスタイル */
+        .unsubmitted-alert.overdue {
+            color: #c92a2a; /* 文字色のみ赤にして強調 */
+        }
+
         .history-table-container { width: 100%; overflow-x: auto; background: var(--card-bg); border-radius: 12px; border: 1px solid #e0e0e0; box-shadow: 0 2px 8px rgba(0,0,0,0.02); overflow: hidden; padding-bottom: 4px; }
         .history-table-title-area { text-align: center; padding: 16px 12px; }
         .shift-header { background-color: #5856d6; }
@@ -636,7 +701,7 @@
         <button id="tab-settings" class="nav-btn" onclick="showView('settings')">設定</button>
     </nav>
     <header>
-        <h1>提出管理アシスタント</h1>
+        <h1>DX人材育成用 提出管理アシスタント</h1>
         <p class="app-description">シフト表・勤務実績表の提出を管理</p>
         <div class="sub-message">余裕をもった行動が、自分にも周りにも良い流れを生みます✨</div>
         <div class="current-date-wrapper">
@@ -646,7 +711,7 @@
 
     <div id="view-main">
         <div id="main-calendar-container" class="calendar-container"></div>
-        <div id="notification-area"></div>
+        
         <div class="main-grid">
             <div class="column">
                 <div id="countdown-shift-box" class="countdown-card">
@@ -656,8 +721,9 @@
                 </div>
                 <div id="item-box-shift" class="status-item">
                     <div id="target-month-shift" class="target-month-label">-月分シフト表</div>
-                    <span class="status-label">シフト表提出期日<br>毎月 15日～20日</span>
+                    <span class="status-label">シフト表提出期日：毎月15日～20日</span>
                     <span id="status-shift" class="status-value status-pending">未提出</span>
+                    <div id="prev-timing-shift" class="prev-timing hidden"></div>
                 </div>
                 <div class="button-group" id="btn-shift-area">
                     <button class="btn btn-shift" onclick="markSubmitted('shift')" id="btn-shift-submit">シフト表を提出した</button>
@@ -676,8 +742,9 @@
                 </div>
                 <div id="item-box-record" class="status-item">
                     <div id="target-month-record" class="target-month-label">-月分勤務実績表</div>
-                    <span class="status-label">勤務実績表提出期日<br>毎月 1日～5日</span>
+                    <span class="status-label">勤務実績表提出期日：毎月1日～5日</span>
                     <span id="status-record" class="status-value status-pending">未提出</span>
+                    <div id="prev-timing-record" class="prev-timing hidden"></div>
                 </div>
                 <div class="button-group" id="btn-record-area">
                     <button class="btn btn-success" onclick="markSubmitted('record')" id="btn-record-submit">勤務実績表を提出した</button>
@@ -732,11 +799,29 @@
         <div class="card" style="background:#fff; padding:20px; border-radius:18px; box-shadow:0 4px 12px rgba(0,0,0,0.05);">
             <div class="section-title">基本通知設定</div>
             <div class="setting-item"><label>通常時の通知時間</label><input type="time" id="setting-time-normal" value="09:00"></div>
-            <div class="setting-item"><label>締切前日：午前通知時間</label><input type="time" id="setting-time-pre-am" value="09:00"></div>
-            <div class="setting-item"><label>締切前日：午後通知時間</label><input type="time" id="setting-time-pre-pm" value="17:00"></div>
+            
+            <div class="setting-group">
+                <div class="setting-group-label">締切前日</div>
+                <div class="setting-row">
+                    <div class="setting-item"><label>午前</label><input type="time" id="setting-time-pre-am" value="09:00"></div>
+                    <div class="setting-item"><label>午後</label><input type="time" id="setting-time-pre-pm" value="17:00"></div>
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <div class="setting-group-label">締切日</div>
+                <div class="setting-row">
+                    <div class="setting-item"><label>午前</label><input type="time" id="setting-time-deadline-am" value="09:00"></div>
+                    <div class="setting-item"><label>午後</label><input type="time" id="setting-time-deadline-pm" value="17:00"></div>
+                </div>
+            </div>
+            
+            <div class="setting-note" style="margin-top: 0; margin-bottom: 10px;">
+                ※通知時間を設定し「設定内容を保存する」ボタンを押してください
+            </div>
             <button class="btn btn-primary" onclick="saveSettings()">設定内容を保存する</button>
             
-            <div class="setting-note">
+            <div class="setting-note" style="margin-top: 24px;">
                 ※ 初回およびリセット時は、「今日から始める」ボタンから開始してください<br>
                 <span>（設定内容が管理一覧に反映されます）</span>
             </div>
@@ -752,7 +837,7 @@
         <div class="feedback-msg" style="text-align:center;">ご利用前に初期設定を行ってください<br>設定を行うことで、スムーズにご利用いただけます</div>
         <div style="display:flex; flex-direction:column; gap:8px;">
             <button class="btn btn-primary" style="width:100%;" onclick="closeWelcomeModal(); showView('settings');">設定へ進む</button>
-            <button class="btn btn-outline" style="width:100%;" onclick="closeWelcomeModal()">スキップ</button>
+            <button class="btn btn-outline" style="width:100%;" onclick="skipSetup()">スキップ</button>
         </div>
     </div>
 </div>
@@ -790,9 +875,21 @@
     </div>
 </div>
 
+<!-- 設定保存完了モーダル -->
+<div id="save-complete-overlay" class="feedback-overlay">
+    <div class="feedback-modal">
+        <div class="feedback-header">
+            <span class="feedback-emoji">✅</span>
+            <div class="feedback-title">設定完了</div>
+        </div>
+        <div class="feedback-msg" style="text-align:center; font-weight:600;">通知時間の設定を完了しました。</div>
+        <button class="btn btn-primary" style="width:100%;" onclick="closeSaveCompleteModal()">閉じる</button>
+    </div>
+</div>
+
 <script>
     let appState = {
-        settings: { enabled: true, timeNormal: "09:00", timePreAm: "09:00", timePrePm: "17:00" },
+        settings: { enabled: true, timeNormal: "09:00", timePreAm: "09:00", timePrePm: "17:00", timeDeadlineAm: "09:00", timeDeadlinePm: "17:00" },
         submissions: {
             shift: { targetYear: null, targetMonth: null, latestSubmission: null, history: [] },
             record: { targetYear: null, targetMonth: null, latestSubmission: null, history: [] }
@@ -836,9 +933,15 @@
         const saved = localStorage.getItem('edu_app_v27'); 
         if (saved) { 
             appState = JSON.parse(saved); 
+            // 互換性のため初期値を入れる
+            if (!appState.settings.timeDeadlineAm) appState.settings.timeDeadlineAm = "09:00";
+            if (!appState.settings.timeDeadlinePm) appState.settings.timeDeadlinePm = "17:00";
+            
             document.getElementById('setting-time-normal').value = appState.settings.timeNormal; 
             document.getElementById('setting-time-pre-am').value = appState.settings.timePreAm; 
             document.getElementById('setting-time-pre-pm').value = appState.settings.timePrePm; 
+            document.getElementById('setting-time-deadline-am').value = appState.settings.timeDeadlineAm; 
+            document.getElementById('setting-time-deadline-pm').value = appState.settings.timeDeadlinePm; 
         } 
     }
     
@@ -854,7 +957,16 @@
     
     function closeWelcomeModal() { 
         document.getElementById('welcome-overlay').classList.remove('show'); 
-        setTimeout(checkModalDisplay, 500);
+    }
+
+    // スキップ時の処理を追加
+    function skipSetup() {
+        document.getElementById('welcome-overlay').classList.remove('show');
+        localStorage.setItem("setupCompleted", "true"); // スキップ＝全て未提出で完了扱いとする
+        setupAnswers = { shift: false, record: false };
+        isJustAfterSetup = true; // セットアップ直後のフラグを立てる
+        updateDisplay();
+        setTimeout(checkModalDisplay, 500); // 案内モーダルを呼び出す
     }
 
     function showView(v) { 
@@ -873,8 +985,13 @@
         appState.settings.timeNormal = document.getElementById('setting-time-normal').value; 
         appState.settings.timePreAm = document.getElementById('setting-time-pre-am').value; 
         appState.settings.timePrePm = document.getElementById('setting-time-pre-pm').value; 
+        appState.settings.timeDeadlineAm = document.getElementById('setting-time-deadline-am').value; 
+        appState.settings.timeDeadlinePm = document.getElementById('setting-time-deadline-pm').value; 
         saveData(); 
-        showView('main'); 
+        document.getElementById('save-complete-overlay').classList.add('show');
+    }
+    function closeSaveCompleteModal() {
+        document.getElementById('save-complete-overlay').classList.remove('show');
     }
     function changeMonth(delta, view) { 
         if (view === 'main') { 
@@ -890,7 +1007,10 @@
         const container = document.getElementById('main-calendar-container'); if (!container) return;
         const year = mainCalendarDate.getFullYear(), month = mainCalendarDate.getMonth(), today = new Date();
         const firstDay = new Date(year, month, 1).getDay(), days = new Date(year, month + 1, 0).getDate();
-        let html = `<div class="calendar"><div class="calendar-header"><button class="calendar-nav-btn" onclick="changeMonth(-1,'main')">◀</button><div>${year}年 ${month + 1}月</div><button class="calendar-nav-btn" onclick="changeMonth(1,'main')">▶</button></div><div class="calendar-grid"><div class="calendar-day-header">日</div><div class="calendar-day-header">月</div><div class="calendar-day-header">火</div><div class="calendar-day-header">水</div><div class="calendar-day-header">木</div><div class="calendar-day-header">金</div><div class="calendar-day-header">土</div>`;
+        
+        // ヘッダー部分のボタンに「前の月」「次の月」のテキストを追加
+        let html = `<div class="calendar"><div class="calendar-header"><button class="calendar-nav-btn" onclick="changeMonth(-1,'main')">◀ <span class="calendar-nav-btn-text">前の月</span></button><div>${year}年 ${month + 1}月</div><button class="calendar-nav-btn" onclick="changeMonth(1,'main')"><span class="calendar-nav-btn-text">次の月</span> ▶</button></div><div class="calendar-grid"><div class="calendar-day-header">日</div><div class="calendar-day-header">月</div><div class="calendar-day-header">火</div><div class="calendar-day-header">水</div><div class="calendar-day-header">木</div><div class="calendar-day-header">金</div><div class="calendar-day-header">土</div>`;
+        
         for (let i = 0; i < firstDay; i++) html += `<div class="calendar-day empty"></div>`;
         for (let i = 1; i <= days; i++) {
             const dw = (firstDay + i - 1) % 7; let cls = ['calendar-day'];
@@ -909,7 +1029,10 @@
         const firstDay = new Date(year, month, 1).getDay(), days = new Date(year, month + 1, 0).getDate();
         const sd = new Set(); (appState.submissions.shift.history || []).forEach(h => { if(h.submitDate) sd.add(h.submitDate); });
         const rd = new Set(); (appState.submissions.record.history || []).forEach(h => { if(h.submitDate) rd.add(h.submitDate); });
-        let html = `<div class="calendar"><div class="calendar-header"><button class="calendar-nav-btn" onclick="changeMonth(-1,'history')">◀</button><div>${year}年 ${month + 1}月</div><button class="calendar-nav-btn" onclick="changeMonth(1,'history')">▶</button></div><div class="calendar-grid"><div class="calendar-day-header">日</div><div class="calendar-day-header">月</div><div class="calendar-day-header">火</div><div class="calendar-day-header">水</div><div class="calendar-day-header">木</div><div class="calendar-day-header">金</div><div class="calendar-day-header">土</div>`;
+        
+        // 履歴カレンダーのヘッダー部分にも同様に追加
+        let html = `<div class="calendar"><div class="calendar-header"><button class="calendar-nav-btn" onclick="changeMonth(-1,'history')">◀ <span class="calendar-nav-btn-text">前の月</span></button><div>${year}年 ${month + 1}月</div><button class="calendar-nav-btn" onclick="changeMonth(1,'history')"><span class="calendar-nav-btn-text">次の月</span> ▶</button></div><div class="calendar-grid"><div class="calendar-day-header">日</div><div class="calendar-day-header">月</div><div class="calendar-day-header">火</div><div class="calendar-day-header">水</div><div class="calendar-day-header">木</div><div class="calendar-day-header">金</div><div class="calendar-day-header">土</div>`;
+        
         for (let i = 0; i < firstDay; i++) html += `<div class="calendar-day empty"></div>`;
         for (let i = 1; i <= days; i++) {
             const dateStr = `${year}/${(month+1).toString().padStart(2, '0')}/${i.toString().padStart(2, '0')}`;
@@ -966,8 +1089,35 @@
 
         ['shift', 'record'].forEach(type => {
             const sub = appState.submissions[type], box = document.getElementById(`countdown-${type}-box`), prefix = document.getElementById(`countdown-${type}-prefix`), valArea = document.getElementById(`countdown-${type}-value-area`), statusEl = document.getElementById(`status-${type}`), itemBox = document.getElementById(`item-box-${type}`), btnSub = document.getElementById(`btn-${type}-submit`), areaUnconf = document.getElementById(`btn-${type}-area-unconfirmed`);
+            const prevTimingEl = document.getElementById(`prev-timing-${type}`);
             
             document.getElementById(`target-month-${type}`).innerText = `${sub.targetMonth}月分${type==='shift'?'シフト表':'勤務実績表'}`;
+            
+            // 前回提出タイミングの表示
+            let prevHtml = '';
+            if (sub.history && sub.history.length > 0) {
+                const lastHistory = sub.history[sub.history.length - 1];
+                let timingStr = '';
+                if (lastHistory.timingClass === 'row-early') timingStr = '🟢 早めの提出';
+                else if (lastHistory.timingClass === 'row-mid') timingStr = '🟡 中間の提出';
+                else if (lastHistory.timingClass === 'row-late') timingStr = '🟠 遅めの提出';
+                else if (lastHistory.timingClass === 'row-overdue') timingStr = '🔴 期日超過';
+                
+                if (timingStr) {
+                    let mStr = lastHistory.targetDisplayMonth;
+                    if (!mStr) {
+                        const mMatch = lastHistory.label && lastHistory.label.match(/^(\d+)月分/);
+                        mStr = mMatch ? mMatch[1] : lastHistory.month;
+                    }
+                    prevHtml = `前回${mStr}月分提出：${timingStr}`;
+                }
+            }
+            if (prevHtml) {
+                prevTimingEl.innerHTML = prevHtml;
+                prevTimingEl.classList.remove('hidden');
+            } else {
+                prevTimingEl.classList.add('hidden');
+            }
             
             const si = getStatus(sub.targetYear, sub.targetMonth, type, now);
             const isTemp = sub.latestSubmission && !sub.latestSubmission.isConfirmed;
@@ -1012,7 +1162,7 @@
                 statusEl.className = si.class;
             }
         });
-        renderLatestSubmission(); renderNotificationBar(ho, hp);
+        renderLatestSubmission(); 
     }
 
     function renderLatestSubmission() {
@@ -1056,13 +1206,6 @@
                 tr.onclick = () => selectHistoryDate(h.submitDate, type); body.appendChild(tr);
             });
         });
-    }
-
-    function renderNotificationBar(ho, hp) {
-        const area = document.getElementById('notification-area');
-        if (ho) area.innerHTML = '<div class="notification-bar"><span class="notice-box notif-overdue">未提出の項目があります（速やかに確認してください）</span></div>';
-        else if (hp) area.innerHTML = '<div class="notification-bar"><span class="notice-box notif-pending">未提出の項目があります</span></div>';
-        else area.innerHTML = '<div class="notification-bar"><span class="notice-box notif-none">現在、未提出の通知はありません</span></div>';
     }
 
     function markSubmitted(type) { 
@@ -1392,7 +1535,14 @@
         
         createModalStampsReaction(tc);
     }
-    function closeFeedback() { document.getElementById('feedback-overlay').classList.remove('show'); }
+
+    function closeFeedback() { 
+        document.getElementById('feedback-overlay').classList.remove('show'); 
+        // モーダルを閉じた後、一番下までなめらかにスクロールする
+        setTimeout(() => {
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }, 100);
+    }
 
     // --- Stock確認モーダル機能 ---
     let currentStockType = null;
@@ -1458,10 +1608,10 @@
 
         if (type === 'shift') {
             titleEl.innerText = "シフト表の案内確認";
-            msgEl.innerHTML = 'Stockメッセージの全体配信チャットにて【DX事務局】から、\n<span style="color:#5b5bd6; font-weight:bold;">シフト表提出</span>についての案内が来ているか確認しましょう。\n\n案内確認後は、「了解しました」または👍で\n確認したことを伝える習慣づけを心がけましょう。\n\nまた、理由があり提出が遅れる場合は、全体配信チャットではなく【DX事務局】への個人チャットにて、理由を添えて早めに連絡し、遅くとも前日までには連絡するよう心がけましょう。\n\n<div style="text-align:center; font-weight:bold; margin-top:8px;">日頃から余裕をもった対応を心がけましょう✨</div>';
+            msgEl.innerHTML = 'Stockメッセージの全体配信チャットにて【DX事務局】から、\n<span style="color:#5b5bd6; font-weight:bold;">シフト表提出</span>についての案内が来ているか確認しましょう。\n\n案内確認後は、「了解しました」または👍で\n確認したことを伝える習慣づけを心がけましょう。\n\nまた、理由があり提出が遅れる場合は、全体配信チャットではなく【DX事務局】への個人チャットにて、理由を添えて早めに連絡し、遅くても前日までには連絡するよう心がけましょう。\n\n<div style="text-align:center; font-weight:bold; margin-top:8px;">日頃から余裕をもった対応を心がけましょう✨</div>';
         } else {
             titleEl.innerText = "勤務実績表の案内確認";
-            msgEl.innerHTML = 'Stockメッセージの全体配信チャットにて【DX事務局】から、\n<span style="color:#2eb85c; font-weight:bold;">勤務実績表提出</span>についての案内が来ているか確認しましょう。\n\n案内確認後は、「了解しました」または👍で\n確認したことを伝える習慣づけを心がけましょう。\n\nまた、理由があり提出が遅れる場合は、全体配信チャットではなく【DX事務局】への個人チャットにて、理由を添えて早めに連絡し、遅くとも前日までには連絡するよう心がけましょう。\n\n<div style="text-align:center; font-weight:bold; margin-top:8px;">日頃から余裕をもった対応を心がけましょう✨</div>';
+            msgEl.innerHTML = 'Stockメッセージの全体配信チャットにて【DX事務局】から、\n<span style="color:#2eb85c; font-weight:bold;">勤務実績表提出</span>についての案内が来ているか確認しましょう。\n\n案内確認後は、「了解しました」または👍で\n確認したことを伝える習慣づけを心がけましょう。\n\nまた、理由があり提出が遅れる場合は、全体配信チャットではなく【DX事務局】への個人チャットにて、理由を添えて早めに連絡し、遅くても前日までには連絡するよう心がけましょう。\n\n<div style="text-align:center; font-weight:bold; margin-top:8px;">日頃から余裕をもった対応を心がけましょう✨</div>';
         }
 
         overlay.classList.add('show');
