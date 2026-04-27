@@ -44,16 +44,16 @@
         .container {
             width: 100%;
             max-width: 800px;
-            padding: 12px 16px;
+            padding: 8px 16px; /* 上下の余白を微調整 */
         }
         nav {
             display: flex;
             background: #e5e5ea;
             padding: 4px;
             border-radius: 12px;
-            margin-bottom: 12px;
+            margin-bottom: 8px; /* 12pxから微調整 */
             position: sticky;
-            top: 12px;
+            top: 8px; /* 12pxから微調整 */
             z-index: 100;
         }
         .nav-btn {
@@ -75,13 +75,13 @@
         }
         header {
             text-align: center;
-            margin-top: 16px;
-            margin-bottom: 12px;
+            margin-top: 8px; /* 16pxから微調整 */
+            margin-bottom: 8px; /* 12pxから微調整 */
         }
         header h1 {
             font-size: 1.5rem; /* 1.15remから約1.3倍に拡大しました */
             font-weight: 900; /* 立体感が映えるように少し太く設定 */
-            margin-bottom: 4px;
+            margin-bottom: 4px; /* 8pxから微調整 */
             letter-spacing: 0.05em;
             font-family: "Arial Black", "ヒラギノ角ゴ StdN", "Hiragino Kaku Gothic StdN", "メイリオ", Meiryo, sans-serif;
             
@@ -110,7 +110,7 @@
         .app-description {
             font-size: 0.85rem;
             color: var(--text-sub);
-            margin-bottom: 8px;
+            margin-bottom: 4px; /* 8pxから微調整 */
             font-weight: normal;
         }
         .sub-message {
@@ -119,14 +119,14 @@
             font-size: 0.85rem;
             padding: 10px 16px;
             border-radius: 8px;
-            margin: 4px auto 8px;
+            margin: 2px auto 6px; /* 上下の余白を微調整 */
             display: inline-block;
         }
         .current-date-wrapper {
             display: flex;
             justify-content: center;
             width: 100%;
-            margin-bottom: 4px;
+            margin-bottom: 2px; /* 4pxから微調整 */
         }
         .current-date {
             background-color: #ffffff;
@@ -145,7 +145,7 @@
         .calendar-container {
             display: flex;
             justify-content: center;
-            margin: 10px auto 32px; /* カレンダー下の余白を広めに確保 */
+            margin: 8px auto 24px; /* 全体を1画面に収めるため、余白のバランスを再調整 */
             max-width: 396px; /* 440pxから約10%縮小 */
             width: 100%;
         }
@@ -317,7 +317,7 @@
         .main-grid {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 16px; /* 20pxから微調整 */
         }
         @media (max-width: 700px) {
             .main-grid {
@@ -338,14 +338,14 @@
         .countdown-card {
             border: 2px solid transparent;
             border-radius: 12px;
-            padding: 6px 12px; /* 上下の余白を8pxから6pxへ微調整 */
+            padding: 2px 12px; /* 上下の余白を4pxから2pxへさらに微調整 */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
             transition: all 0.3s ease;
-            min-height: 72px; /* 高さを80pxから72pxへ約10%狭めました */
+            min-height: 62px; /* 高さを65pxから62pxへ約5%狭めました */
             position: relative;
             z-index: 10;
         }
@@ -484,7 +484,7 @@
 
         .status-item {
             text-align: center;
-            padding: 10px 12px; 
+            padding: 6px 12px; /* 上下余白を4pxから6pxへ戻し、約5%広く調整 */
             background: #fff;
             border-radius: 12px;
             font-size: 0.85rem;
@@ -499,14 +499,14 @@
             font-size: 0.95rem;
             font-weight: 800;
             color: var(--text-main);
-            margin-bottom: 4px;
-            padding-bottom: 4px;
+            margin-bottom: 3px; /* 2pxから3pxへ微調整 */
+            padding-bottom: 3px; /* 2pxから3pxへ微調整 */
             border-bottom: 1px solid #eaeaea;
         }
         .status-label {
             display: block;
             color: var(--text-sub);
-            margin-bottom: 4px;
+            margin-bottom: 3px; /* 2pxから3pxへ微調整 */
             font-size: 0.75rem;
             line-height: 1.4;
         }
@@ -535,8 +535,8 @@
         .prev-timing {
             font-size: 0.75rem;
             color: var(--text-sub);
-            margin-top: 6px;
-            padding-top: 6px;
+            margin-top: 5px; /* 4pxから5pxへ微調整 */
+            padding-top: 5px; /* 4pxから5pxへ微調整 */
             border-top: 1px dashed #eaeaea;
             font-weight: 600;
         }
@@ -924,6 +924,15 @@
             setInterval(updateDisplay, 1000); 
             showView(appState.activeView || 'main'); 
             checkWelcomeModal(); 
+            
+            // アプリ起動時、主要情報を1画面に収めるための初期スクロール調整
+            setTimeout(() => {
+                if (window.scrollY === 0 && appState.activeView === 'main') {
+                    // タブが画面上端に付くくらいまでスクロールさせて、下のカードをせり上げる
+                    window.scrollTo({ top: 40, behavior: 'smooth' });
+                }
+            }, 600);
+            
         } catch (e) {
             console.error("Init error:", e);
         }
