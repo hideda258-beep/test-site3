@@ -75,17 +75,17 @@
         }
         header {
             text-align: center;
-            margin-top: 24px; /* 上部タブとの余白を少し広げて見やすく調整 */
+            margin-top: 24px;
             margin-bottom: 12px;
         }
         header h1 {
-            font-size: 1.5rem; /* 1.15remから約1.3倍に拡大しました */
-            font-weight: 900; /* 立体感が映えるように少し太く設定 */
+            font-size: 1.5rem;
+            font-weight: 900;
             margin-bottom: 4px;
             letter-spacing: 0.05em;
             font-family: "Arial Black", "ヒラギノ角ゴ StdN", "Hiragino Kaku Gothic StdN", "メイリオ", Meiryo, sans-serif;
             
-            /* 緑系グラデーション（上：明るい緑 → 下：濃い緑） */
+            /* 緑系グラデーション */
             background: linear-gradient(to bottom, #a5d6a7 0%, #4caf50 40%, #2e7d32 70%, #1b5e20 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -93,14 +93,13 @@
             /* 文字の輪郭を引き締め、ぼやけを防ぐ */
             -webkit-text-stroke: 0.3px rgba(27, 94, 32, 0.5);
             
-            /* 立体感（厚み）と、下方向への自然な影（浮遊感） */
+            /* 立体感 */
             filter: 
                 drop-shadow(0.5px 1px 0px #2e7d32)
                 drop-shadow(1px 2px 0px #1b5e20)
                 drop-shadow(1.5px 3px 4px rgba(0, 0, 0, 0.25));
         }
         
-        /* 画面が小さいスマホ向けの調整を追加 */
         @media (max-width: 500px) {
             header h1 {
                 font-size: 1.25rem;
@@ -145,15 +144,15 @@
         .calendar-container {
             display: flex;
             justify-content: center;
-            margin: 10px auto 32px; /* カレンダー下の余白を広めに確保 */
-            max-width: 396px; /* 440pxから約10%縮小 */
+            margin: 10px auto 32px;
+            max-width: 396px;
             width: 100%;
         }
         .calendar {
             background: var(--card-bg);
             border-radius: 12px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            padding: 8px 12px; /* 余白を少し小さく調整 */
+            padding: 8px 12px;
             width: 100%;
             border: 1px solid #eaeaea;
         }
@@ -164,19 +163,19 @@
             margin-bottom: 8px;
             font-weight: bold;
             color: var(--text-main);
-            font-size: 0.85rem; /* 少し小さく調整 */
+            font-size: 0.85rem;
         }
         .calendar-nav-btn {
             background: #f0f2f5;
             border: none;
             border-radius: 14px;
-            height: 24px; /* 少し小さく調整 */
-            padding: 0 8px; /* 少し小さく調整 */
+            height: 24px;
+            padding: 0 8px;
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 4px;
-            font-size: 0.7rem; /* 少し小さく調整 */
+            font-size: 0.7rem;
             font-weight: 600;
             cursor: pointer;
             color: var(--text-sub);
@@ -186,7 +185,7 @@
         
         @media (max-width: 380px) {
             .calendar-nav-btn-text { display: none; }
-            .calendar-nav-btn { padding: 0; width: 24px; border-radius: 50%; } /* 幅も調整 */
+            .calendar-nav-btn { padding: 0; width: 24px; border-radius: 50%; }
         }
 
         .calendar-grid {
@@ -200,20 +199,20 @@
         .calendar-day-header {
             font-weight: bold;
             color: var(--text-sub);
-            padding: 3px 0; /* 少し小さく調整 */
-            font-size: 0.65rem; /* 少し小さく調整 */
+            padding: 3px 0;
+            font-size: 0.65rem;
             border-bottom: 1px solid #e0e0e0;
             border-right: 1px solid #e0e0e0;
             background-color: #f9f9f9;
         }
         .calendar-day {
-            padding: 3px 0; /* 少し小さく調整 */
+            padding: 3px 0;
             border-radius: 0;
             cursor: default;
             color: var(--text-main);
-            font-size: 0.75rem; /* 少し小さく調整 */
+            font-size: 0.75rem;
             font-weight: 600;
-            min-height: 25px; /* 少し小さく調整 */
+            min-height: 25px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -241,17 +240,17 @@
         .calendar-legend-box {
             background-color: #f5f5f7;
             border-radius: 8px;
-            padding: 5px 8px; /* 少し小さく調整 */
+            padding: 5px 8px;
             margin-top: 6px;
             display: flex;
             justify-content: center;
         }
         .calendar-legend {
-            font-size: 0.65rem; /* 少し小さく調整 */
+            font-size: 0.65rem;
             color: var(--text-sub);
             display: flex;
             flex-direction: column;
-            gap: 4px; /* 少し小さく調整 */
+            gap: 4px;
             width: 100%;
         }
         .legend-row {
@@ -305,6 +304,7 @@
             border-radius: 3px;
             display: inline-block;
         }
+        .timing-box.initial { background-color: #90caf9; } 
         .timing-box.early { background-color: #82d997; } 
         .timing-box.mid { background-color: #fde047; }   
         .timing-box.late { background-color: #fc8181; }  
@@ -338,14 +338,14 @@
         .countdown-card {
             border: 2px solid transparent;
             border-radius: 12px;
-            padding: 6px 12px; /* 上下の余白を8pxから6pxへ微調整 */
+            padding: 6px 12px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
             transition: all 0.3s ease;
-            min-height: 72px; /* 高さを80pxから72pxへ約10%狭めました */
+            min-height: 72px;
             position: relative;
             z-index: 10;
         }
@@ -466,20 +466,19 @@
             background: #ffe4e6;
             border: 1px solid #fecdd3;
             color: #e11d48;
-            margin-top: 8px; /* 余白を調整 */
+            margin-top: 8px;
         }
         .btn-reset:active { background: #fecdd3; }
         
-        /* 設定画面の案内文 */
         .setting-note {
             text-align: left;
-            font-size: 0.75rem; /* 12px相当 */
+            font-size: 0.75rem;
             color: #666;
             line-height: 1.6;
             margin: 20px 0 0 0;
         }
         .setting-note span {
-            font-size: 0.7rem; /* 11px相当 */
+            font-size: 0.7rem;
         }
 
         .status-item {
@@ -531,7 +530,6 @@
             box-shadow: 0 4px 10px rgba(0, 122, 255, 0.1);
         }
         
-        /* 前回提出タイミング用 */
         .prev-timing {
             font-size: 0.75rem;
             color: var(--text-sub);
@@ -586,7 +584,6 @@
         .setting-item label { display: block; margin-bottom: 8px; font-size: 0.9rem; font-weight: 600; color: var(--text-main); }
         .setting-item input[type="time"] { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 1rem; background: #f9f9f9; box-sizing: border-box; }
         
-        /* 横並び設定用のスタイル追加 */
         .setting-group { margin-bottom: 20px; text-align: left; }
         .setting-group-label { display: block; margin-bottom: 8px; font-size: 0.9rem; font-weight: 600; color: var(--text-main); }
         .setting-row { display: flex; gap: 12px; }
@@ -597,11 +594,10 @@
 
         .section-title { font-size: 0.8rem; color: var(--text-sub); margin-bottom: 12px; font-weight: bold; text-align: left; }
         
-        /* 新しい未提出アラートのスタイル */
         .unsubmitted-alert {
-            background: #fff4e5;   /* 薄オレンジ */
-            color: #cc7a00;        /* 落ち着いたオレンジ文字 */
-            border: 1px solid #ff9800; /* オレンジ枠線 */
+            background: #fff4e5;
+            color: #cc7a00;
+            border: 1px solid #ff9800;
             border-radius: 12px;
             padding: 12px 16px;
             margin: 16px auto;
@@ -609,9 +605,8 @@
             text-align: center;
             font-weight: bold;
         }
-        /* 期限超過時のスタイル */
         .unsubmitted-alert.overdue {
-            color: #c92a2a; /* 文字色のみ赤にして強調 */
+            color: #c92a2a;
         }
 
         .history-table-container { width: 100%; overflow-x: auto; background: var(--card-bg); border-radius: 12px; border: 1px solid #e0e0e0; box-shadow: 0 2px 8px rgba(0,0,0,0.02); overflow: hidden; padding-bottom: 4px; }
@@ -652,6 +647,8 @@
         .row-early { background-color: var(--bg-early); }
         .row-mid { background-color: var(--bg-mid); }
         .row-late, .row-overdue { background-color: var(--bg-late); }
+        .row-initial { background-color: #E6F4FF !important; }
+        .latest-card.is-initial { background-color: #E6F4FF !important; }
         .feedback-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.65); display: flex; justify-content: center; align-items: center; z-index: 2000; opacity: 0; visibility: hidden; }
         .feedback-overlay.show { opacity: 1; visibility: visible; }
         .feedback-modal { background: white; width: 90%; max-width: 440px; border-radius: 20px; padding: 32px 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); position: relative; overflow: hidden; }
@@ -659,6 +656,14 @@
         .feedback-title { font-size: 1.2rem; font-weight: 800; color: var(--text-main); margin-bottom: 8px; text-align: center; }
         .feedback-subtitle { font-size: 1.1rem; font-weight: 800; color: var(--text-main); text-align: center; }
         .feedback-msg { font-size: 0.95rem; line-height: 1.7; color: var(--text-main); margin-bottom: 28px; white-space: pre-line; }
+        
+        /* 提出日入力用のスタイル追加 */
+        #setup-date-day:disabled {
+            background-color: #f5f5f5;
+            color: #a0a0a0;
+            border-color: #e0e0e0;
+        }
+
         .confetti { position: absolute; width: 10px; height: 10px; top: -10px; animation: fall 3s linear infinite; }
         @keyframes fall { to { transform: translateY(400px) rotate(720deg); opacity: 0; } }
         .stamp-reaction {
@@ -762,9 +767,10 @@
         <div id="history-calendar-container" class="calendar-container"></div>
         <div class="timing-legend-box">
             <div class="timing-legend">
-                <div class="timing-item"><div class="timing-box early"></div>初日提出・早めの提出</div>
-                <div class="timing-item"><div class="timing-box mid"></div>中間の提出</div>
-                <div class="timing-item"><div class="timing-box late"></div>遅めの提出・期限超過</div>
+                <div class="timing-item"><div class="timing-box initial"></div>初期設定（未判定）</div>
+                <div class="timing-item"><div class="timing-box early"></div>早め提出</div>
+                <div class="timing-item"><div class="timing-box mid"></div>通常提出</div>
+                <div class="timing-item"><div class="timing-box late"></div>遅れ提出・期限超過</div>
             </div>
         </div>
         <div class="main-grid">
@@ -840,16 +846,53 @@
 <!-- ポップアップ類 -->
 <div id="welcome-overlay" class="feedback-overlay">
     <div class="feedback-modal">
-        <div class="feedback-title">ご案内</div>
-        <div class="feedback-msg" style="text-align:center;">ご利用前に初期設定を行ってください<br>設定を行うことで、スムーズにご利用いただけます</div>
+        <div class="feedback-title" style="line-height: 1.4; margin-bottom: 16px;">DX人材育成用<br>提出管理アシスタント</div>
+        <div class="feedback-msg" style="text-align:center;">
+            シフト表・勤務実績表の提出管理を行うアプリです<br><br>
+            ご利用前に初期設定を行ってください<br>
+            設定を行うことで、スムーズにご利用いただけます<br><br>
+            <span style="font-size: 0.8rem; color: var(--text-sub);">※初回のみの表示です</span>
+        </div>
         <div style="display:flex; flex-direction:column; gap:8px;">
             <button class="btn btn-primary" style="width:100%;" onclick="closeWelcomeModal(); showView('settings');">設定へ進む</button>
             <button class="btn btn-outline" style="width:100%;" onclick="skipSetup()">スキップ</button>
         </div>
     </div>
 </div>
+
 <div id="confirm-overlay" class="feedback-overlay"><div class="feedback-modal"><div class="feedback-title">確認</div><div class="feedback-msg" style="text-align:center;">本日から管理を開始しますか？<br>現在の提出状態はリセットされます。</div><div style="display:flex; gap:12px;"><button class="btn btn-outline" style="flex:1;" onclick="closeConfirmModal()">キャンセル</button><button class="btn btn-danger" style="flex:1;" onclick="executeReset()">開始する</button></div></div></div>
+
+<!-- 提出状況の確認 -->
 <div id="setup-overlay" class="feedback-overlay"><div class="feedback-modal"><div class="feedback-title">提出状況の確認</div><div id="setup-msg" class="feedback-msg" style="text-align:center; font-weight:bold;"></div><div style="display:flex; gap:8px;" id="setup-btn-area"></div></div></div>
+
+<!-- 提出日の入力モーダル（追加） -->
+<div id="setup-date-overlay" class="feedback-overlay">
+    <div class="feedback-modal">
+        <div id="setup-date-title" class="feedback-title">提出日の入力（任意）</div>
+        <div id="setup-date-msg" class="feedback-msg" style="text-align:center; margin-bottom: 20px;">提出日を入力してください</div>
+        
+        <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 12px; font-size: 1.1rem; font-weight: bold;">
+            提出日は <span id="setup-date-month">○</span>月 
+            <input type="number" id="setup-date-day" min="1" max="31" style="width: 60px; margin: 0 8px; padding: 6px; text-align: center; border-radius: 6px; border: 1px solid #ccc; font-size: 1.1rem;"> 日
+        </div>
+        
+        <div style="text-align: center; margin-bottom: 12px;">
+            <label style="cursor: pointer; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 4px; font-weight: 600;">
+                <input type="checkbox" id="setup-date-unknown" onchange="toggleSetupDateInput()" style="width: 16px; height: 16px;"> 提出日が分からない
+            </label>
+        </div>
+        
+        <div style="text-align: center; font-size: 0.8rem; color: var(--text-sub); margin-bottom: 24px; font-weight: 600;">
+            ※未入力でも進めます
+        </div>
+        
+        <div style="display:flex; gap:12px;">
+            <button class="btn btn-outline" style="flex:1;" onclick="goBackSetupDate()">戻る</button>
+            <button class="btn btn-primary" style="flex:1;" onclick="confirmSetupDate()">提出確定する</button>
+        </div>
+    </div>
+</div>
+
 <div id="alert-overlay" class="feedback-overlay"><div class="feedback-modal"><div class="feedback-header"><span class="feedback-emoji">⚠️</span><div class="feedback-title" style="color:var(--accent-red);">提出期間外</div></div><div id="alert-msg" class="feedback-msg" style="text-align:center; font-weight:600;"></div><button class="btn btn-outline" style="width:100%;" onclick="closeAlert()">閉じる</button></div></div>
 <div id="feedback-overlay" class="feedback-overlay"><div class="feedback-modal"><div class="feedback-header"><span id="feedback-emoji" class="feedback-emoji">🎉</span><div id="feedback-title" class="feedback-title">提出完了！</div><div id="feedback-subtitle" class="feedback-subtitle">提出お疲れ様でした。</div></div><div id="feedback-msg" class="feedback-msg"></div>
 <button id="feedback-close-btn" class="btn btn-outline" style="width:100%; border-color: var(--text-sub);" onclick="closeFeedback()">閉じる</button>
@@ -921,6 +964,8 @@
 
     let mainCalendarDate = new Date(), historyCalendarDate = new Date(), lastRenderedToday = new Date().getDate();
     let selectedHistory = { date: null, type: null }, currentSetupStep = 0, setupAnswers = { shift: false, record: false };
+
+    let tempSetupType = ''; // 追加：提出日モーダル用の一時記憶
 
     // セッション中のスキップ状態や初回設定直後かの判定用変数
     let skippedStockTypes = [];
@@ -1049,8 +1094,8 @@
         const container = document.getElementById('history-calendar-container'); if (!container) return;
         const year = historyCalendarDate.getFullYear(), month = historyCalendarDate.getMonth();
         const firstDay = new Date(year, month, 1).getDay(), days = new Date(year, month + 1, 0).getDate();
-        const sd = new Set(); (appState.submissions.shift.history || []).forEach(h => { if(h.submitDate) sd.add(h.submitDate); });
-        const rd = new Set(); (appState.submissions.record.history || []).forEach(h => { if(h.submitDate) rd.add(h.submitDate); });
+        const sd = new Set(); (appState.submissions.shift.history || []).forEach(h => { if(h.submitDate && h.submitDate !== "提出日不明") sd.add(h.submitDate); });
+        const rd = new Set(); (appState.submissions.record.history || []).forEach(h => { if(h.submitDate && h.submitDate !== "提出日不明") rd.add(h.submitDate); });
         
         // 履歴カレンダーのヘッダー部分にも同様に追加
         let html = `<div class="calendar"><div class="calendar-header"><button class="calendar-nav-btn" onclick="changeMonth(-1,'history')">◀ <span class="calendar-nav-btn-text">前の月</span></button><div>${year}年 ${month + 1}月</div><button class="calendar-nav-btn" onclick="changeMonth(1,'history')"><span class="calendar-nav-btn-text">次の月</span> ▶</button></div><div class="calendar-grid"><div class="calendar-day-header">日</div><div class="calendar-day-header">月</div><div class="calendar-day-header">火</div><div class="calendar-day-header">水</div><div class="calendar-day-header">木</div><div class="calendar-day-header">金</div><div class="calendar-day-header">土</div>`;
@@ -1069,7 +1114,7 @@
         container.innerHTML = html;
     }
 
-    function selectHistoryDate(d, t = 'all') { if (!d || d === '-') return; if (selectedHistory.date === d && selectedHistory.type === t) selectedHistory = { date: null, type: null }; else { selectedHistory = { date: d, type: t }; const p = d.split('/'); if (p.length === 3) { historyCalendarDate.setFullYear(parseInt(p[0])); historyCalendarDate.setMonth(parseInt(p[1]) - 1); } } renderHistoryCalendar(); renderHistoryTable(); }
+    function selectHistoryDate(d, t = 'all') { if (!d || d === '-' || d === '提出日不明') return; if (selectedHistory.date === d && selectedHistory.type === t) selectedHistory = { date: null, type: null }; else { selectedHistory = { date: d, type: t }; const p = d.split('/'); if (p.length === 3) { historyCalendarDate.setFullYear(parseInt(p[0])); historyCalendarDate.setMonth(parseInt(p[1]) - 1); } } renderHistoryCalendar(); renderHistoryTable(); }
 
     function getCountdownFormat(target) { const diff = target - new Date(); if (diff <= 0) return `<span class="countdown-val medium">0</span><span class="countdown-unit">秒</span>`; const d = Math.floor(diff / 86400000), h = Math.floor((diff / 3600000) % 24), m = Math.floor((diff / 60000) % 60), s = Math.floor((diff / 1000) % 60); return `<span class="countdown-val medium">${d}</span><span class="countdown-unit">日</span><span class="countdown-val medium">${h}</span><span class="countdown-unit">時間</span><span class="countdown-val medium">${m.toString().padStart(2,'0')}</span><span class="countdown-unit">分</span><span class="countdown-val medium">${s.toString().padStart(2,'0')}</span><span class="countdown-unit">秒</span>`; }
     function getCountdownFormatDaysOnly(target) { const diff = target - new Date(); if (diff <= 0) return `<span class="countdown-val large">0</span><span class="countdown-unit">日</span>`; return `<div style="margin-top:2px;"><span class="countdown-val large" style="color:var(--text-main);">${Math.ceil(diff / 86400000)}</span><span class="countdown-unit">日</span></div>`; }
@@ -1095,8 +1140,9 @@
         if (d !== lastRenderedToday) { lastRenderedToday = d; renderMainCalendar(); }
         
         if (!appState.submissions.shift.targetMonth) { 
-            let tm = m + 2; let ty = y; 
+            let tm = d <= 14 ? m : m + 2; let ty = y; 
             if (tm > 12) { tm -= 12; ty++; }
+            if (tm < 1) { tm += 12; ty--; }
             appState.submissions.shift.targetYear = ty; 
             appState.submissions.shift.targetMonth = tm; 
         }
@@ -1125,6 +1171,11 @@
                 else if (lastHistory.timingClass === 'row-late') timingStr = '🟠 遅めの提出';
                 else if (lastHistory.timingClass === 'row-overdue') timingStr = '🔴 期日超過';
                 
+                // 初期設定データの場合の表示対応
+                if (lastHistory.isInitialSetup) {
+                    timingStr = '初期設定';
+                }
+
                 if (timingStr) {
                     let mStr = lastHistory.targetDisplayMonth;
                     if (!mStr) {
@@ -1191,7 +1242,9 @@
         ['shift', 'record'].forEach(type => {
             const col = document.getElementById(`latest-${type}-col`), ls = appState.submissions[type].latestSubmission;
             col.innerHTML = ''; if (!ls) { col.style.display = 'none'; return; } col.style.display = 'flex';
-            const card = document.createElement('div'); card.className = `latest-card latest-card-${type}`;
+            
+            const initialClass = ls.isInitialSetup ? 'is-initial' : '';
+            const card = document.createElement('div'); card.className = `latest-card latest-card-${type} ${initialClass}`;
             
             let cancelBtn = '';
             if (ls.isConfirmed) {
@@ -1209,7 +1262,10 @@
             const history = [...(appState.submissions[type].history || [])].sort((a, b) => b.id - a.id);
             if (history.length === 0) body.innerHTML = `<tr><td colspan="4" style="color:var(--text-sub);">履歴がありません</td></tr>`;
             else history.forEach(h => {
-                const tr = document.createElement('tr'); tr.className = h.timingClass || '';
+                let rowClass = h.timingClass || '';
+                if (h.isInitialSetup) rowClass = 'row-initial';
+                
+                const tr = document.createElement('tr'); tr.className = rowClass;
                 if (h.submitDate === selectedHistory.date && (selectedHistory.type === type || selectedHistory.type === 'all')) tr.classList.add('row-selected');
                 
                 let displayTiming = h.timingLabel;
@@ -1413,7 +1469,6 @@
         currentCancelType = null;
     }
 
-    // 初期状態に戻す処理をカスタムモーダルに変更
     function resetAppToInitial() {
         document.getElementById('factory-reset-overlay').classList.add('show');
     }
@@ -1475,16 +1530,29 @@
         showView('main'); 
         setTimeout(startSetup, 300); 
     }
-    function startSetup() { currentSetupStep = 1; setupAnswers = { shift: false, record: false }; showSetupStep(); }
+    
+    function startSetup() { 
+        currentSetupStep = 1; 
+        setupAnswers = { shift: false, record: false, shiftDate: null, recordDate: null }; 
+        showSetupStep(); 
+    }
+    
     function showSetupStep() {
         const overlay = document.getElementById('setup-overlay'), msg = document.getElementById('setup-msg'), area = document.getElementById('setup-btn-area');
         const now = new Date();
-        const curY = now.getFullYear();
         const curM = now.getMonth() + 1;
+        const curD = now.getDate();
         
         if (currentSetupStep === 1) { 
-            let targetDisplayM = curM + 1;
-            if (targetDisplayM > 12) targetDisplayM = 1;
+            let targetDisplayM;
+            if (curD <= 14) {
+                targetDisplayM = curM - 1;
+            } else {
+                targetDisplayM = curM + 1;
+            }
+            if (targetDisplayM > 12) targetDisplayM -= 12;
+            if (targetDisplayM < 1) targetDisplayM += 12;
+
             msg.innerHTML = `${targetDisplayM}月分のシフト表は提出済みですか？`; 
             area.innerHTML = `<button class="btn btn-outline" style="flex:1;" onclick="cancelSetup()">戻る</button><button class="btn btn-light-red" style="flex:1;" onclick="handleSetupAnswer(false)">いいえ</button><button class="btn btn-primary" style="flex:1;" onclick="handleSetupAnswer(true)">はい</button>`; 
             overlay.classList.add('show'); 
@@ -1498,7 +1566,85 @@
         }
         else overlay.classList.remove('show');
     }
-    function handleSetupAnswer(is) { if (currentSetupStep === 1) { setupAnswers.shift = is; currentSetupStep = 2; showSetupStep(); } else { setupAnswers.record = is; finishSetup(); } }
+    
+    function handleSetupAnswer(is) { 
+        if (currentSetupStep === 1) { 
+            setupAnswers.shift = is; 
+            if (is) {
+                tempSetupType = 'shift';
+                showSetupDateModal();
+            } else {
+                currentSetupStep = 2; 
+                showSetupStep(); 
+            }
+        } else { 
+            setupAnswers.record = is; 
+            if (is) {
+                tempSetupType = 'record';
+                showSetupDateModal();
+            } else {
+                finishSetup(); 
+            }
+        } 
+    }
+
+    function showSetupDateModal() {
+        document.getElementById('setup-overlay').classList.remove('show');
+        
+        // 処理対象に応じてタイトルと本文を切り替える
+        const titleEl = document.getElementById('setup-date-title');
+        const msgEl = document.getElementById('setup-date-msg');
+        
+        if (tempSetupType === 'shift') {
+            titleEl.innerText = 'シフト表提出日の入力（任意）';
+            msgEl.innerText = 'シフト表を提出した日を入力してください';
+        } else {
+            titleEl.innerText = '勤務実績表提出日の入力（任意）';
+            msgEl.innerText = '勤務実績表を提出した日を入力してください';
+        }
+
+        const now = new Date();
+        document.getElementById('setup-date-month').innerText = now.getMonth() + 1;
+        document.getElementById('setup-date-day').value = '';
+        document.getElementById('setup-date-unknown').checked = false;
+        document.getElementById('setup-date-day').disabled = false;
+        document.getElementById('setup-date-overlay').classList.add('show');
+    }
+
+    function toggleSetupDateInput() {
+        const isUnknown = document.getElementById('setup-date-unknown').checked;
+        const dayInput = document.getElementById('setup-date-day');
+        dayInput.disabled = isUnknown;
+        if (isUnknown) dayInput.value = '';
+    }
+
+    function goBackSetupDate() {
+        document.getElementById('setup-date-overlay').classList.remove('show');
+        showSetupStep();
+    }
+
+    function confirmSetupDate() {
+        const isUnknown = document.getElementById('setup-date-unknown').checked;
+        let inputDay = document.getElementById('setup-date-day').value;
+        let submitDay = null;
+        
+        if (!isUnknown && inputDay) {
+            submitDay = parseInt(inputDay, 10);
+            if (isNaN(submitDay) || submitDay < 1 || submitDay > 31) submitDay = null;
+        }
+        
+        if (tempSetupType === 'shift') {
+            setupAnswers.shiftDate = submitDay;
+            document.getElementById('setup-date-overlay').classList.remove('show');
+            currentSetupStep = 2;
+            showSetupStep();
+        } else {
+            setupAnswers.recordDate = submitDay;
+            document.getElementById('setup-date-overlay').classList.remove('show');
+            finishSetup();
+        }
+    }
+
     function finishSetup() { 
         currentSetupStep = 0; 
         document.getElementById('setup-overlay').classList.remove('show'); 
@@ -1512,25 +1658,65 @@
         isJustAfterSetup = true;
         setTimeout(checkModalDisplay, 500);
     }
+    
     function setInitial(type) {
         const now = new Date(), sub = appState.submissions[type]; 
         
         let curY = now.getFullYear();
         let curM = now.getMonth() + 1;
-        let targetDisplayM = type === 'shift' ? curM + 1 : curM - 1;
+        let curD = now.getDate();
+        
+        let targetDisplayM;
         let targetDisplayY = curY;
+
+        if (type === 'shift') {
+            if (curD <= 14) {
+                targetDisplayM = curM - 1;
+            } else {
+                targetDisplayM = curM + 1;
+            }
+        } else {
+            targetDisplayM = curM - 1;
+        }
+
         if (targetDisplayM > 12) { targetDisplayM -= 12; targetDisplayY++; }
         if (targetDisplayM < 1) { targetDisplayM += 12; targetDisplayY--; }
 
         sub.targetYear = targetDisplayY; 
         sub.targetMonth = targetDisplayM;
 
-        sub.latestSubmission = { year: sub.targetYear, month: sub.targetMonth, targetDisplayMonth: sub.targetMonth, label: `${sub.targetMonth}月分${type==='shift'?'シフト表':'勤務実績表'}`, timeLabel: `提出日時：${curM}月${now.getDate()}日 (初期設定)`, submitDate: `${now.getFullYear()}/${(now.getMonth()+1).toString().padStart(2,'0')}/${now.getDate().toString().padStart(2,'0')}`, submitTime: "初期設定", timingLabel: "初期設定", timingClass: "row-mid", isConfirmed: true, id: Date.now() };
+        let submitDay = type === 'shift' ? setupAnswers.shiftDate : setupAnswers.recordDate;
+        let submitDateStr;
+        let timeLabelStr;
+        
+        if (submitDay) {
+            submitDateStr = `${curY}/${curM.toString().padStart(2, '0')}/${submitDay.toString().padStart(2, '0')}`;
+            timeLabelStr = `提出日時：${curM}月${submitDay}日（初期設定）`;
+        } else {
+            submitDateStr = "提出日不明";
+            timeLabelStr = `提出日時：${curM}月（提出日不明）（初期設定）`;
+        }
+
+        sub.latestSubmission = { 
+            year: sub.targetYear, 
+            month: sub.targetMonth, 
+            targetDisplayMonth: sub.targetMonth, 
+            label: `${sub.targetMonth}月分${type==='shift'?'シフト表':'勤務実績表'}`, 
+            timeLabel: timeLabelStr, 
+            submitDate: submitDateStr, 
+            submitTime: "初期設定", 
+            timingLabel: "初期設定", 
+            timingClass: "row-initial", 
+            isConfirmed: true, 
+            isInitialSetup: true,
+            id: Date.now() 
+        };
         sub.history.push({ ...sub.latestSubmission }); 
         
         sub.targetMonth++; if (sub.targetMonth > 12) { sub.targetMonth = 1; sub.targetYear++; } 
         saveData();
     }
+    
     function showConfirmModal() { document.getElementById('confirm-overlay').classList.add('show'); }
     function closeConfirmModal() { document.getElementById('confirm-overlay').classList.remove('show'); }
     function cancelSetup() { currentSetupStep = 0; showSetupStep(); }
@@ -1574,7 +1760,6 @@
 
     function closeFeedback() { 
         document.getElementById('feedback-overlay').classList.remove('show'); 
-        // モーダルを閉じた後、一番下までなめらかにスクロールする
         setTimeout(() => {
             window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
         }, 100);
