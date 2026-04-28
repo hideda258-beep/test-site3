@@ -478,6 +478,33 @@
         }
         .btn-reset:active { background: #fecdd3; }
         
+        /* --- 設定画面の横はみ出し防止 --- */
+        .settings-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 18px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+            box-sizing: border-box;
+        }
+        
+        .settings-card input,
+        .settings-card select,
+        .settings-card button {
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        @media (max-width: 480px) {
+            .settings-card {
+                padding-left: 14px;
+                padding-right: 14px;
+            }
+        }
+        
         .setting-note {
             text-align: left;
             font-size: 0.75rem;
@@ -595,7 +622,7 @@
         .setting-group { margin-bottom: 20px; text-align: left; }
         .setting-group-label { display: block; margin-bottom: 8px; font-size: 0.9rem; font-weight: 600; color: var(--text-main); }
         .setting-row { display: flex; gap: 12px; }
-        .setting-row .setting-item { flex: 1; margin-bottom: 0; }
+        .setting-row .setting-item { flex: 1; margin-bottom: 0; min-width: 0; } /* min-width: 0; を追加し、フレックスアイテムの横幅はみ出しを防止 */
         @media (max-width: 500px) {
             .setting-row { flex-direction: column; gap: 16px; }
         }
@@ -818,7 +845,7 @@
     </div>
 
     <div id="view-settings" class="hidden">
-        <div class="card" style="background:#fff; padding:20px; border-radius:18px; box-shadow:0 4px 12px rgba(0,0,0,0.05);">
+        <div class="settings-card">
             <div class="section-title">基本通知設定</div>
             <div class="setting-item"><label>通常時の通知時間</label><input type="time" id="setting-time-normal" value="09:00"></div>
             
