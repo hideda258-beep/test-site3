@@ -317,12 +317,13 @@
         .main-grid {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 12px; /* グループ間の余白を調整（20pxから縮小） */
         }
         @media (max-width: 700px) {
             .main-grid {
                 flex-direction: column;
                 align-items: center;
+                gap: 12px; /* スマホ縦並び時のグループ間の上下間隔 */
             }
             .column {
                 width: 100% !important;
@@ -334,6 +335,12 @@
             flex-direction: column;
             gap: 8px;
             width: 360px; 
+        }
+        /* グループ化用の背景スタイルを追加 */
+        .group-column {
+            background-color: #f0f0f0;
+            border-radius: 12px;
+            padding: 16px;
         }
         .countdown-card {
             border: 2px solid transparent;
@@ -715,10 +722,15 @@
     </header>
 
     <div id="view-main">
-        <div id="main-calendar-container" class="calendar-container"></div>
+        <div id="main-calendar-container" class="calendar-container" style="margin-bottom: 0;"></div>
+        
+        <!-- 追加：初期化への導線注釈 -->
+        <div style="text-align: center; color: #888; font-size: 12px; margin-top: 12px; margin-bottom: 4px;">
+            ※ データを初期状態に戻す場合は、「設定」から操作してください
+        </div>
         
         <div class="main-grid">
-            <div class="column">
+            <div class="column group-column">
                 <div id="countdown-shift-box" class="countdown-card">
                     <div class="countdown-title">🕒 シフト表カウントダウン</div>
                     <div id="countdown-shift-prefix" class="timer-prefix">読み込み中...</div>
@@ -739,7 +751,7 @@
                 </div>
                 <div id="latest-shift-col" class="latest-column"></div>
             </div>
-            <div class="column">
+            <div class="column group-column">
                 <div id="countdown-record-box" class="countdown-card">
                     <div class="countdown-title">🕒 勤務実績表カウントダウン</div>
                     <div id="countdown-record-prefix" class="timer-prefix">読み込み中...</div>
