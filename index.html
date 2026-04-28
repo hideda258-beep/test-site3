@@ -80,24 +80,25 @@
         }
         header h1 {
             font-size: 1.5rem;
+            line-height: 1.2; /* 行間を少し詰めて2行のまとまりを良くする */
             font-weight: 900;
             margin-bottom: 4px;
             letter-spacing: 0.05em;
             font-family: "Arial Black", "ヒラギノ角ゴ StdN", "Hiragino Kaku Gothic StdN", "メイリオ", Meiryo, sans-serif;
-            
-            /* 緑系グラデーション */
-            background: linear-gradient(to bottom, #a5d6a7 0%, #4caf50 40%, #2e7d32 70%, #1b5e20 100%);
+        }
+        
+        /* タイトル（DX人材育成用 / 提出管理アシスタント）：画像と全く同じ色・立体感に設定 */
+        .title-top,
+        .title-bottom {
+            display: block;
+            background: linear-gradient(to bottom, #89d687 0%, #46aa4b 45%, #2c8531 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            
-            /* 文字の輪郭を引き締め、ぼやけを防ぐ */
-            -webkit-text-stroke: 0.3px rgba(27, 94, 32, 0.5);
-            
-            /* 立体感 */
+            /* 文字の中の線を消すため、-webkit-text-stroke（縁取り）を削除 */
             filter: 
-                drop-shadow(0.5px 1px 0px #2e7d32)
-                drop-shadow(1px 2px 0px #1b5e20)
-                drop-shadow(1.5px 3px 4px rgba(0, 0, 0, 0.25));
+                drop-shadow(1px 1px 0px #18591c)
+                drop-shadow(2px 2px 0px #124515)
+                drop-shadow(3px 4px 5px rgba(0, 0, 0, 0.25));
         }
         
         @media (max-width: 500px) {
@@ -108,9 +109,9 @@
         
         .app-description {
             font-size: 0.85rem;
-            color: var(--text-sub);
+            color: #777; /* 薄いグレーに変更（元はvar(--text-sub)） */
             margin-bottom: 8px;
-            font-weight: normal;
+            font-weight: 400; /* Regularの太さを明示 */
         }
         .sub-message {
             background-color: #FFFDE7;
@@ -713,7 +714,10 @@
         <button id="tab-settings" class="nav-btn" onclick="showView('settings')">設定</button>
     </nav>
     <header>
-        <h1>DX人材育成用 提出管理アシスタント</h1>
+        <h1>
+            <span class="title-top">DX人材育成用</span>
+            <span class="title-bottom">提出管理アシスタント</span>
+        </h1>
         <p class="app-description">シフト表・勤務実績表の提出を管理</p>
         <div class="sub-message">余裕をもった行動が、自分にも周りにも良い流れを生みます✨</div>
         <div class="current-date-wrapper">
