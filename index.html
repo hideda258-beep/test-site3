@@ -59,7 +59,7 @@
         nav {
             display: flex;
             background: #e5e5ea;
-            padding: 4px;
+            padding: 3px; /* 縦幅を狭めるため、4pxから3pxに調整 */
             border-radius: 12px;
             margin-bottom: 12px;
             position: sticky;
@@ -68,7 +68,7 @@
         }
         .nav-btn {
             flex: 1;
-            padding: 6px 8px;
+            padding: 5px 8px; /* 縦幅を狭めるため、上下の余白を6pxから5pxに調整 */
             border: none;
             background: transparent;
             font-size: 0.9rem;
@@ -328,6 +328,7 @@
         .main-grid {
             display: flex;
             justify-content: center;
+            align-items: flex-start; /* 左右のカードが互いの高さに影響されず、内容に合わせた高さになるようにする */
             gap: 12px; /* グループ間の余白を調整（20pxから縮小） */
         }
         @media (max-width: 700px) {
